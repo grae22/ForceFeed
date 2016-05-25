@@ -7,5 +7,18 @@ import {Component, Input} from 'angular2/core';
   })
   export class ChangelistComponent
   {
+    //-------------------------------------------------------------------------
+    
     @Input() data;
+    
+    public _isExpanded = false;
+    
+    //-------------------------------------------------------------------------
+    
+    private onClick()
+    {
+      this._isExpanded = !this._isExpanded;
+    }
+    
+    //------------------------------------------------------------------------- 
   }

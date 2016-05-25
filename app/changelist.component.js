@@ -20,7 +20,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         execute: function() {
             ChangelistComponent = (function () {
                 function ChangelistComponent() {
+                    this._isExpanded = false;
                 }
+                //-------------------------------------------------------------------------
+                ChangelistComponent.prototype.onClick = function () {
+                    this._isExpanded = !this._isExpanded;
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)

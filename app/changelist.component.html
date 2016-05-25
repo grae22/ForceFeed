@@ -1,10 +1,28 @@
-<div>
-  <table width='80%' align='center'>
+<div
+  (click)='onClick()'>
+  <table width="80%" align="center">
+    <!-- Changelist detail row -->
     <tr>
-      <td width='10%'>{{ data.id }}</td>
-      <td width='20%'>{{ data.username }}</td>
-      <td width='50%'>{{ data.description }}</td>
-      <td width='20%'>{{ data.timestamp }}</td>
+      <td width="10%">{{ data.id }}</td>
+      <td width="20%">{{ data.username }}</td>
+      <td width="50%">{{ data.description }}</td>
+      <td width="15%">{{ data.timestamp }}</td>
+      <td width="5%">
+        <i
+          class="pull-right glyphicon"
+          [ngClass]="
+          {
+            'glyphicon-chevron-down': !_isExpanded,
+            'glyphicon-chevron-up': _isExpanded
+          }">
+        </i>
+      </td>
     </tr>
+    <!-- Changelist files rows -->
+    <div *ngIf='_isExpanded'>
+      <div *ngFor='#file of data.files'>
+        <tr><td>{{ file }}</td></tr>
+      </div>
+    </div>
   </table>
 </div>
