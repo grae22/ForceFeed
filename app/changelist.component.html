@@ -1,10 +1,13 @@
-<div
-  (click)='onClick()'>
-  <table width="80%" align="center">
+<div (click)='onClick()'>
+  <table
+    width="80%"
+    align="center"
+    border="0px"
+    class="table-hover">
     <!-- Changelist detail row -->
     <tr>
-      <td width="10%">{{ data.id }}</td>
-      <td width="20%">{{ data.username }}</td>
+      <td width="10%"><b>{{ data.id }}</b></td>
+      <td width="20%"><b>{{ data.username }}</b></td>
       <td width="50%">{{ data.description }}</td>
       <td width="15%">{{ data.timestamp }}</td>
       <td width="5%">
@@ -19,10 +22,8 @@
       </td>
     </tr>
     <!-- Changelist files rows -->
-    <div *ngIf='_isExpanded'>
-      <div *ngFor='#file of data.files'>
-        <tr><td>{{ file }}</td></tr>
-      </div>
-    </div>
+    <tr *ngFor='#file of data.files'>
+      <td *ngIf='_isExpanded' colspan="5">{{ file.filename }} ({{ file.revision }})</td>
+    </tr>
   </table>
 </div>

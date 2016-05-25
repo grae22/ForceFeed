@@ -11,10 +11,10 @@ export class ChangelistService
         description: 'Description...',
         timestamp: '2016/05/23 21:00',
         files: [
-          'KFile_1.cpp',
-          'KFile_2.cpp',
-          'KFile_3.cpp',
-          'KFile_4.cpp'
+          { filename: 'KFile_1.cpp', revision: 1 },
+          { filename: 'KFile_2.cpp', revision: 2 },
+          { filename: 'KFile_3.cpp', revision: 3 },
+          { filename: 'KFile_4.cpp', revision: 4 }
         ]
       },
       {
@@ -23,10 +23,10 @@ export class ChangelistService
         description: 'Description 2...',
         timestamp: '2016/05/23 21:01',
         files: [
-          'KFile_1.h',
-          'KFile_2.h',
-          'KFile_3.h',
-          'KFile_4.h'
+          { filename: 'KFile_1.h', revision: 1 },
+          { filename: 'KFile_2.h', revision: 2 },
+          { filename: 'KFile_3.h', revision: 3 },
+          { filename: 'KFile_4.h', revision: 4 }
         ]
       }
     ];
