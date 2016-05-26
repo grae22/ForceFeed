@@ -1,13 +1,9 @@
-System.register(['angular2/http', 'rxjs/Rx'], function(exports_1, context_1) {
+System.register(['rxjs/Rx'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var http_1;
     var ChangelistService;
     return {
         setters:[
-            function (http_1_1) {
-                http_1 = http_1_1;
-            },
             function (_1) {}],
         execute: function() {
             ChangelistService = (function () {
@@ -15,46 +11,56 @@ System.register(['angular2/http', 'rxjs/Rx'], function(exports_1, context_1) {
                 }
                 //---------------------------------------------------------------------------
                 ChangelistService.prototype.getChangelists = function (http) {
-                    var responseData;
-                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-                    var options = new http_1.RequestOptions({ headers: headers });
-                    try {
-                        http.get('http://localhost:3010/changelists', headers)
-                            .map(function (res) { return res.json(); })
-                            .subscribe(function (data) { return responseData = data; }, function (err) { return console.error(err); }, function () { return console.log('Get complete.'); });
-                    }
-                    catch (error) {
-                        console.error(error);
-                    }
-                    console.log(responseData);
-                    return responseData;
                     /*
-                        return [
-                          {
+                    var responseData;
+                    
+                    let headers = new Headers({ 'Content-Type': 'application/json' });
+                    let options = new RequestOptions({ headers: headers });
+                
+                    try
+                    {
+                      http.get(
+                        'http://localhost:3010/changelists',
+                        headers )
+                          .map( res => JSON.parse( res.text() ) )
+                          .subscribe(
+                            data => responseData = data,
+                            err => console.error( err ),
+                            () => console.log( 'Get complete: ' + JSON.stringify( responseData ) ) );
+                    }
+                    catch( error )
+                    {
+                      console.error( error );
+                    }
+                
+                    return responseData;
+                    */
+                    return [
+                        {
                             id: '12345',
                             username: 'Username',
                             description: 'Description...',
                             timestamp: '2016/05/23 21:00',
                             files: [
-                              { filename: 'KFile_1.cpp', revision: 1 },
-                              { filename: 'KFile_2.cpp', revision: 2 },
-                              { filename: 'KFile_3.cpp', revision: 3 },
-                              { filename: 'KFile_4.cpp', revision: 4 }
+                                { filename: 'KFile_1.cpp', revision: 1 },
+                                { filename: 'KFile_2.cpp', revision: 2 },
+                                { filename: 'KFile_3.cpp', revision: 3 },
+                                { filename: 'KFile_4.cpp', revision: 4 }
                             ]
-                          },
-                          {
+                        },
+                        {
                             id: '12346',
                             username: 'Username 2',
                             description: 'Description 2...',
                             timestamp: '2016/05/23 21:01',
                             files: [
-                              { filename: 'KFile_1.h', revision: 1 },
-                              { filename: 'KFile_2.h', revision: 2 },
-                              { filename: 'KFile_3.h', revision: 3 },
-                              { filename: 'KFile_4.h', revision: 4 }
+                                { filename: 'KFile_1.h', revision: 1 },
+                                { filename: 'KFile_2.h', revision: 2 },
+                                { filename: 'KFile_3.h', revision: 3 },
+                                { filename: 'KFile_4.h', revision: 4 }
                             ]
-                          }
-                        ];*/
+                        }
+                    ];
                 };
                 return ChangelistService;
             }());

@@ -62,7 +62,13 @@ dispatcher.onGet( "/changelists", function( req, res )
 {
   console.log('get received');
   
-  var data = "{ id: '12345', username: 'Username', description: 'Description...', timestamp: '2016/05/23 21:00', files: [ { filename: 'KFile_1.cpp', revision: 1 }, { filename: 'KFile_2.cpp', revision: 2 }, { filename: 'KFile_3.cpp', revision: 3 }, { filename: 'KFile_4.cpp', revision: 4 } ] }";
+  var data =
+    [{ "id": "12345", "username": "Username", "description": "Description...", "timestamp": "2016/05/23 21:00",
+      "files": [ {
+        "filename": "KFile_1.cpp", "revision": 1 },
+        { "filename": "KFile_2.cpp", "revision": 2 },
+        { "filename": "KFile_3.cpp", "revision": 3 },
+        { "filename": "KFile_4.cpp", "revision": 4 } ] }];
 
   res.writeHead(
     200,
@@ -71,8 +77,7 @@ dispatcher.onGet( "/changelists", function( req, res )
       'Access-Control-Allow-Origin': '*'
     });
     
-  //res.end( JSON.parse( data ) );
-  res.end( data );
+  res.end( JSON.stringify( data ) );
 });
 
 //-----------------------------------------------------------------------------
