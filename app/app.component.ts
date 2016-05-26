@@ -1,4 +1,5 @@
 import {Component} from 'angular2/core';
+import {Http, ConnectionBackend} from 'angular2/http';
 import {ChangelistService} from './changelist.service';
 import {ChangelistComponent} from './changelist.component';
 
@@ -10,14 +11,22 @@ import {ChangelistComponent} from './changelist.component';
       </div>
     `,
     directives: [ChangelistComponent],
-    providers: [ChangelistService]
+    providers: [ChangelistService, ConnectionBackend]
 })
 export class AppComponent
 {
+  //---------------------------------------------------------------------------
+  
   private _changelists;
   
-  constructor( private _changelistService: ChangelistService )
+  //---------------------------------------------------------------------------
+  
+  constructor(
+    private _changelistService: ChangelistService,
+    http: Http )
   {
-    this._changelists = _changelistService.getChangelists();
+    this._changelists = _changelistService.getChangelists( http );
   }
+  
+  //---------------------------------------------------------------------------
 }

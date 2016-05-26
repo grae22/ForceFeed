@@ -19,6 +19,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             }],
         execute: function() {
             ChangelistComponent = (function () {
+                //-------------------------------------------------------------------------
                 function ChangelistComponent() {
                     this._isExpanded = false;
                 }

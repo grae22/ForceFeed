@@ -1,4 +1,5 @@
 import {Component, Input} from 'angular2/core';
+import {Http} from 'angular2/http';
 
 @Component(
   {
@@ -12,6 +13,13 @@ import {Component, Input} from 'angular2/core';
     @Input() data;
     
     public _isExpanded = false;
+    
+    //-------------------------------------------------------------------------
+    
+    constructor()
+    {
+
+    }
     
     //-------------------------------------------------------------------------
     

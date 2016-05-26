@@ -1,4 +1,4 @@
-System.register(['angular2/core', './changelist.service', './changelist.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', './changelist.service', './changelist.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core', './changelist.service', './changelist.componen
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, changelist_service_1, changelist_component_1;
+    var core_1, http_1, changelist_service_1, changelist_component_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
             },
             function (changelist_service_1_1) {
                 changelist_service_1 = changelist_service_1_1;
@@ -25,18 +28,19 @@ System.register(['angular2/core', './changelist.service', './changelist.componen
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(_changelistService) {
+                //---------------------------------------------------------------------------
+                function AppComponent(_changelistService, http) {
                     this._changelistService = _changelistService;
-                    this._changelists = _changelistService.getChangelists();
+                    this._changelists = _changelistService.getChangelists(http);
                 }
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
                         template: "\n      <div *ngFor='#changelist of _changelists'>\n        <changelist [data]='changelist'></changelist>\n      </div>\n    ",
                         directives: [changelist_component_1.ChangelistComponent],
-                        providers: [changelist_service_1.ChangelistService]
+                        providers: [changelist_service_1.ChangelistService, http_1.ConnectionBackend]
                     }), 
-                    __metadata('design:paramtypes', [changelist_service_1.ChangelistService])
+                    __metadata('design:paramtypes', [changelist_service_1.ChangelistService, http_1.Http])
                 ], AppComponent);
                 return AppComponent;
             }());
