@@ -71,7 +71,8 @@ dispatcher.onGet( "/changelists", function( req, res )
       'Access-Control-Allow-Origin': '*'
     });
     
-  res.end( Json.parse( data ) );//data.toString() );
+  //res.end( JSON.parse( data ) );
+  res.end( data );
 });
 
 //-----------------------------------------------------------------------------
