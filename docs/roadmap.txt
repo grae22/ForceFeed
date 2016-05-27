@@ -1,0 +1,20 @@
+----------------------
+ Force Feed - Roadmap
+----------------------
+
+x DB
+  x MongoDB. [Status: None]
+  x Store changelists, but not actual file content (too much data, can be obtained from p4 server as needed). [Status: None]
+
+x Db Feeder
+  x App to periodically poll p4 for changes and update the db accordingly. [Status: None]
+  
+x Front-end feeder
+  x Web server to provide front-end with data from the db. [Status: Currently provides hardcoded changelist data.]
+  
+x Front-end
+  x List changelists. [Status: Done, could look better.]
+  x Allow sorting by data or user. [Status: None]
+  x Allow filtering by users. [Status: None]
+  x Expand changelists to show files. [Status: Done, could look better.]
+  x Expand files to show diff content. [Status: None]
