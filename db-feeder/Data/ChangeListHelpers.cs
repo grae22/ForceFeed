@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Collections.Generic;
-using Critr.Utils;
+using ForceFeed.DbFeeder.Utils;
 
-namespace Critr.Data
+namespace ForceFeed.DbFeeder.Data
 {
   public class ChangelistHelpers
   {
@@ -12,38 +11,7 @@ namespace Critr.Data
     public static Dictionary<int, Changelist> Changelists = new Dictionary<int, Changelist>();
 
     //-------------------------------------------------------------------------
-
-    // Static method to load changelists from the Critr DB.
-
-    public static void LoadChangelistsFromDb()
-    {
-      Changelists.Clear();
-
-      // Get changelist IDs.
-      List<int> changelistIDs = new List<int>();
-
-      SqlCommand cmd = Program.DbConnection.CreateCommand();
-      cmd.CommandText =
-        "SELECT id " +
-        "FROM Changelist";
-
-      using( SqlDataReader reader = cmd.ExecuteReader() )
-      {
-        while( reader.Read() )
-        {
-          changelistIDs.Add( reader.GetInt32( 0 ) );
-        }
-      }
-
-      // Load the changelists.
-      foreach( int id in changelistIDs )
-      {
-        Changelists.Add( id, new Changelist( id ) );
-      }
-    }
-
-    //-------------------------------------------------------------------------
-
+    
     public static void GetChangelistsFromP4(
       DateTime fromDate,
       DateTime toDate,
@@ -93,13 +61,6 @@ namespace Critr.Data
         // Extract the user.
         tmp = tmp.Remove( 0, ( dateStr + " by " ).Length );
         string username = tmp.Substring( 0, tmp.IndexOf( '@' ) );
-        User user = Program.UserCollection.GetUser( username );
-
-        if( user == null ||
-            user.IsReviewCandidate == false )
-        {
-          continue;
-        }
 
         // Extract the description.
         int descriptionStartIndex = tmp.IndexOf( "'" ) + 1;
@@ -130,7 +91,7 @@ namespace Critr.Data
             new Changelist(
               changelistNumber,
               description,
-              user,
+              username,
               date ) );
         }
       }

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace Critr.Utils
+namespace ForceFeed.DbFeeder.Utils
 {
   public class Perforce
   {
@@ -20,11 +19,11 @@ namespace Critr.Utils
         p.StartInfo.Arguments = command;
         p.StartInfo.ErrorDialog = true;
 
-        if( Program.LoggedOnUser != null )
+        if( Program.Username != null )
         {
           p.StartInfo.EnvironmentVariables.Add(
             "P4USER",
-            Program.LoggedOnUser.Username );
+            Program.Username );
         }
 
         p.Start();

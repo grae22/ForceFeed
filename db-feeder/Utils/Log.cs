@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Critr.Utils
+namespace ForceFeed.DbFeeder.Utils
 {
   class Log
   {

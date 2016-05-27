@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Data.SqlClient;
-using System.Collections.Generic;
 
-namespace Critr.Data
+namespace ForceFeed.DbFeeder.Data
 {
   public class Changelist
   {
@@ -10,7 +8,7 @@ namespace Critr.Data
 
     public int Id { get; private set; }
     public string Description { get; private set; }
-    public User Submitter { get; private set; }
+    public string Submitter { get; private set; }
     public DateTime SubmittedDate { get; private set; }
 
     //-------------------------------------------------------------------------
@@ -21,15 +19,13 @@ namespace Critr.Data
       Description = "Unknown";
       Submitter = null;
       SubmittedDate = new DateTime( 2016, 1, 1 );
-
-      LoadDataFromDb();
     }
 
     //-------------------------------------------------------------------------
 
     public Changelist( int id,
                        string description,
-                       User submitter,
+                       string submitter,
                        DateTime date )
     {
       Id = id;
@@ -39,49 +35,7 @@ namespace Critr.Data
     }
 
     //-------------------------------------------------------------------------
-
-    private void LoadDataFromDb()
-    {
-      SqlCommand cmd = Program.DbConnection.CreateCommand();
-      cmd.CommandText =
-        "SELECT " +
-          /* 0 */"description, " +
-          /* 1 */"userId, " +
-          /* 2 */"submittedDate " +
-        "FROM Changelist " +
-        "WHERE id=" + Id;
-      
-      using( SqlDataReader reader = cmd.ExecuteReader() )
-      {
-        if( reader.Read() == false )
-        {
-          throw new Exception(
-            "No changelist found with id " + Id + '.' );
-        }
-
-        Description = reader.GetString( 0 );
-        int userId = reader.GetInt32( 1 );
-        SubmittedDate = reader.GetDateTime( 2 );
-
-        // Find the user.
-        foreach( User user in Program.UserCollection.Users )
-        {
-          if( user.Id == userId )
-          {
-            Submitter = user;
-            break;
-          }
-        }
-
-        if( Submitter == null )
-        {
-          throw new Exception( "Failed to find user with id '" + userId + "'." );
-        }
-      }
-    }
-
-    //-------------------------------------------------------------------------
-
+    
     public override string ToString()
     {
       return Description;
