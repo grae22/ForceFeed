@@ -17,7 +17,7 @@ export class AppComponent
 {
   //---------------------------------------------------------------------------
   
-  private _changelists;
+  private _changelists: ChangelistComponent[];
   
   //---------------------------------------------------------------------------
   
@@ -25,7 +25,9 @@ export class AppComponent
     private _changelistService: ChangelistService,
     http: Http )
   {
-    this._changelists = _changelistService.getChangelists( http );
+    _changelistService.getChangelists( http );
+    
+    _changelistService.Changlists$.subscribe( changelists => this._changelists = changelists );
   }
   
   //---------------------------------------------------------------------------

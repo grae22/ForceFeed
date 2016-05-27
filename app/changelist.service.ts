@@ -1,15 +1,31 @@
 import {Http, Headers, RequestOptions} from 'angular2/http';
 import 'rxjs/Rx';
-//import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
+import {Observable} from 'rxjs/Observable';
 import {ChangelistComponent} from './changelist.component';
 
 export class ChangelistService
 {
   //---------------------------------------------------------------------------
   
-  public getChangelists( http: Http ) : any//Observable<ChangelistComponent[]>
+  public Changlists$: Observable<Array<ChangelistComponent>>;
+  
+  private _changelistsObserver: Observer<ChangelistComponent[]>;
+  
+  //---------------------------------------------------------------------------
+  
+  constructor()
   {
-    /*
+    this.Changlists$ =
+      new Observable( observer =>  this._changelistsObserver = observer ).share();
+    
+    this.Changlists$.subscribe( data => {} );
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  public getChangelists( http: Http )
+  {
     var responseData;
     
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -22,18 +38,17 @@ export class ChangelistService
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(
-            data => responseData = data,
+            data => this._changelistsObserver.next( data ),
             err => console.error( err ),
-            () => console.log( 'Get complete: ' + JSON.stringify( responseData ) ) );
+            () => console.log( 'Get complete.' ) );
     }
     catch( error )
     {
       console.error( error );
     }
 
-    return responseData;
-    */
-
+    //return responseData;
+/*
     return [
       {
         id: '12345',
@@ -59,7 +74,7 @@ export class ChangelistService
           { filename: 'KFile_4.h', revision: 4 }
         ]
       }
-    ];
+    ];*/
   }
   
   //---------------------------------------------------------------------------

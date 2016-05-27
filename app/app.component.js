@@ -30,8 +30,10 @@ System.register(['angular2/core', 'angular2/http', './changelist.service', './ch
             AppComponent = (function () {
                 //---------------------------------------------------------------------------
                 function AppComponent(_changelistService, http) {
+                    var _this = this;
                     this._changelistService = _changelistService;
-                    this._changelists = _changelistService.getChangelists(http);
+                    _changelistService.getChangelists(http);
+                    _changelistService.Changlists$.subscribe(function (changelists) { return _this._changelists = changelists; });
                 }
                 AppComponent = __decorate([
                     core_1.Component({
