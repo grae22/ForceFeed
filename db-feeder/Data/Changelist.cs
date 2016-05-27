@@ -13,16 +13,6 @@ namespace ForceFeed.DbFeeder.Data
 
     //-------------------------------------------------------------------------
 
-    public Changelist( int id )
-    {
-      Id = id;
-      Description = "Unknown";
-      Submitter = null;
-      SubmittedDate = new DateTime( 2016, 1, 1 );
-    }
-
-    //-------------------------------------------------------------------------
-
     public Changelist( int id,
                        string description,
                        string submitter,

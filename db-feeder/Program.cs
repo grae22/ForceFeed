@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.IO;
 using ForceFeed.DbFeeder.Utils;
+using ForceFeed.DbFeeder.Data;
 
 namespace ForceFeed.DbFeeder
 {
@@ -12,12 +13,16 @@ namespace ForceFeed.DbFeeder
     public static Settings Settings { get; private set; }
     public static Log Log { get; private set; }
     public static string Username { get; set; }
+    public static Mongo Database { get; set; } = new Mongo();
 
     //-------------------------------------------------------------------------
 
     [STAThread]
     static void Main( string[] args )
     {
+      int updateRateSecs = 60;
+      bool isRunning = true;
+
       // Initialise the log.
       Log =
         new Log(
@@ -61,6 +66,41 @@ namespace ForceFeed.DbFeeder
       Log.AddEntry(
         Log.EntryType.INFO,
         "P4 path: " + p4Path );
+
+      // Main loop.
+      updateRateSecs = Settings.GetSetting< int >( "UpdateRateSecs", 60, true );
+
+      Console.WriteLine(
+        "Running... Updating every " + updateRateSecs.ToString() + " second(s)" +
+        Environment.NewLine + Environment.NewLine +
+        "Hit 'escape' to stop." );
+
+      while( isRunning )
+      {
+        try
+        {
+          // Refresh the db.
+          Database.Refresh();
+
+          // Sleep & close when 'esc' is pressed.
+          for( int i = 0; i < updateRateSecs; i++ )
+          {
+            if( Console.KeyAvailable &&
+                Console.ReadKey().Key == ConsoleKey.Escape )
+            {
+              isRunning = false;
+              Console.WriteLine( "Key 'escape' detected, closing..." );
+              break;
+            }
+
+            System.Threading.Thread.Sleep( 1000 );
+          }
+        }
+        catch( Exception ex )
+        {
+          Log.AddError( ex.Message );
+        }
+      }
 
       // Shutdown.
       Settings.SaveToFile();
