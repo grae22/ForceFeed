@@ -39,8 +39,8 @@ export class ChangelistService
           .map( res => JSON.parse( res.text() ) )
           .subscribe(
             data => this._changelistsObserver.next( data ),
-            err => console.error( err ),
-            () => console.log( 'Get complete.' ) );
+            err => console.error( 'ERR: ' + err ),
+            () => console.log( 'INF: Get complete.' ) );
     }
     catch( error )
     {

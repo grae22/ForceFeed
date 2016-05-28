@@ -15,6 +15,10 @@ var http = require( 'http' );
 // Lets define a port we want to listen to
 const PORT = 3010;
 
+// Mongo
+var MongoClient = require( 'mongodb' ).MongoClient, assert = require( 'assert' );
+var mongoUrl = 'mongodb://localhost:27017/ForceFeed';
+
 //----------------------------------------------------------------------------- 
 
 // We need a function which handles requests and send response
@@ -62,6 +66,42 @@ dispatcher.onGet( "/changelists", function( req, res )
 {
   console.log('get received');
   
+  var changelists;
+  
+  MongoClient.connect(
+    mongoUrl,
+    function( err, db )
+    {
+      assert.equal( null, err );
+      console.log( 'Connected to MongoDb!' );
+      
+      changelists = db.collection( 'Changelists' )
+      changelists.find( {} ).toArray(
+        function( err, docs )
+        {
+          if( err != null )
+          {
+            console.log( 'ERR: ' + err );
+          }
+          else
+          {
+            console.log( 'Found ' + docs.length + ' changelist(s).' );
+          }
+          //console.log( docs );          
+
+          res.writeHead(
+            200,
+            {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            });
+            
+          res.end( JSON.stringify( docs ) );
+        });
+      
+      //db.close();
+    } );
+  /*
   var data =
     [
       {
@@ -99,7 +139,7 @@ dispatcher.onGet( "/changelists", function( req, res )
       'Access-Control-Allow-Origin': '*'
     });
     
-  res.end( JSON.stringify( data ) );
+  res.end( JSON.stringify( data ) );*/
 });
 
 //-----------------------------------------------------------------------------

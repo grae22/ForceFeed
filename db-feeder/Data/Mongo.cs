@@ -55,7 +55,7 @@ namespace ForceFeed.DbFeeder.Data
       {
         BsonDocument clDoc = new BsonDocument();
         clDoc.Add( "id", cl.Id );
-        clDoc.Add( "submittedDate", cl.SubmittedDate );
+        clDoc.Add( "timestamp", cl.SubmittedDate.ToString( "yyyy/MM/dd hh:mm" ) );
         clDoc.Add( "description", cl.Description );
         clDoc.Add( "submitter", cl.Submitter );
 
