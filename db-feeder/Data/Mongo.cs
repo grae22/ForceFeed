@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ForceFeed.DbFeeder.Data
@@ -19,22 +21,45 @@ namespace ForceFeed.DbFeeder.Data
 
     //-------------------------------------------------------------------------
 
-    public async void Refresh()
+    public void Refresh()
     {
       var doc = new BsonDocument
       {
-        { "timstamp", System.DateTime.Now }
+        { "timstamp", DateTime.Now }
       };
 
 
       var history = Database.GetCollection<BsonDocument>( "UpdateHistory" );
-      await history.InsertOneAsync( doc );
-      var filter = Builders<BsonDocument>.Filter.Exists( "timestamp" );
-      var result = await history.Find( filter ).ToListAsync();
+      var filter = new BsonDocument();
+      var result = history.Find( filter ).ToList();
 
       if( result.Count == 0 )
       {
+        history.InsertOne( doc );
+      }
+      else
+      {
 
+      }
+
+      List<Changelist> changelists = new List<Changelist>();
+      ChangelistHelpers.GetChangelistsFromP4(
+        DateTime.Now.AddDays( -2 ),
+        DateTime.Now,
+        ref changelists );
+
+      var changelistsDbCollection =
+        Database.GetCollection<BsonDocument>( "Changelists" );
+
+      foreach( Changelist cl in changelists )
+      {
+        BsonDocument clDoc = new BsonDocument();
+        clDoc.Add( "id", cl.Id );
+        clDoc.Add( "submittedDate", cl.SubmittedDate );
+        clDoc.Add( "description", cl.Description );
+        clDoc.Add( "submitter", cl.Submitter );
+
+        changelistsDbCollection.InsertOne( clDoc );
       }
     }
 

@@ -12,7 +12,7 @@ namespace ForceFeed.DbFeeder
 
     public static Settings Settings { get; private set; }
     public static Log Log { get; private set; }
-    public static string Username { get; set; }
+    public static string Username { get; set; } = "graemeb";
     public static Mongo Database { get; set; } = new Mongo();
 
     //-------------------------------------------------------------------------
