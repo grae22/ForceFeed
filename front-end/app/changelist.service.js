@@ -25,7 +25,7 @@ System.register(['angular2/http', 'rxjs/Rx', 'rxjs/Observable'], function(export
                 ChangelistService.prototype.getChangelists = function (http) {
                     var _this = this;
                     var responseData;
-                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json; charset=utf-8' });
                     var options = new http_1.RequestOptions({ headers: headers });
                     try {
                         http.get('http://localhost:3010/changelists', headers)

@@ -23,10 +23,18 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 }
                 //---------------------------------------------------------------------------
                 AutoEllipsesPipe.prototype.transform = function (text, args) {
-                    if (text.length < args[0]) {
+                    var maxLength = args[0];
+                    var useAsPrefix = args[1];
+                    if (maxLength == -1 ||
+                        text.length < maxLength) {
                         return text;
                     }
-                    return '...' + text.substring(text.length - args[0]);
+                    if (useAsPrefix) {
+                        return '...' + text.substring(text.length - maxLength);
+                    }
+                    else {
+                        return text.substring(0, maxLength).trim() + '...';
+                    }
                 };
                 AutoEllipsesPipe = __decorate([
                     core_1.Pipe({

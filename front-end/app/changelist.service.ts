@@ -28,7 +28,7 @@ export class ChangelistService
   {
     var responseData;
     
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
     let options = new RequestOptions({ headers: headers });
 
     try

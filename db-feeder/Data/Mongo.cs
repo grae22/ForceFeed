@@ -44,7 +44,7 @@ namespace ForceFeed.DbFeeder.Data
 
       List<Changelist> changelists = new List<Changelist>();
       ChangelistHelpers.GetChangelistsFromP4(
-        DateTime.Now.AddDays( -2 ),
+        DateTime.Now.AddDays( -3 ),
         DateTime.Now,
         ref changelists );
 
@@ -55,7 +55,7 @@ namespace ForceFeed.DbFeeder.Data
       {
         BsonDocument clDoc = new BsonDocument();
         clDoc.Add( "id", cl.Id );
-        clDoc.Add( "timestamp", cl.SubmittedDate.ToString( "yyyy/MM/dd hh:mm" ) );
+        clDoc.Add( "timestamp", cl.SubmittedDate.ToString( "yyyy/MM/dd HH:mm" ) );
         clDoc.Add( "description", cl.Description );
         clDoc.Add( "submitter", cl.Submitter );
 

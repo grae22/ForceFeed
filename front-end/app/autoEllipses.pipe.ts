@@ -12,12 +12,23 @@ export class AutoEllipsesPipe implements PipeTransform
     text: string,
     args: any[] )
   {
-    if( text.length < args[ 0 ] )
+    let maxLength: number = args[ 0 ];
+    let useAsPrefix: boolean = args[ 1 ];
+    
+    if( maxLength == -1 ||
+        text.length < maxLength )
     {
       return text;
     }
     
-    return '...' + text.substring( text.length - args[ 0 ] );
+    if( useAsPrefix )
+    {
+      return '...' + text.substring( text.length - maxLength );
+    }
+    else
+    {
+      return text.substring( 0, maxLength ).trim() + '...';
+    }
   }
   
   //---------------------------------------------------------------------------

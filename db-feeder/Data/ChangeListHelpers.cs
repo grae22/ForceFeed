@@ -19,7 +19,7 @@ namespace ForceFeed.DbFeeder.Data
     {
       string output =
         Perforce.RunCommand(
-          "changes -s submitted -l @" + fromDate.ToString( "yyyy/MM/dd:00:00" ) + ",@" +
+          "changes -s submitted -t -l @" + fromDate.ToString( "yyyy/MM/dd:00:00" ) + ",@" +
           toDate.ToString( "yyyy/MM/dd:23:59" ) );
 
       string[] lines =
@@ -50,9 +50,9 @@ namespace ForceFeed.DbFeeder.Data
           continue;
         }
 
-        // Exract the date.
+        // Exract the date & time.
         tmp = tmp.Remove( 0, ( changelistNumberStr + " on " ).Length );
-        string dateStr = tmp.Substring( 0, 10 );
+        string dateStr = tmp.Substring( 0, 19 );
         DateTime date = new DateTime();
         
         if( DateTime.TryParse( dateStr, out date ) == false )

@@ -92,7 +92,7 @@ dispatcher.onGet( "/changelists", function( req, res )
           res.writeHead(
             200,
             {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json; charset=utf-8',
               'Access-Control-Allow-Origin': '*'
             });
             
