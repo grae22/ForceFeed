@@ -38,6 +38,7 @@ System.register(['angular2/core', './autoEllipses.pipe'], function(exports_1, co
                     core_1.Component({
                         selector: 'changelist',
                         templateUrl: './app/changelist.component.html',
+                        styleUrls: ['./app/styles.css'],
                         pipes: [autoEllipses_pipe_1.AutoEllipsesPipe]
                     }), 
                     __metadata('design:paramtypes', [])

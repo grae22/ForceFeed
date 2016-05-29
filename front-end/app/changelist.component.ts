@@ -6,6 +6,7 @@ import {AutoEllipsesPipe} from './autoEllipses.pipe';
   {
     selector: 'changelist',
     templateUrl: './app/changelist.component.html',
+    styleUrls: ['./app/styles.css'],
     pipes: [AutoEllipsesPipe]
   })
   export class ChangelistComponent
