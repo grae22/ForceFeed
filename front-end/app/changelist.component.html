@@ -1,29 +1,25 @@
 <div (click)='onClick()'>
-  <table
-    width="80%"
-    align="center"
-    border="0px"
-    class="table-hover">
-    <!-- Changelist detail row -->
-    <tr>
-      <td width="10%"><b>{{ data.id }}</b></td>
-      <td width="20%"><b>{{ data.submitter }}</b></td>
-      <td width="50%">{{ data.description }}</td>
-      <td width="15%">{{ data.timestamp }}</td>
-      <td width="5%">
-        <i
-          class="pull-right glyphicon"
-          [ngClass]="
-          {
-            'glyphicon-chevron-down': !_isExpanded,
-            'glyphicon-chevron-up': _isExpanded
-          }">
-        </i>
-      </td>
-    </tr>
-    <!-- Changelist files rows -->
-    <tr *ngFor='#file of data.files'>
-      <td *ngIf='_isExpanded' colspan="5">{{ file.filename | autoEllipses: 100 }}<!-- ({{ file.revision }})--></td>
-    </tr>
-  </table>
+  <div class="row">
+    <div class="col-lg-1"><b>{{ data.id }}</b></div>
+    <div class="col-lg-2">{{ data.timestamp }}</div>
+    <div class="col-lg-1"><b>{{ data.submitter }}</b></div>
+    <div class="col-lg-7">{{ data.description }}</div>
+    <div class="col-lg-1">
+      <i
+        class="pull-right glyphicon"
+        [ngClass]="
+        {
+          'glyphicon-chevron-down': !_isExpanded,
+          'glyphicon-chevron-up': _isExpanded
+        }">
+      </i>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngFor='#file of data.files'>
+      <div *ngIf='_isExpanded'>
+        <div class="col-lg-12"><code>{{ file.filename | autoEllipses: 150 }}</code></div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -19,14 +19,16 @@ namespace ForceFeed.DbFeeder.Data
     {
       string output =
         Perforce.RunCommand(
-          "changes -s submitted @" + fromDate.ToString( "yyyy/MM/dd:00:00" ) + ",@" +
+          "changes -s submitted -l @" + fromDate.ToString( "yyyy/MM/dd:00:00" ) + ",@" +
           toDate.ToString( "yyyy/MM/dd:23:59" ) );
 
       string[] lines =
         output.Split( new string[] { Environment.NewLine }, StringSplitOptions.None );
 
-      foreach( string line in lines )
+      for( int lineIndex = 0; lineIndex < lines.Length; lineIndex++ )
       {
+        string line = lines[ lineIndex ];
+
         // Extract the changelist number.
         if( line.Length < "Change ".Length )
         {
@@ -63,26 +65,14 @@ namespace ForceFeed.DbFeeder.Data
         string username = tmp.Substring( 0, tmp.IndexOf( '@' ) );
 
         // Extract the description.
-        int descriptionStartIndex = tmp.IndexOf( "'" ) + 1;
-        int descriptionLength = tmp.LastIndexOf( "'" ) - descriptionStartIndex;
+        string description = "(No description)";
 
-        string description = "";
-
-        if( descriptionStartIndex > 0 &&
-            descriptionLength > 0 )
+        if( lineIndex + 2 < lines.Length )
         {
-          description = tmp.Substring( descriptionStartIndex, descriptionLength );
+          lineIndex += 2;
+          description = lines[ lineIndex ];
+          lineIndex += 2;
         }
-
-        if( description.Length == 0 )
-        {
-          description = "(No description)";
-        }
-
-        //if( description.Length > 30 )
-        //{
-        //  description = description.TrimEnd() + "...";
-        //}
 
         // Create the changelist object if we don't already have one.
         if( Changelists.ContainsKey( changelistNumber ) == false )
