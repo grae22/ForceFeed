@@ -59,6 +59,22 @@ namespace ForceFeed.DbFeeder.Data
         clDoc.Add( "description", cl.Description );
         clDoc.Add( "submitter", cl.Submitter );
 
+        List<string> files;
+
+        ChangelistHelpers.GetChangelistFilesFromP4(
+          cl.Id,
+          out files );
+
+        BsonArray filesDoc = new BsonArray();
+        clDoc.Add( "files", filesDoc );
+
+        foreach( string file in files )
+        {
+          BsonDocument fileDoc = new BsonDocument();
+          fileDoc.Add( "filename", file );
+          filesDoc.Add( fileDoc ); 
+        } 
+
         changelistsDbCollection.InsertOne( clDoc );
       }
     }

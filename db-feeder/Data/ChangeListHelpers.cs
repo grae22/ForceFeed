@@ -98,5 +98,39 @@ namespace ForceFeed.DbFeeder.Data
     }
 
     //-------------------------------------------------------------------------
+
+    public static void GetChangelistFilesFromP4(
+      int changelistId,
+      out List<string> files )
+    {
+      files = new List<string>();
+
+      //-- Get changelist's files from P4.
+      string output = Perforce.RunCommand( "describe -s " + changelistId );
+
+      // Exract files from output.
+      int index = output.IndexOf( "Affected files ..." );
+
+      while( ( index = output.IndexOf( "... ", index + 1 ) ) > -1 )
+      {
+        // Skip the "... " prefixing the path.
+        index += 4;
+
+        // Grab the path from between the ellipses and the revision.
+        int revisionIndex = output.IndexOf( ' ', index );
+
+        if( revisionIndex < 0 )
+        {
+          continue;
+        }
+
+        string path = output.Substring( index, revisionIndex - index );
+
+        // Add file path to the ui list.
+        files.Add( path );
+      }
+    }
+
+    //-------------------------------------------------------------------------
   }
 }

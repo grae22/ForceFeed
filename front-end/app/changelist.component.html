@@ -23,7 +23,7 @@
     </tr>
     <!-- Changelist files rows -->
     <tr *ngFor='#file of data.files'>
-      <td *ngIf='_isExpanded' colspan="5">{{ file.filename }} ({{ file.revision }})</td>
+      <td *ngIf='_isExpanded' colspan="5">{{ file.filename }}<!-- ({{ file.revision }})--></td>
     </tr>
   </table>
 </div>

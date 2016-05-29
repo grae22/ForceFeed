@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ForceFeed.DbFeeder.Data
 {
@@ -13,10 +14,11 @@ namespace ForceFeed.DbFeeder.Data
 
     //-------------------------------------------------------------------------
 
-    public Changelist( int id,
-                       string description,
-                       string submitter,
-                       DateTime date )
+    public Changelist(
+      int id,
+      string description,
+      string submitter,
+      DateTime date )
     {
       Id = id;
       Description = description;
