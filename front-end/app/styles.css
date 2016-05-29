@@ -5,3 +5,9 @@
   border-width: 1px;
   border-style: ridge;
 }
+
+.col-lg-12
+{
+  background-color: #4040cf;
+  padding: 2px;
+}
