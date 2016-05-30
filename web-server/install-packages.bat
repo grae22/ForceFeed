@@ -1,5 +1,7 @@
 ECHO OFF
 CLS
 
-npm install httpdispatcher
+REM npm install httpdispatcher
 npm install mongodb
+
+PAUSE
