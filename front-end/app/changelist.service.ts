@@ -34,7 +34,7 @@ export class ChangelistService
     try
     {
       http.get(
-        'http://localhost:3010/changelists',
+        'http://graeme:3010/changelists',
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(

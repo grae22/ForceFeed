@@ -28,7 +28,7 @@ System.register(['angular2/http', 'rxjs/Rx', 'rxjs/Observable'], function(export
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json; charset=utf-8' });
                     var options = new http_1.RequestOptions({ headers: headers });
                     try {
-                        http.get('http://localhost:3010/changelists', headers)
+                        http.get('http://graeme:3010/changelists', headers)
                             .map(function (res) { return JSON.parse(res.text()); })
                             .subscribe(function (data) { return _this._changelistsObserver.next(data); }, function (err) { return console.error('ERR: ' + err); }, function () { return console.log('INF: Get complete.'); });
                     }

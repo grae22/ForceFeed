@@ -42,17 +42,18 @@ function handleRequest( request, response )
 //-----------------------------------------------------------------------------
 
 // Create a server
-var server = http.createServer( handleRequest );
+var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
 
 //-----------------------------------------------------------------------------
 
 // Lets start our server
-server.listen( PORT, function()
+/*
+server.listen( PORT, "172.16.1.103", function()
 {
   // Callback triggered when server is successfully listening. Hurray!
   console.log( "Server listening on: http://localhost:%s", PORT );
-});
-
+}
+*/
 //-----------------------------------------------------------------------------
 
 // For all your static (js/css/images/etc.) set the directory name (relative path).
