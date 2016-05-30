@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -23,50 +24,74 @@ namespace ForceFeed.DbFeeder.Data
 
     public void Refresh()
     {
-      var doc = new BsonDocument
-      {
-        { "timstamp", DateTime.Now }
-      };
-
-
-      var history = Database.GetCollection<BsonDocument>( "UpdateHistory" );
+      // Get the last update timestamp from the db.
+      var updateHistory = Database.GetCollection<BsonDocument>( "UpdateHistory" );
       var filter = new BsonDocument();
-      var result = history.Find( filter ).ToList();
+      var updateHistoryResult = updateHistory.Find( filter ).ToList();
 
-      if( result.Count == 0 )
+      // No update history? Set the last update as a set number of days ago.
+      if( updateHistoryResult.Count == 0 )
       {
-        history.InsertOne( doc );
-      }
-      else
-      {
+        updateHistory.InsertOne(
+          new BsonDocument
+          {
+            {
+              "timstamp",
+              DateTime.Now.AddDays(
+                -Program.Settings.GetSetting<int>(
+                  "InitialPriorDaysChangelistsToImport", 1, true ) )
+            }
+          }
+        );
 
+        // Should now be one record.
+        updateHistoryResult = updateHistory.Find( filter ).ToList();
+        Debug.Assert( updateHistoryResult.Count == 1 );
       }
 
-      List<Changelist> changelists = new List<Changelist>();
+      DateTime lastUpdateDate = updateHistoryResult[ 0 ][ 1 ].ToLocalTime();
+      DateTime nowDate = DateTime.Now;
+
+      // Get changelists between the last update and now.
+      List<Changelist> changelistCollection = new List<Changelist>();
+
       ChangelistHelpers.GetChangelistsFromP4(
-        DateTime.Now.AddDays( -3 ),
-        DateTime.Now,
-        ref changelists );
+        lastUpdateDate,
+        nowDate,
+        ref changelistCollection );
 
+      // Bail if no changelists were returned, we don't update the update
+      // history since there may actually be changelists for the specified
+      // period but they weren't returned due to a problem with the
+      // look-up (it currently fails silently).
+      if( changelistCollection.Count == 0 )
+      {
+        //return;
+      }
+
+      // Grab the changelists collection from the db so we can add to it.
       var changelistsDbCollection =
         Database.GetCollection<BsonDocument>( "Changelists" );
 
-      foreach( Changelist cl in changelists )
+      foreach( Changelist changelist in changelistCollection )
       {
-        BsonDocument clDoc = new BsonDocument();
-        clDoc.Add( "id", cl.Id );
-        clDoc.Add( "timestamp", cl.SubmittedDate.ToString( "yyyy/MM/dd HH:mm" ) );
-        clDoc.Add( "description", cl.Description );
-        clDoc.Add( "submitter", cl.Submitter );
+        // Build a new changelist bson doc.
+        BsonDocument changelistDoc = new BsonDocument();
+        changelistDoc.Add( "id", changelist.Id );
+        changelistDoc.Add( "timestamp", changelist.SubmittedDate.ToString( "yyyy/MM/dd HH:mm" ) );
+        changelistDoc.Add( "description", changelist.Description );
+        changelistDoc.Add( "submitter", changelist.Submitter );
 
+        // Get the changelist's files from perforce.
         List<string> files;
 
         ChangelistHelpers.GetChangelistFilesFromP4(
-          cl.Id,
+          changelist.Id,
           out files );
 
+        // Add the files to the doc.
         BsonArray filesDoc = new BsonArray();
-        clDoc.Add( "files", filesDoc );
+        changelistDoc.Add( "files", filesDoc );
 
         foreach( string file in files )
         {
@@ -75,8 +100,23 @@ namespace ForceFeed.DbFeeder.Data
           filesDoc.Add( fileDoc ); 
         } 
 
-        changelistsDbCollection.InsertOne( clDoc );
+        // Add the new doc to the db collection.
+        var result =
+          changelistsDbCollection.Find(
+            new BsonDocument { { "id", changelist.Id } } ).ToList();
+
+        if( result.Count == 0 )
+        {
+          changelistsDbCollection.InsertOne( changelistDoc );
+        }
       }
+
+      // Update the update history.
+      // TODO: Make this work.
+      BsonDocument x = new BsonDocument( updateHistoryResult[ 0 ] );
+      x[ 1 ] = nowDate;
+
+      //updateHistory.UpdateOne( updateHistoryResult[ 0 ], x );
     }
 
     //-------------------------------------------------------------------------

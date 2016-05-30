@@ -21,6 +21,10 @@ namespace ForceFeed.DbFeeder.Utils
 
         if( Program.Username != null )
         {
+          //p.StartInfo.EnvironmentVariables.Add(
+          //  "P4PORT",
+          //  "perforce:1666" );
+
           p.StartInfo.EnvironmentVariables.Add(
             "P4USER",
             Program.Username );

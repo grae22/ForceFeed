@@ -3,6 +3,7 @@ import 'rxjs/Rx';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 import {ChangelistComponent} from './changelist.component';
+import {SettingsService} from './settings.service';
 
 export class ChangelistService
 {
@@ -34,7 +35,8 @@ export class ChangelistService
     try
     {
       http.get(
-        'http://graeme:3010/changelists',
+        //this._settingsService.ChangelistsHttpGetUrl,
+        'http://192.168.1.102:3010/changelists',
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(

@@ -42,7 +42,7 @@ function handleRequest( request, response )
 //-----------------------------------------------------------------------------
 
 // Create a server
-var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
+var server = http.createServer( handleRequest ).listen( PORT, "192.168.1.102" );
 
 //-----------------------------------------------------------------------------
 

@@ -1,13 +1,13 @@
 .row
 {
-  color: #303030;
+  color: #202020;
   background-color: #60d0ff;
   border-width: 1px;
-  border-style: ridge;
+  border-style: solid;
 }
 
 .col-lg-12
 {
-  background-color: #4040cf;
+  background-color: #afafaf;
   padding: 2px;
 }
