@@ -30,7 +30,7 @@ System.register(['angular2/http', 'rxjs/Rx', 'rxjs/Observable'], function(export
                     try {
                         http.get(
                         //this._settingsService.ChangelistsHttpGetUrl,
-                        'http://192.168.1.102:3010/changelists', headers)
+                        'http://graeme:3010/changelists', headers)
                             .map(function (res) { return JSON.parse(res.text()); })
                             .subscribe(function (data) { return _this._changelistsObserver.next(data); }, function (err) { return console.error('ERR: ' + err); }, function () { return console.log('INF: Get complete.'); });
                     }

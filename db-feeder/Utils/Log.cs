@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace ForceFeed.DbFeeder.Utils
 {
@@ -69,7 +70,10 @@ namespace ForceFeed.DbFeeder.Utils
 
     //-------------------------------------------------------------------------
 
-    public void AddEntry( EntryType type, string entry )
+    public void AddEntry(
+      EntryType type,
+      string entry,
+      bool echoToConsole = false )
     {
       try
       {
@@ -78,7 +82,12 @@ namespace ForceFeed.DbFeeder.Utils
           " | " + GetEntryTypeString( type ) +
           " | " + entry;
 
-        System.Diagnostics.Debug.WriteLine( line );
+        if( echoToConsole )
+        {
+          Console.WriteLine( entry );
+        }
+
+        Debug.WriteLine( line );
         _writer.WriteLine( line );
         _writer.Flush();
       }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.IO;
+using System.Threading;
 using ForceFeed.DbFeeder.Utils;
 using ForceFeed.DbFeeder.Data;
 
@@ -73,7 +74,7 @@ namespace ForceFeed.DbFeeder
       Console.WriteLine(
         "Running... Updating every " + updateRateSecs.ToString() + " second(s)" +
         Environment.NewLine + Environment.NewLine +
-        "Hit 'escape' to stop." );
+        "Hit 'escape' to stop." + Environment.NewLine );
 
       while( isRunning )
       {
@@ -89,16 +90,25 @@ namespace ForceFeed.DbFeeder
                 Console.ReadKey().Key == ConsoleKey.Escape )
             {
               isRunning = false;
-              Console.WriteLine( "Key 'escape' detected, closing..." );
+              Console.WriteLine( Environment.NewLine + "Key 'escape' detected, closing..." );
               break;
             }
 
-            System.Threading.Thread.Sleep( 1000 );
+            Thread.Sleep( 1000 );
           }
         }
         catch( Exception ex )
         {
           Log.AddError( ex.Message );
+
+          try
+          {
+            Thread.Sleep( updateRateSecs * 1000 );
+          }
+          catch
+          {
+            // Ignore.
+          }
         }
       }
 

@@ -36,7 +36,7 @@ export class ChangelistService
     {
       http.get(
         //this._settingsService.ChangelistsHttpGetUrl,
-        'http://192.168.1.102:3010/changelists',
+        'http://graeme:3010/changelists',
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(

@@ -19,13 +19,13 @@ namespace ForceFeed.DbFeeder.Data
     {
       string output =
         Perforce.RunCommand(
-          "changes -s submitted -t -l @" + fromDate.ToString( "yyyy/MM/dd:00:00" ) + ",@" +
-          toDate.ToString( "yyyy/MM/dd:23:59" ) );
+          "changes -s submitted -t -l @" + fromDate.ToString( "yyyy/MM/dd:HH:mm:ss" ) + ",@" +
+          toDate.ToString( "yyyy/MM/dd:HH:mm:ss" ) );
 
       string[] lines =
         output.Split( new string[] { Environment.NewLine }, StringSplitOptions.None );
 
-      for( int lineIndex = 0; lineIndex < lines.Length; lineIndex++ )
+      for( int lineIndex = 0; lineIndex < lines.Length; lineIndex += 2 )
       {
         string line = lines[ lineIndex ];
 
@@ -71,7 +71,6 @@ namespace ForceFeed.DbFeeder.Data
         {
           lineIndex += 2;
           description = lines[ lineIndex ];
-          lineIndex += 2;
         }
 
         // Create the changelist object if we don't already have one.
@@ -107,7 +106,7 @@ namespace ForceFeed.DbFeeder.Data
         index += 4;
 
         // Grab the path from between the ellipses and the revision.
-        int revisionIndex = output.IndexOf( ' ', index );
+        int revisionIndex = output.IndexOf( '#', index );
 
         if( revisionIndex < 0 )
         {

@@ -42,7 +42,7 @@ function handleRequest( request, response )
 //-----------------------------------------------------------------------------
 
 // Create a server
-var server = http.createServer( handleRequest ).listen( PORT, "192.168.1.102" );
+var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
 
 //-----------------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ dispatcher.onGet( "/changelists", function( req, res )
       console.log( 'Connected to MongoDb!' );
       
       changelists = db.collection( 'Changelists' )
-      changelists.find( {} ).toArray(
+      changelists.find( {} ).sort( { 'timestamp': -1 } ).toArray(
         function( err, docs )
         {
           if( err != null )

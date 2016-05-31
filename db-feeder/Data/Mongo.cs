@@ -26,8 +26,8 @@ namespace ForceFeed.DbFeeder.Data
     {
       // Get the last update timestamp from the db.
       var updateHistory = Database.GetCollection<BsonDocument>( "UpdateHistory" );
-      var filter = new BsonDocument();
-      var updateHistoryResult = updateHistory.Find( filter ).ToList();
+      var updateHistoryFilter = new BsonDocument { { "id", 0 } };
+      var updateHistoryResult = updateHistory.Find( updateHistoryFilter ).ToList();
 
       // No update history? Set the last update as a set number of days ago.
       if( updateHistoryResult.Count == 0 )
@@ -36,7 +36,10 @@ namespace ForceFeed.DbFeeder.Data
           new BsonDocument
           {
             {
-              "timstamp",
+              "id", 0
+            },
+            {
+              "timestamp",
               DateTime.Now.AddDays(
                 -Program.Settings.GetSetting<int>(
                   "InitialPriorDaysChangelistsToImport", 1, true ) )
@@ -45,12 +48,19 @@ namespace ForceFeed.DbFeeder.Data
         );
 
         // Should now be one record.
-        updateHistoryResult = updateHistory.Find( filter ).ToList();
+        updateHistoryResult = updateHistory.Find( updateHistoryFilter ).ToList();
         Debug.Assert( updateHistoryResult.Count == 1 );
       }
 
-      DateTime lastUpdateDate = updateHistoryResult[ 0 ][ 1 ].ToLocalTime();
+      DateTime lastUpdateDate = updateHistoryResult[ 0 ][ 2 ].ToLocalTime();
       DateTime nowDate = DateTime.Now;
+
+      Program.Log.AddEntry(
+        Utils.Log.EntryType.INFO,
+        "Checking for changelists between " +
+          lastUpdateDate.ToString( "yyyy/MM/dd HH:mm:ss" ) + " and " +
+          nowDate.ToString( "yyyy/MM/dd HH:mm:ss" ) + "...",
+        true );
 
       // Get changelists between the last update and now.
       List<Changelist> changelistCollection = new List<Changelist>();
@@ -66,12 +76,24 @@ namespace ForceFeed.DbFeeder.Data
       // look-up (it currently fails silently).
       if( changelistCollection.Count == 0 )
       {
-        //return;
+        Program.Log.AddEntry(
+          Utils.Log.EntryType.INFO,
+          "No changelists found.",
+          true );
+        return;
       }
 
       // Grab the changelists collection from the db so we can add to it.
       var changelistsDbCollection =
         Database.GetCollection<BsonDocument>( "Changelists" );
+
+      // Add the changelists.
+      int addedChangelistCount = 0;
+
+      Program.Log.AddEntry(
+        Utils.Log.EntryType.INFO,
+        "Found " + changelistCollection.Count + ", adding changelists...",
+        true );
 
       foreach( Changelist changelist in changelistCollection )
       {
@@ -108,15 +130,18 @@ namespace ForceFeed.DbFeeder.Data
         if( result.Count == 0 )
         {
           changelistsDbCollection.InsertOne( changelistDoc );
+          addedChangelistCount++;
         }
       }
 
-      // Update the update history.
-      // TODO: Make this work.
-      BsonDocument x = new BsonDocument( updateHistoryResult[ 0 ] );
-      x[ 1 ] = nowDate;
+      Program.Log.AddEntry(
+        Utils.Log.EntryType.INFO,
+        "Added " + addedChangelistCount +" changelist(s), duplicates (if any) excluded.",
+        true );
 
-      //updateHistory.UpdateOne( updateHistoryResult[ 0 ], x );
+      // Update the update history.
+      var update = Builders<BsonDocument>.Update.Set( "timestamp", nowDate );
+      updateHistory.UpdateOne( updateHistoryFilter, update );
     }
 
     //-------------------------------------------------------------------------
