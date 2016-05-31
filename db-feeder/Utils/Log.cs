@@ -78,7 +78,7 @@ namespace ForceFeed.DbFeeder.Utils
       try
       {
         string line =
-          DateTime.Now.ToString( "yy-MM-dd hh:mm:ss" ) +
+          DateTime.Now.ToString( "yy-MM-dd HH:mm:ss" ) +
           " | " + GetEntryTypeString( type ) +
           " | " + entry;
 
