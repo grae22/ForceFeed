@@ -1,4 +1,5 @@
 import {Http, Headers, RequestOptions} from 'angular2/http';
+import {Inject} from 'angular2/core';
 import 'rxjs/Rx';
 import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
@@ -15,7 +16,7 @@ export class ChangelistService
   
   //---------------------------------------------------------------------------
   
-  constructor()
+  constructor( @Inject(SettingsService) private _settingsService: SettingsService )
   {
     this.Changlists$ =
       new Observable( observer =>  this._changelistsObserver = observer ).share();
@@ -31,12 +32,14 @@ export class ChangelistService
     
     let headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
     let options = new RequestOptions({ headers: headers });
+    
+    console.log( this._settingsService.ChangelistsHttpGetUrl );
 
     try
     {
       http.get(
-        //this._settingsService.ChangelistsHttpGetUrl,
-        'http://graeme:3010/changelists',
+        this._settingsService.ChangelistsHttpGetUrl,
+        //'http://graeme:3010/changelists',
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(
@@ -48,35 +51,6 @@ export class ChangelistService
     {
       console.error( error );
     }
-
-    //return responseData;
-/*
-    return [
-      {
-        id: '12345',
-        username: 'Username',
-        description: 'Description...',
-        timestamp: '2016/05/23 21:00',
-        files: [
-          { filename: 'KFile_1.cpp', revision: 1 },
-          { filename: 'KFile_2.cpp', revision: 2 },
-          { filename: 'KFile_3.cpp', revision: 3 },
-          { filename: 'KFile_4.cpp', revision: 4 }
-        ]
-      },
-      {
-        id: '12346',
-        username: 'Username 2',
-        description: 'Description 2...',
-        timestamp: '2016/05/23 21:01',
-        files: [
-          { filename: 'KFile_1.h', revision: 1 },
-          { filename: 'KFile_2.h', revision: 2 },
-          { filename: 'KFile_3.h', revision: 3 },
-          { filename: 'KFile_4.h', revision: 4 }
-        ]
-      }
-    ];*/
   }
   
   //---------------------------------------------------------------------------

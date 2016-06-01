@@ -1,7 +1,7 @@
-System.register(['angular2/platform/browser', 'angular2/http', './app.component'], function(exports_1, context_1) {
+System.register(['angular2/platform/browser', 'angular2/http', './app.component', './settings.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var browser_1, http_1, app_component_1;
+    var browser_1, http_1, app_component_1, settings_service_1;
     return {
         setters:[
             function (browser_1_1) {
@@ -12,9 +12,12 @@ System.register(['angular2/platform/browser', 'angular2/http', './app.component'
             },
             function (app_component_1_1) {
                 app_component_1 = app_component_1_1;
+            },
+            function (settings_service_1_1) {
+                settings_service_1 = settings_service_1_1;
             }],
         execute: function() {
-            browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS]);
+            browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS, settings_service_1.SettingsService]);
         }
     }
 });
