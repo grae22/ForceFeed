@@ -42,7 +42,7 @@ function handleRequest( request, response )
 //-----------------------------------------------------------------------------
 
 // Create a server
-var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
+var server = http.createServer( handleRequest ).listen( PORT, "graemepc" );
 
 //-----------------------------------------------------------------------------
 
@@ -65,8 +65,13 @@ dispatcher.setStatic( 'resources' );
 
 dispatcher.onGet( "/changelists", function( req, res )
 {
-  console.log('get received');
+  console.log( 'Changelists *get* request received.' );
   
+  var submitters = req.params[ 'submitters' ].replace( new RegExp( '\'', 'g' ), '' );
+  submitters = submitters.split( ',' );
+  
+  console.log( "Finding changelists for submitter(s): " + submitters );
+
   var changelists;
   
   MongoClient.connect(
@@ -74,10 +79,10 @@ dispatcher.onGet( "/changelists", function( req, res )
     function( err, db )
     {
       assert.equal( null, err );
-      console.log( 'Connected to MongoDb!' );
+      console.log( 'Connected to DB.' );
       
       changelists = db.collection( 'Changelists' )
-      changelists.find( {} ).sort( { 'timestamp': -1 } ).toArray(
+      changelists.find( { submitter: { $in: submitters } } ).sort( { 'timestamp': -1 } ).toArray(
         function( err, docs )
         {
           if( err != null )

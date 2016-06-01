@@ -11,29 +11,31 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var SettingsService;
+    var SubmitterFilterComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            SettingsService = (function () {
-                function SettingsService() {
-                    //---------------------------------------------------------------------------
-                    //public WebServerName: string = 'graeme';
-                    this.WebServerName = 'graemepc';
-                    this.WebServerPort = '3010';
-                    this.ChangelistsHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/changelists';
+            SubmitterFilterComponent = (function () {
+                function SubmitterFilterComponent() {
                 }
-                SettingsService = __decorate([
-                    core_1.Injectable(), 
+                SubmitterFilterComponent.prototype.setSubmitters = function (submitters) {
+                    this.Submitters = submitters;
+                    //this._app.Refresh();
+                };
+                SubmitterFilterComponent = __decorate([
+                    core_1.Component({
+                        selector: 'submitterFilter',
+                        template: "\n    <div>\n      <span>Submitters: <input #box class='textbox' type='text' (keyup.enter)='setSubmitters( box.value )' /></span>\n    </div>"
+                    }), 
                     __metadata('design:paramtypes', [])
-                ], SettingsService);
-                return SettingsService;
+                ], SubmitterFilterComponent);
+                return SubmitterFilterComponent;
             }());
-            exports_1("SettingsService", SettingsService);
+            exports_1("SubmitterFilterComponent", SubmitterFilterComponent);
         }
     }
 });
-//# sourceMappingURL=settings.service.js.map
+//# sourceMappingURL=submitterFilter.component.js.map

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', './changelist.service', './changelist.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', './changelist.service', './changelist.component', './submitterFilter.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', './changelist.service', './ch
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, changelist_service_1, changelist_component_1;
+    var core_1, http_1, changelist_service_1, changelist_component_1, submitterFilter_component_1;
     var AppComponent;
     return {
         setters:[
@@ -25,24 +25,33 @@ System.register(['angular2/core', 'angular2/http', './changelist.service', './ch
             },
             function (changelist_component_1_1) {
                 changelist_component_1 = changelist_component_1_1;
+            },
+            function (submitterFilter_component_1_1) {
+                submitterFilter_component_1 = submitterFilter_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
                 //---------------------------------------------------------------------------
-                function AppComponent(_changelistService, http) {
-                    var _this = this;
+                function AppComponent(_changelistService, _submitterFilter, _http) {
                     this._changelistService = _changelistService;
-                    _changelistService.getChangelists(http);
-                    _changelistService.Changlists$.subscribe(function (changelists) { return _this._changelists = changelists; });
+                    this._submitterFilter = _submitterFilter;
+                    this._http = _http;
+                    this.Refresh();
                 }
+                //---------------------------------------------------------------------------
+                AppComponent.prototype.Refresh = function () {
+                    var _this = this;
+                    this._changelistService.getChangelists(this._http, this._submitterFilter);
+                    this._changelistService.Changlists$.subscribe(function (changelists) { return _this._changelists = changelists; });
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "\n      <div *ngFor='#changelist of _changelists'>\n        <changelist [data]='changelist'></changelist>\n      </div>\n    ",
-                        directives: [changelist_component_1.ChangelistComponent],
-                        providers: [changelist_service_1.ChangelistService, http_1.ConnectionBackend]
+                        template: "\n      <submitterFilter></submitterFilter>\n      <div *ngFor='#changelist of _changelists'>\n        <changelist [data]='changelist'></changelist>\n      </div>\n    ",
+                        directives: [changelist_component_1.ChangelistComponent, submitterFilter_component_1.SubmitterFilterComponent],
+                        providers: [changelist_service_1.ChangelistService, submitterFilter_component_1.SubmitterFilterComponent, http_1.ConnectionBackend]
                     }), 
-                    __metadata('design:paramtypes', [changelist_service_1.ChangelistService, http_1.Http])
+                    __metadata('design:paramtypes', [changelist_service_1.ChangelistService, submitterFilter_component_1.SubmitterFilterComponent, http_1.Http])
                 ], AppComponent);
                 return AppComponent;
             }());

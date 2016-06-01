@@ -2,16 +2,18 @@ import {Component} from 'angular2/core';
 import {Http, ConnectionBackend} from 'angular2/http';
 import {ChangelistService} from './changelist.service';
 import {ChangelistComponent} from './changelist.component';
+import {SubmitterFilterComponent} from './submitterFilter.component';
 
 @Component({
     selector: 'my-app',
     template: `
+      <submitterFilter></submitterFilter>
       <div *ngFor='#changelist of _changelists'>
         <changelist [data]='changelist'></changelist>
       </div>
     `,
-    directives: [ChangelistComponent],
-    providers: [ChangelistService, ConnectionBackend]
+    directives: [ChangelistComponent, SubmitterFilterComponent],
+    providers: [ChangelistService, SubmitterFilterComponent, ConnectionBackend]
 })
 export class AppComponent
 {
@@ -23,11 +25,22 @@ export class AppComponent
   
   constructor(
     private _changelistService: ChangelistService,
-    http: Http )
+    private _submitterFilter: SubmitterFilterComponent,
+    private _http: Http )
   {
-    _changelistService.getChangelists( http );
+    this.Refresh();
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  public Refresh()
+  {
+    this._changelistService.getChangelists(
+      this._http,
+      this._submitterFilter );
     
-    _changelistService.Changlists$.subscribe( changelists => this._changelists = changelists );
+    this._changelistService.Changlists$.subscribe(
+      changelists => this._changelists = changelists );
   }
   
   //---------------------------------------------------------------------------

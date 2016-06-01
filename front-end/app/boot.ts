@@ -3,4 +3,4 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 import {AppComponent} from './app.component';
 import {SettingsService} from './settings.service';
 
-bootstrap( AppComponent, [HTTP_PROVIDERS, SettingsService] );
+bootstrap( AppComponent, [HTTP_PROVIDERS, SettingsService, AppComponent] );
