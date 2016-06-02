@@ -63,7 +63,8 @@ dispatcher.onGet( "/changelists", function( req, res )
   }
   else
   {
-    submitters = submitters.replace( new RegExp( '\'', 'g' ), '' ).split( ',' );
+    submitters = submitters.replace( new RegExp( '\'', 'g' ), '' ).split( ' ' );
+    //submitters = submitters.replace( new RegExp( ' ', 'g' ), '' ).split( ',' );
   }
   
   // Get the changelists from the Mongo DB.
