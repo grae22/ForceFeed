@@ -20,15 +20,21 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         execute: function() {
             SubmitterFilterComponent = (function () {
                 function SubmitterFilterComponent() {
+                    //---------------------------------------------------------------------------
+                    this.FilterChanged = new core_1.EventEmitter();
                 }
+                //---------------------------------------------------------------------------
                 SubmitterFilterComponent.prototype.setSubmitters = function (submitters) {
-                    this.Submitters = submitters;
-                    //this._app.Refresh();
+                    this.FilterChanged.emit({ submitters: submitters });
                 };
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], SubmitterFilterComponent.prototype, "FilterChanged", void 0);
                 SubmitterFilterComponent = __decorate([
                     core_1.Component({
                         selector: 'submitterFilter',
-                        template: "\n    <div>\n      <span>Submitters: <input #box class='textbox' type='text' (keyup.enter)='setSubmitters( box.value )' /></span>\n    </div>"
+                        template: "\n    <div>\n      <span>\n        <label for='submitters'>Submitters:</label>\n        <input #box name='submitters' class='form-control' type='text' (keyup.enter)='setSubmitters( box.value )' />\n      </span>\n    </div>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], SubmitterFilterComponent);

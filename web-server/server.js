@@ -2,10 +2,6 @@
 // NOTE: Install the httpdispatcher with 'npm install httpdispatcher'.
 //-----------------------------------------------------------------------------
 
-// Where are we?
-//var appPath = "E:/dev/cybermine/Apps/ScoringCheckWebAppBackend/Backend/";
-//var appPath = "c:/scoringcheckwebapp/backend/";
-
 // Requires: npm install httpdispatcher
 var dispatcher = require( 'httpdispatcher' );
 
@@ -42,18 +38,9 @@ function handleRequest( request, response )
 //-----------------------------------------------------------------------------
 
 // Create a server
-var server = http.createServer( handleRequest ).listen( PORT, "graemepc" );
+//var server = http.createServer( handleRequest ).listen( PORT, "graemepc" );
+var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
 
-//-----------------------------------------------------------------------------
-
-// Lets start our server
-/*
-server.listen( PORT, "172.16.1.103", function()
-{
-  // Callback triggered when server is successfully listening. Hurray!
-  console.log( "Server listening on: http://localhost:%s", PORT );
-}
-*/
 //-----------------------------------------------------------------------------
 
 // For all your static (js/css/images/etc.) set the directory name (relative path).
@@ -67,9 +54,19 @@ dispatcher.onGet( "/changelists", function( req, res )
 {
   console.log( 'Changelists *get* request received.' );
   
-  var submitters = req.params[ 'submitters' ].replace( new RegExp( '\'', 'g' ), '' );
-  submitters = submitters.split( ',' );
+  // Extract the submitters - if blank we select from all.
+  var submitters = req.params[ 'submitters' ];
+  console.log( 'Submitters: ' + submitters );
+  if( submitters == '\'\'' )
+  {
+    submitters = [ /.*/ ];
+  }
+  else
+  {
+    submitters = submitters.replace( new RegExp( '\'', 'g' ), '' ).split( ',' );
+  }
   
+  // Get the changelists from the Mongo DB.
   console.log( "Finding changelists for submitter(s): " + submitters );
 
   var changelists;
@@ -93,7 +90,6 @@ dispatcher.onGet( "/changelists", function( req, res )
           {
             console.log( 'Found ' + docs.length + ' changelist(s).' );
           }
-          //console.log( docs );          
 
           res.writeHead(
             200,
@@ -103,49 +99,12 @@ dispatcher.onGet( "/changelists", function( req, res )
             });
             
           res.end( JSON.stringify( docs ) );
-        });
-      
-      //db.close();
-    } );
-  /*
-  var data =
-    [
-      {
-        "id": "12345",
-        "username": "Username",
-        "description": "Description...",
-        "timestamp": "2016/05/23 21:00",
-        "files":
-          [
-            { "filename": "KFile_1.cpp", "revision": 1 },
-            { "filename": "KFile_2.cpp", "revision": 2 },
-            { "filename": "KFile_3.cpp", "revision": 3 },
-            { "filename": "KFile_4.cpp", "revision": 4 }
-          ]
-      },
-      {
-        "id": "12346",
-        "username": "Username 2",
-        "description": "Description 2...",
-        "timestamp": "2016/05/23 21:01",
-        "files":
-          [
-            { "filename": "KFile_1.h", "revision": 10 },
-            { "filename": "KFile_2.h", "revision": 20 },
-            { "filename": "KFile_3.h", "revision": 30 },
-            { "filename": "KFile_4.h", "revision": 40 }
-          ]
-      }
-    ];
-
-  res.writeHead(
-    200,
-    {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    });
-    
-  res.end( JSON.stringify( data ) );*/
+          
+          db.close();
+        }
+      );
+    }
+  );
 });
 
 //-----------------------------------------------------------------------------

@@ -41,13 +41,13 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/Rx', 'rxjs/Observable',
                     this.Changlists$.subscribe(function (data) { });
                 }
                 //---------------------------------------------------------------------------
-                ChangelistService.prototype.getChangelists = function (http, submitterFilter) {
+                ChangelistService.prototype.getChangelists = function (http, submittters) {
                     var _this = this;
                     var responseData;
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json; charset=utf-8' });
                     var options = new http_1.RequestOptions({ headers: headers });
                     try {
-                        http.get(this._settingsService.ChangelistsHttpGetUrl + '?submitters=\'' + submitterFilter.Submitters + '\'', headers)
+                        http.get(this._settingsService.ChangelistsHttpGetUrl + '?submitters=\'' + submittters + '\'', headers)
                             .map(function (res) { return JSON.parse(res.text()); })
                             .subscribe(function (data) { return _this._changelistsObserver.next(data); }, function (err) { return console.error('ERR: ' + err); }, function () { return console.log('INF: Get complete.'); });
                     }

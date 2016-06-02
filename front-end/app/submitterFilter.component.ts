@@ -1,20 +1,28 @@
-import {Component, Inject} from 'angular2/core';
+import {Component, Inject, Output, EventEmitter} from 'angular2/core';
 
 @Component(
 {
   selector: 'submitterFilter',
   template: `
     <div>
-      <span>Submitters: <input #box class='textbox' type='text' (keyup.enter)='setSubmitters( box.value )' /></span>
+      <span>
+        <label for='submitters'>Submitters:</label>
+        <input #box name='submitters' class='form-control' type='text' (keyup.enter)='setSubmitters( box.value )' />
+      </span>
     </div>`
 })
 export class SubmitterFilterComponent
 {
-  public Submitters: string;
+  //---------------------------------------------------------------------------
+  
+  @Output() FilterChanged = new EventEmitter();
+  
+  //---------------------------------------------------------------------------
   
   private setSubmitters( submitters: string )
   {
-    this.Submitters = submitters;
-    //this._app.Refresh();
+    this.FilterChanged.emit( { submitters: submitters } );
   }
+  
+  //---------------------------------------------------------------------------
 }

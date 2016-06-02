@@ -7,7 +7,9 @@ import {SubmitterFilterComponent} from './submitterFilter.component';
 @Component({
     selector: 'my-app',
     template: `
-      <submitterFilter></submitterFilter>
+      <div>
+        <submitterFilter (FilterChanged)='Refresh( $event )'></submitterFilter>
+      </div>
       <div *ngFor='#changelist of _changelists'>
         <changelist [data]='changelist'></changelist>
       </div>
@@ -28,16 +30,16 @@ export class AppComponent
     private _submitterFilter: SubmitterFilterComponent,
     private _http: Http )
   {
-    this.Refresh();
+    this.Refresh( { submitters: '' } );
   }
   
   //---------------------------------------------------------------------------
   
-  public Refresh()
+  public Refresh( event )
   {
     this._changelistService.getChangelists(
       this._http,
-      this._submitterFilter );
+      event.submitters );
     
     this._changelistService.Changlists$.subscribe(
       changelists => this._changelists = changelists );

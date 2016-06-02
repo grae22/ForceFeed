@@ -36,18 +36,18 @@ System.register(['angular2/core', 'angular2/http', './changelist.service', './ch
                     this._changelistService = _changelistService;
                     this._submitterFilter = _submitterFilter;
                     this._http = _http;
-                    this.Refresh();
+                    this.Refresh({ submitters: '' });
                 }
                 //---------------------------------------------------------------------------
-                AppComponent.prototype.Refresh = function () {
+                AppComponent.prototype.Refresh = function (event) {
                     var _this = this;
-                    this._changelistService.getChangelists(this._http, this._submitterFilter);
+                    this._changelistService.getChangelists(this._http, event.submitters);
                     this._changelistService.Changlists$.subscribe(function (changelists) { return _this._changelists = changelists; });
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "\n      <submitterFilter></submitterFilter>\n      <div *ngFor='#changelist of _changelists'>\n        <changelist [data]='changelist'></changelist>\n      </div>\n    ",
+                        template: "\n      <div>\n        <submitterFilter (FilterChanged)='Refresh( $event )'></submitterFilter>\n      </div>\n      <div *ngFor='#changelist of _changelists'>\n        <changelist [data]='changelist'></changelist>\n      </div>\n    ",
                         directives: [changelist_component_1.ChangelistComponent, submitterFilter_component_1.SubmitterFilterComponent],
                         providers: [changelist_service_1.ChangelistService, submitterFilter_component_1.SubmitterFilterComponent, http_1.ConnectionBackend]
                     }), 

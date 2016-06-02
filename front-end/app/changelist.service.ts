@@ -29,7 +29,7 @@ export class ChangelistService
   
   public getChangelists(
     http: Http,
-    submitterFilter: SubmitterFilterComponent )
+    submittters: string )
   {
     var responseData;
     
@@ -39,7 +39,7 @@ export class ChangelistService
     try
     {
       http.get(
-        this._settingsService.ChangelistsHttpGetUrl + '?submitters=\'' + submitterFilter.Submitters + '\'',
+        this._settingsService.ChangelistsHttpGetUrl + '?submitters=\'' + submittters + '\'',
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(
