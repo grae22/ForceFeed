@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', 'ng2-cookies/ng2-cookies'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,21 +10,28 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, ng2_cookies_1;
     var SubmitterFilterComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (ng2_cookies_1_1) {
+                ng2_cookies_1 = ng2_cookies_1_1;
             }],
         execute: function() {
             SubmitterFilterComponent = (function () {
+                //---------------------------------------------------------------------------
                 function SubmitterFilterComponent() {
                     //---------------------------------------------------------------------------
                     this.FilterChanged = new core_1.EventEmitter();
+                    this._submitters = "";
+                    this._submitters = ng2_cookies_1.Cookie.get('submitters');
                 }
                 //---------------------------------------------------------------------------
                 SubmitterFilterComponent.prototype.setSubmitters = function (submitters) {
+                    ng2_cookies_1.Cookie.set('submitters', submitters);
                     this.FilterChanged.emit({ submitters: submitters });
                 };
                 __decorate([
@@ -34,7 +41,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 SubmitterFilterComponent = __decorate([
                     core_1.Component({
                         selector: 'submitterFilter',
-                        template: "\n    <form class='form-horizontal'>\n      <div class='form-group form-group-sm'>\n        <label class='col-sm-1 control-label' for='submitters'>Submitters:</label>\n        <div class='col-sm-11'>\n          <input #box name='submitters' class='form-control' type='text' (keyup.enter)='setSubmitters( box.value )' />\n        </div>\n      </div>\n    </form>"
+                        template: "\n    <form class='form-horizontal'>\n      <div class='form-group form-group-sm'>\n        <label class='col-sm-1 control-label' for='submitters'>Submitters:</label>\n        <div class='col-sm-11'>\n          <input\n            #box\n            name='submitters'\n            class='form-control'\n            type='text'\n            (keyup.enter)='setSubmitters( box.value )'\n            value='{{ _submitters }}' />\n        </div>\n      </div>\n    </form>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], SubmitterFilterComponent);

@@ -17,7 +17,7 @@ System.register(['angular2/platform/browser', 'angular2/http', './app.component'
                 settings_service_1 = settings_service_1_1;
             }],
         execute: function() {
-            browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS, settings_service_1.SettingsService, app_component_1.AppComponent]);
+            browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS, settings_service_1.SettingsService]);
         }
     }
 });
