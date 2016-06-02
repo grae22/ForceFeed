@@ -4,12 +4,14 @@ import {Component, Inject, Output, EventEmitter} from 'angular2/core';
 {
   selector: 'submitterFilter',
   template: `
-    <div>
-      <span>
-        <label for='submitters'>Submitters:</label>
-        <input #box name='submitters' class='form-control' type='text' (keyup.enter)='setSubmitters( box.value )' />
-      </span>
-    </div>`
+    <form class='form-horizontal'>
+      <div class='form-group form-group-sm'>
+        <label class='col-sm-1 control-label' for='submitters'>Submitters:</label>
+        <div class='col-sm-11'>
+          <input #box name='submitters' class='form-control' type='text' (keyup.enter)='setSubmitters( box.value )' />
+        </div>
+      </div>
+    </form>`
 })
 export class SubmitterFilterComponent
 {

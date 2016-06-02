@@ -34,7 +34,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 SubmitterFilterComponent = __decorate([
                     core_1.Component({
                         selector: 'submitterFilter',
-                        template: "\n    <div>\n      <span>\n        <label for='submitters'>Submitters:</label>\n        <input #box name='submitters' class='form-control' type='text' (keyup.enter)='setSubmitters( box.value )' />\n      </span>\n    </div>"
+                        template: "\n    <form class='form-horizontal'>\n      <div class='form-group form-group-sm'>\n        <label class='col-sm-1 control-label' for='submitters'>Submitters:</label>\n        <div class='col-sm-11'>\n          <input #box name='submitters' class='form-control' type='text' (keyup.enter)='setSubmitters( box.value )' />\n        </div>\n      </div>\n    </form>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], SubmitterFilterComponent);
