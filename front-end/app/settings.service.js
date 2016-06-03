@@ -27,7 +27,7 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                     this.WebServerPort = '3010';
                     this.ChangelistsHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/changelists';
                     //-- Behaviour.
-                    this.RefreshChangelistsRateInSecs = 60;
+                    this.RefreshChangelistsRateInSecs = 120;
                 }
                 SettingsService = __decorate([
                     core_1.Injectable(), 

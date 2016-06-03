@@ -14,7 +14,7 @@ export class SettingsService
   
   //-- Behaviour.
   
-  public RefreshChangelistsRateInSecs = 60;
+  public RefreshChangelistsRateInSecs = 120;
   
   //--------------------------------------------------------------------------- 
 }
