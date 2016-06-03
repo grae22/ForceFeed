@@ -1,11 +1,11 @@
-System.register(['angular2/platform/browser', 'angular2/http', './app.component', './settings.service'], function(exports_1, context_1) {
+System.register(['@angular/platform-browser-dynamic', '@angular/http', './app.component', './settings.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var browser_1, http_1, app_component_1, settings_service_1;
+    var platform_browser_dynamic_1, http_1, app_component_1, settings_service_1;
     return {
         setters:[
-            function (browser_1_1) {
-                browser_1 = browser_1_1;
+            function (platform_browser_dynamic_1_1) {
+                platform_browser_dynamic_1 = platform_browser_dynamic_1_1;
             },
             function (http_1_1) {
                 http_1 = http_1_1;
@@ -17,7 +17,7 @@ System.register(['angular2/platform/browser', 'angular2/http', './app.component'
                 settings_service_1 = settings_service_1_1;
             }],
         execute: function() {
-            browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS, settings_service_1.SettingsService]);
+            platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS, settings_service_1.SettingsService]);
         }
     }
 });

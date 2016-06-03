@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {Http, ConnectionBackend} from 'angular2/http';
+import {Component} from '@angular/core';
+import {Http, ConnectionBackend} from '@angular/http';
 import {ChangelistService} from './changelist.service';
 import {ChangelistComponent} from './changelist.component';
 import {SubmitterFilterComponent} from './submitterFilter.component';
