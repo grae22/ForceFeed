@@ -39,9 +39,18 @@ export class SubmitterFilterComponent
   
   private setSubmitters( submitters: string )
   {
+    this._submitters = submitters;
+    
     Cookie.set( 'submitters', submitters );
     
     this.FilterChanged.emit( { submitters: submitters } );
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  public getSubmitters() : string
+  {
+    return this._submitters;
   }
   
   //---------------------------------------------------------------------------

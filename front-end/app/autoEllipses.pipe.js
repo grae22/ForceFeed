@@ -22,9 +22,9 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                 function AutoEllipsesPipe() {
                 }
                 //---------------------------------------------------------------------------
-                AutoEllipsesPipe.prototype.transform = function (text, args) {
-                    var maxLength = args[0];
-                    var useAsPrefix = args[1];
+                AutoEllipsesPipe.prototype.transform = function (text, maxLength, useAsPrefix) {
+                    // let maxLength: number = args[ 0 ];
+                    // let useAsPrefix: boolean = args[ 1 ];
                     if (maxLength == -1 ||
                         text.length < maxLength) {
                         return text;

@@ -10,10 +10,11 @@ export class AutoEllipsesPipe implements PipeTransform
   
   transform(
     text: string,
-    args: any[] )
+    maxLength: number,
+    useAsPrefix: boolean )
   {
-    let maxLength: number = args[ 0 ];
-    let useAsPrefix: boolean = args[ 1 ];
+    // let maxLength: number = args[ 0 ];
+    // let useAsPrefix: boolean = args[ 1 ];
     
     if( maxLength == -1 ||
         text.length < maxLength )

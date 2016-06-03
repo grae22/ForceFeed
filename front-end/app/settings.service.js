@@ -21,10 +21,13 @@ System.register(['@angular/core'], function(exports_1, context_1) {
             SettingsService = (function () {
                 function SettingsService() {
                     //---------------------------------------------------------------------------
+                    //-- Names & addresses.
                     this.WebServerName = 'graeme';
                     //public WebServerName: string = 'graemepc';
                     this.WebServerPort = '3010';
                     this.ChangelistsHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/changelists';
+                    //-- Behaviour.
+                    this.RefreshChangelistsRateInSecs = 60;
                 }
                 SettingsService = __decorate([
                     core_1.Injectable(), 
