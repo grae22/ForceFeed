@@ -35,11 +35,13 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe'], func
                 }
                 //---------------------------------------------------------------------------
                 FileVersionViewerComponent.prototype.onClick = function () {
+                    var _this = this;
                     this._isContentVisible = !this._isContentVisible;
                     // Content is now visible? Load it if it hasn't already been.
                     if (this._isContentVisible &&
                         this._content == null) {
-                        this._content = this._fileService.getFileContent(this.Filename);
+                        this._fileService.getFileContent(this.Filename);
+                        this._fileService.Content$.subscribe(function (content) { return _this._content = content; });
                     }
                 };
                 __decorate([

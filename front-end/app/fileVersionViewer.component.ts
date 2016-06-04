@@ -45,7 +45,10 @@ export class FileVersionViewerComponent
     if( this._isContentVisible &&
         this._content == null )
     {
-      this._content = this._fileService.getFileContent( this.Filename );      
+      this._fileService.getFileContent( this.Filename );      
+      
+      this._fileService.Content$.subscribe(
+        content => this._content = content );
     }
   }
   

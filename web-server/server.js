@@ -2,22 +2,26 @@
 // NOTE: Install the httpdispatcher with 'npm install httpdispatcher'.
 //-----------------------------------------------------------------------------
 
-// Requires: npm install httpdispatcher
+// Requires: npm install httpdispatcher.
 var dispatcher = require( 'httpdispatcher' );
 
-// Lets require/import the HTTP module
+// Lets require/import the HTTP module.
 var http = require( 'http' );
 
-// Lets define a port we want to listen to
-const PORT = 3010;
+// This server's name.
+var serverName = 'graemepc';
+//var serverName = 'graeme';
 
-// Mongo
+// Lets define a port we want to listen to.
+const port = 3010;
+
+// Mongo.
 var MongoClient = require( 'mongodb' ).MongoClient, assert = require( 'assert' );
 var mongoUrl = 'mongodb://localhost:27017/ForceFeed';
 
 //----------------------------------------------------------------------------- 
 
-// We need a function which handles requests and send response
+// We need a function which handles requests and send response.
 
 function handleRequest( request, response )
 {
@@ -29,7 +33,7 @@ function handleRequest( request, response )
     //Disptach
     dispatcher.dispatch( request, response );
   }
-  catch(err)
+  catch( err )
   {
     console.log( err );
   }
@@ -38,8 +42,7 @@ function handleRequest( request, response )
 //-----------------------------------------------------------------------------
 
 // Create a server
-var server = http.createServer( handleRequest ).listen( PORT, "graemepc" );
-//var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
+var server = http.createServer( handleRequest ).listen( port, serverName );
 
 //-----------------------------------------------------------------------------
 
@@ -48,7 +51,7 @@ dispatcher.setStatic( 'resources' );
 
 //-----------------------------------------------------------------------------
 
-// GET requests
+// Changelist GET requests.
 
 dispatcher.onGet( "/changelists", function( req, res )
 {
@@ -56,7 +59,7 @@ dispatcher.onGet( "/changelists", function( req, res )
   
   // Extract the submitters - if blank we select from all.
   var submitters = req.params[ 'submitters' ];
-  console.log( 'Submitters: ' + submitters );
+
   if( submitters == '\'\'' )
   {
     submitters = [ /.*/ ];
@@ -107,6 +110,24 @@ dispatcher.onGet( "/changelists", function( req, res )
   );
 });
 
+//-----------------------------------------------------------------------------
+
+// File GET requests.
+
+dispatcher.onGet( "/file", function( req, res )
+{
+  console.log( 'File *get* request received.' );
+  
+  res.writeHead(
+    200,
+    {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Access-Control-Allow-Origin': '*'
+    });
+    
+  res.end( 'Test content...' );
+});
+  
 //-----------------------------------------------------------------------------
 
 // POST requests

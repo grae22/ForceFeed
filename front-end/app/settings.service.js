@@ -26,6 +26,7 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                     this.WebServerName = 'graemepc';
                     this.WebServerPort = '3010';
                     this.ChangelistsHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/changelists';
+                    this.FileHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/file';
                     //-- Behaviour.
                     this.RefreshChangelistsRateInSecs = 120;
                 }
