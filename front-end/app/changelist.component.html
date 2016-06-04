@@ -16,9 +16,10 @@
     </div>
   </div>
   <div class="row">
-    <div *ngFor='let file of data.files'>
-      <div *ngIf='_isExpanded'>
-        <div class="col-lg-12"><code>{{ file.filename | autoEllipses: 150 : true }}</code></div>
+    <div *ngFor="let file of data.files">
+      <div *ngIf="_isExpanded">
+        <!--<div class="col-lg-12"><code>{{ file.filename | autoEllipses: 150 : true }}</code></div>-->
+        <div class="col-lg-12"><fileVersionViewer [Filename]="file.filename"></fileVersionViewer></div>
       </div>
     </div>
   </div>

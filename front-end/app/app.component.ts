@@ -6,18 +6,19 @@ import {SubmitterFilterComponent} from './submitterFilter.component';
 import {Observable} from 'rxjs/Rx';
 import {SettingsService} from './settings.service';
 
-@Component({
-    selector: 'my-app',
-    template: `
-      <div class='container'>
-        <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
-      </div>
-      <div class='container' *ngFor='let changelist of _changelists'>
-        <changelist [data]='changelist'></changelist>
-      </div>
-    `,
-    directives: [ChangelistComponent, SubmitterFilterComponent],
-    providers: [ChangelistService, ConnectionBackend, SubmitterFilterComponent, SettingsService]
+@Component(
+{
+  selector: 'my-app',
+  template: `
+    <div class='container'>
+      <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
+    </div>
+    <div class='container' *ngFor='let changelist of _changelists'>
+      <changelist [data]='changelist'></changelist>
+    </div>
+  `,
+  directives: [ChangelistComponent, SubmitterFilterComponent],
+  providers: [ChangelistService, ConnectionBackend, SubmitterFilterComponent, SettingsService]
 })
 export class AppComponent
 {

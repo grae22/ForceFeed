@@ -1,4 +1,4 @@
-System.register(['@angular/core', './autoEllipses.pipe'], function(exports_1, context_1) {
+System.register(['@angular/core', './autoEllipses.pipe', './fileVersionViewer.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', './autoEllipses.pipe'], function(exports_1, co
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, autoEllipses_pipe_1;
+    var core_1, autoEllipses_pipe_1, fileVersionViewer_component_1;
     var ChangelistComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', './autoEllipses.pipe'], function(exports_1, co
             },
             function (autoEllipses_pipe_1_1) {
                 autoEllipses_pipe_1 = autoEllipses_pipe_1_1;
+            },
+            function (fileVersionViewer_component_1_1) {
+                fileVersionViewer_component_1 = fileVersionViewer_component_1_1;
             }],
         execute: function() {
             ChangelistComponent = (function () {
@@ -40,6 +43,7 @@ System.register(['@angular/core', './autoEllipses.pipe'], function(exports_1, co
                         templateUrl: './app/changelist.component.html',
                         styleUrls: ['./app/styles.css'],
                         pipes: [autoEllipses_pipe_1.AutoEllipsesPipe],
+                        directives: [fileVersionViewer_component_1.FileVersionViewerComponent]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ChangelistComponent);

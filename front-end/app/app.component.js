@@ -63,7 +63,7 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "\n      <div class='container'>\n        <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>\n      </div>\n      <div class='container' *ngFor='let changelist of _changelists'>\n        <changelist [data]='changelist'></changelist>\n      </div>\n    ",
+                        template: "\n    <div class='container'>\n      <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>\n    </div>\n    <div class='container' *ngFor='let changelist of _changelists'>\n      <changelist [data]='changelist'></changelist>\n    </div>\n  ",
                         directives: [changelist_component_1.ChangelistComponent, submitterFilter_component_1.SubmitterFilterComponent],
                         providers: [changelist_service_1.ChangelistService, http_1.ConnectionBackend, submitterFilter_component_1.SubmitterFilterComponent, settings_service_1.SettingsService]
                     }), 

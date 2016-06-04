@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Http} from '@angular/http';
 import {AutoEllipsesPipe} from './autoEllipses.pipe';
+import {FileVersionViewerComponent} from './fileVersionViewer.component';
 
 @Component(
   {
@@ -8,6 +9,7 @@ import {AutoEllipsesPipe} from './autoEllipses.pipe';
     templateUrl: './app/changelist.component.html',
     styleUrls: ['./app/styles.css'],
     pipes: [AutoEllipsesPipe],
+    directives: [FileVersionViewerComponent]
   })
   export class ChangelistComponent
   {
