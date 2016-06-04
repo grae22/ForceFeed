@@ -30,16 +30,17 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe'], func
                     this._fileService = _fileService;
                     //---------------------------------------------------------------------------
                     this.Filename = '';
-                    this._content = '';
+                    this._content = null;
                     this._isContentVisible = false;
                 }
                 //---------------------------------------------------------------------------
-                FileVersionViewerComponent.prototype.ngOnInit = function () {
-                    this._content = this._fileService.getFileContent(this.Filename);
-                };
-                //---------------------------------------------------------------------------  
                 FileVersionViewerComponent.prototype.onClick = function () {
                     this._isContentVisible = !this._isContentVisible;
+                    // Content is now visible? Load it if it hasn't already been.
+                    if (this._isContentVisible &&
+                        this._content == null) {
+                        this._content = this._fileService.getFileContent(this.Filename);
+                    }
                 };
                 __decorate([
                     core_1.Input(), 

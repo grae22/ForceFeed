@@ -25,7 +25,7 @@ export class FileVersionViewerComponent
   
   @Input() Filename: string = '';
   
-  private _content: string = '';
+  private _content: string = null;
   private _isContentVisible: boolean = false;
   
   //---------------------------------------------------------------------------
@@ -37,16 +37,16 @@ export class FileVersionViewerComponent
   
   //---------------------------------------------------------------------------
   
-  ngOnInit()
-  {
-    this._content = this._fileService.getFileContent( this.Filename );
-  }
-  
-  //---------------------------------------------------------------------------  
-  
   private onClick()
   {
     this._isContentVisible = !this._isContentVisible;
+    
+    // Content is now visible? Load it if it hasn't already been.
+    if( this._isContentVisible &&
+        this._content == null )
+    {
+      this._content = this._fileService.getFileContent( this.Filename );      
+    }
   }
   
   //---------------------------------------------------------------------------
