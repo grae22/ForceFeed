@@ -9,10 +9,10 @@ import {SettingsService} from './settings.service';
 @Component({
     selector: 'my-app',
     template: `
-      <div>
+      <div class='container'>
         <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
       </div>
-      <div *ngFor='let changelist of _changelists'>
+      <div class='container' *ngFor='let changelist of _changelists'>
         <changelist [data]='changelist'></changelist>
       </div>
     `,
