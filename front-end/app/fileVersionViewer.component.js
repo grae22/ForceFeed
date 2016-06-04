@@ -31,10 +31,15 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe'], func
                     //---------------------------------------------------------------------------
                     this.Filename = '';
                     this._content = '';
+                    this._isContentVisible = false;
                 }
                 //---------------------------------------------------------------------------
                 FileVersionViewerComponent.prototype.ngOnInit = function () {
                     this._content = this._fileService.getFileContent(this.Filename);
+                };
+                //---------------------------------------------------------------------------  
+                FileVersionViewerComponent.prototype.onClick = function () {
+                    this._isContentVisible = !this._isContentVisible;
                 };
                 __decorate([
                     core_1.Input(), 
@@ -43,7 +48,7 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe'], func
                 FileVersionViewerComponent = __decorate([
                     core_1.Component({
                         selector: 'fileVersionViewer',
-                        template: "\n    <div>\n      <code>{{ Filename | autoEllipses: 100 : true }}</code>\n    </div>\n    <div\n      class='container-fluid'\n      style='background-color: #e0e0e0'\n      *ngIf=false>\n      {{ _content }}\n    </div>\n  ",
+                        template: "\n    <div (click)='onClick()'>\n      <code>{{ Filename | autoEllipses: 100 : true }}</code>\n    </div>\n    <div\n      class='container-fluid'\n      style='background-color: #e0e0e0'\n      *ngIf='_isContentVisible'>\n      {{ _content }}\n    </div>\n  ",
                         providers: [file_service_1.FileService],
                         pipes: [autoEllipses_pipe_1.AutoEllipsesPipe]
                     }), 

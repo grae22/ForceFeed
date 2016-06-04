@@ -6,13 +6,13 @@ import {AutoEllipsesPipe} from './autoEllipses.pipe';
 {
   selector: 'fileVersionViewer',
   template: `
-    <div>
+    <div (click)='onClick()'>
       <code>{{ Filename | autoEllipses: 100 : true }}</code>
     </div>
     <div
       class='container-fluid'
       style='background-color: #e0e0e0'
-      *ngIf=false>
+      *ngIf='_isContentVisible'>
       {{ _content }}
     </div>
   `,
@@ -26,6 +26,7 @@ export class FileVersionViewerComponent
   @Input() Filename: string = '';
   
   private _content: string = '';
+  private _isContentVisible: boolean = false;
   
   //---------------------------------------------------------------------------
   
@@ -42,4 +43,11 @@ export class FileVersionViewerComponent
   }
   
   //---------------------------------------------------------------------------  
+  
+  private onClick()
+  {
+    this._isContentVisible = !this._isContentVisible;
+  }
+  
+  //---------------------------------------------------------------------------
 }
