@@ -102,7 +102,7 @@ namespace ForceFeed.DbFeeder.Data
         changelistDoc.Add( "id", changelist.Id );
         changelistDoc.Add( "timestamp", changelist.SubmittedDate.ToString( "yyyy/MM/dd HH:mm" ) );
         changelistDoc.Add( "description", changelist.Description );
-        changelistDoc.Add( "submitter", changelist.Submitter );
+        changelistDoc.Add( "submitter", changelist.Submitter.ToLower() );
 
         // Get the changelist's files from perforce.
         List<string> files;

@@ -21,11 +21,11 @@ namespace ForceFeed.DbFeeder.Data
         Perforce.RunCommand(
           "changes -s submitted -t -l @" + fromDate.ToString( "yyyy/MM/dd:HH:mm:ss" ) + ",@" +
           toDate.ToString( "yyyy/MM/dd:HH:mm:ss" ) );
-
+        Console.WriteLine( output );
       string[] lines =
         output.Split( new string[] { Environment.NewLine }, StringSplitOptions.None );
 
-      for( int lineIndex = 0; lineIndex < lines.Length; lineIndex += 2 )
+      for( int lineIndex = 0; lineIndex < lines.Length; lineIndex++ )
       {
         string line = lines[ lineIndex ];
 
@@ -65,12 +65,22 @@ namespace ForceFeed.DbFeeder.Data
         string username = tmp.Substring( 0, tmp.IndexOf( '@' ) );
 
         // Extract the description.
-        string description = "(No description)";
+        string description = "";
 
         if( lineIndex + 2 < lines.Length )
         {
           lineIndex += 2;
-          description = lines[ lineIndex ];
+
+          while( lineIndex < lines.Length )
+          {
+            if( lines[ lineIndex ].IndexOf( "Change" ) == 0 )
+            {
+              lineIndex--;
+              break;
+            }
+
+            description += lines[ lineIndex++ ];
+          }
         }
 
         // Create the changelist object if we don't already have one.

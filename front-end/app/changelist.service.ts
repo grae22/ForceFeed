@@ -20,7 +20,7 @@ export class ChangelistService
   constructor( @Inject(SettingsService) private _settingsService: SettingsService )
   {
     this.Changlists$ =
-      new Observable( observer =>  this._changelistsObserver = observer ).share();
+      new Observable( observer => this._changelistsObserver = observer ).share();
     
     this.Changlists$.subscribe( data => {} );
   }

@@ -38,8 +38,8 @@ function handleRequest( request, response )
 //-----------------------------------------------------------------------------
 
 // Create a server
-//var server = http.createServer( handleRequest ).listen( PORT, "graemepc" );
-var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
+var server = http.createServer( handleRequest ).listen( PORT, "graemepc" );
+//var server = http.createServer( handleRequest ).listen( PORT, "graeme" );
 
 //-----------------------------------------------------------------------------
 
@@ -64,7 +64,6 @@ dispatcher.onGet( "/changelists", function( req, res )
   else
   {
     submitters = submitters.replace( new RegExp( '\'', 'g' ), '' ).split( ' ' );
-    //submitters = submitters.replace( new RegExp( ' ', 'g' ), '' ).split( ',' );
   }
   
   // Get the changelists from the Mongo DB.

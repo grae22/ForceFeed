@@ -14,6 +14,8 @@ namespace ForceFeed.DbFeeder
     public static Settings Settings { get; private set; }
     public static Log Log { get; private set; }
     public static string Username { get; set; } = "graemeb";
+    public static string PerforceServerName { get; private set; } = "Perforce";
+    public static string PerforcePort { get; private set; } = "1666";
     public static Mongo Database { get; set; } = new Mongo();
 
     //-------------------------------------------------------------------------
@@ -67,6 +69,19 @@ namespace ForceFeed.DbFeeder
       Log.AddEntry(
         Log.EntryType.INFO,
         "P4 path: " + p4Path );
+
+      PerforceServerName =
+        Settings.GetSetting<string>(
+          "Perforce.ServerName", "Perforce", true );
+
+      PerforcePort =
+        Settings.GetSetting<string>(
+          "Perforce.Port", "1666", true );
+
+      Log.AddEntry(
+        Log.EntryType.INFO,
+        "Perforce server: " + PerforceServerName + ':' + PerforcePort + Environment.NewLine,
+        true );
 
       // Main loop.
       updateRateSecs = Settings.GetSetting< int >( "UpdateRateSecs", 60, true );

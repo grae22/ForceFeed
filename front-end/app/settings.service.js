@@ -22,8 +22,8 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                 function SettingsService() {
                     //---------------------------------------------------------------------------
                     //-- Names & addresses.
-                    this.WebServerName = 'graeme';
-                    //public WebServerName: string = 'graemepc';
+                    //public WebServerName: string = 'graeme';
+                    this.WebServerName = 'graemepc';
                     this.WebServerPort = '3010';
                     this.ChangelistsHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/changelists';
                     //-- Behaviour.
