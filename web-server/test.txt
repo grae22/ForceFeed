@@ -1,0 +1,62 @@
+#include "stdafx.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "../GenHaultruck/GenVehicle/Core/KHT_Vehicle.h"
+
+//=============================================================================
+// Dummy Component.
+//=============================================================================
+class KHT_VehicleTest : public ::testing::Test
+{
+public:
+  //---------------------------------------------------------------------------
+
+  KHT_VehicleTest()
+  :
+  m_name( "KHT_VehicleTest" )
+  {
+    m_testObject = NULL;
+  }
+
+  //---------------------------------------------------------------------------
+
+  void Initialise()
+  {
+    m_testObject = new KHT_Vehicle( "KHT_VehicleTest" );
+  }
+
+  //---------------------------------------------------------------------------
+
+  void Shutdown()
+  {
+    delete m_testObject;
+    m_testObject = NULL;
+  }
+
+  //---------------------------------------------------------------------------
+
+  ~KHT_VehicleTest()
+  {
+    delete m_testObject;
+  }
+
+  //---------------------------------------------------------------------------
+
+protected:
+  // Data common to tests
+  std::string m_name;
+  KHT_Vehicle* m_testObject;
+};
+
+//-----------------------------------------------------------------------------
+
+TEST_F( KHT_VehicleTest, IsSimulatedVehicleShouldReturnTrue )
+{
+  Initialise();
+
+  EXPECT_TRUE( m_testObject->IsSimulatedVehicle() );
+
+  Shutdown();
+};
+
+//-----------------------------------------------------------------------------

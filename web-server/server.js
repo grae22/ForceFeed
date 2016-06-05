@@ -16,8 +16,11 @@ var serverName = 'graemepc';
 const port = 3010;
 
 // Mongo.
-var MongoClient = require( 'mongodb' ).MongoClient, assert = require( 'assert' );
+var mongoClient = require( 'mongodb' ).MongoClient, assert = require( 'assert' );
 var mongoUrl = 'mongodb://localhost:27017/ForceFeed';
+
+// For exectuing files.
+var execFile = require( 'child_process' ).execFile;
 
 //----------------------------------------------------------------------------- 
 
@@ -74,7 +77,7 @@ dispatcher.onGet( "/changelists", function( req, res )
 
   var changelists;
   
-  MongoClient.connect(
+  mongoClient.connect(
     mongoUrl,
     function( err, db )
     {
@@ -116,16 +119,27 @@ dispatcher.onGet( "/changelists", function( req, res )
 
 dispatcher.onGet( "/file", function( req, res )
 {
-  console.log( 'File *get* request received.' );
-  
-  res.writeHead(
-    200,
-    {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Access-Control-Allow-Origin': '*'
-    });
-    
-  res.end( 'Test content...' );
+  console.log( 'File *get* request received: ' + req.params[ 'file' ] );
+
+  execFile(
+    'c:/dev/tools/p4/p4.exe',
+    [ 'print', '-q', req.params[ 'file' ] ],
+    { env: { 'P4USER': 'graemeb' } },
+    (error, stdout, stderr) =>
+      {
+        console.error( 'File GET error: ' + error );
+        console.error( 'File GET stderr: ' + stderr );
+        //console.log( 'DATA: ' + stdout );
+
+        res.writeHead(
+          200,
+          {
+            'Content-Type': 'text/plain; charset=utf-8',
+            'Access-Control-Allow-Origin': '*'
+          });
+          
+        res.end( stdout );
+      });
 });
   
 //-----------------------------------------------------------------------------

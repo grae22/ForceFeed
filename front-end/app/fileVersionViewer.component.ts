@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FileService} from './file.service';
 import {AutoEllipsesPipe} from './autoEllipses.pipe';
+import {FileContentToHtmlPipe} from './fileContentToHtml.pipe';
 
 @Component(
 {
@@ -12,12 +13,12 @@ import {AutoEllipsesPipe} from './autoEllipses.pipe';
     <div
       class='container-fluid'
       style='background-color: #e0e0e0'
-      *ngIf='_isContentVisible'>
-      {{ _content }}
+      *ngIf='_isContentVisible'
+      [innerHTML]='_content | fileContentToHtml'>
     </div>
   `,
   providers: [FileService],
-  pipes: [AutoEllipsesPipe]
+  pipes: [AutoEllipsesPipe, FileContentToHtmlPipe]
 })
 export class FileVersionViewerComponent
 {
