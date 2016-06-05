@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', './settings.service'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', './settings.service', 'rxjs/Observable'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,7 +13,7 @@ System.register(['@angular/core', '@angular/http', './settings.service'], functi
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, http_1, settings_service_1;
+    var core_1, http_1, settings_service_1, Observable_1;
     var FileService;
     return {
         setters:[
@@ -25,13 +25,20 @@ System.register(['@angular/core', '@angular/http', './settings.service'], functi
             },
             function (settings_service_1_1) {
                 settings_service_1 = settings_service_1_1;
+            },
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
             }],
         execute: function() {
             FileService = (function () {
                 //-------------------------------------------------------------------------
                 function FileService(_http, _settings) {
+                    var _this = this;
                     this._http = _http;
                     this._settings = _settings;
+                    this.Content =
+                        new Observable_1.Observable(function (observer) { return _this._content = observer; }).share();
+                    this.Content.subscribe(function (data) { });
                 }
                 //---------------------------------------------------------------------------
                 FileService.prototype.getFileContent = function (filename) {
@@ -42,10 +49,10 @@ System.register(['@angular/core', '@angular/http', './settings.service'], functi
                     try {
                         this._http.get(this._settings.FileHttpGetUrl + '?\'' + filename + '\'', headers)
                             .map(function (res) { return res.text(); })
-                            .subscribe(function (data) { return _this._content.next(data); }, function (err) { return console.error('ERR: ' + err); }, function () { return console.log('INF: Get complete.'); });
+                            .subscribe(function (data) { return _this._content.next(data); }, function (err) { return console.error('File GET error(1): ' + err); }, function () { return console.log('File GET complete.'); });
                     }
                     catch (error) {
-                        console.error(error);
+                        console.error('File GET error(2): ' + error);
                     }
                 };
                 FileService = __decorate([

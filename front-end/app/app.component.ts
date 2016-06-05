@@ -60,7 +60,7 @@ export class AppComponent
       this._http,
       this._submitters );
     
-    this._changelistService.Changlists$.subscribe(
+    this._changelistService.Changlists.subscribe(
       changelists => this._changelists = changelists );
   }
   

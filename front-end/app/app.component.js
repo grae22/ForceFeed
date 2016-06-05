@@ -58,7 +58,7 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 AppComponent.prototype.refresh = function () {
                     var _this = this;
                     this._changelistService.getChangelists(this._http, this._submitters);
-                    this._changelistService.Changlists$.subscribe(function (changelists) { return _this._changelists = changelists; });
+                    this._changelistService.Changlists.subscribe(function (changelists) { return _this._changelists = changelists; });
                 };
                 AppComponent = __decorate([
                     core_1.Component({

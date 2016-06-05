@@ -41,7 +41,7 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe'], func
                     if (this._isContentVisible &&
                         this._content == null) {
                         this._fileService.getFileContent(this.Filename);
-                        this._fileService.Content$.subscribe(function (content) { return _this._content = content; });
+                        this._fileService.Content.subscribe(function (content) { return _this._content = content; });
                     }
                 };
                 __decorate([

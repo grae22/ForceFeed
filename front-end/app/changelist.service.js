@@ -36,9 +36,9 @@ System.register(['@angular/http', '@angular/core', 'rxjs/Rx', 'rxjs/Observable',
                 function ChangelistService(_settingsService) {
                     var _this = this;
                     this._settingsService = _settingsService;
-                    this.Changlists$ =
+                    this.Changlists =
                         new Observable_1.Observable(function (observer) { return _this._changelistsObserver = observer; }).share();
-                    this.Changlists$.subscribe(function (data) { });
+                    this.Changlists.subscribe(function (data) { });
                 }
                 //---------------------------------------------------------------------------
                 ChangelistService.prototype.getChangelists = function (http, submittters) {

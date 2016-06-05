@@ -8,7 +8,7 @@ export class FileService
 {
   //---------------------------------------------------------------------------
   
-  public Content$: Observable<string>;
+  public Content: Observable<string>;
 
   private _content: Observer<string>;
     
@@ -18,7 +18,10 @@ export class FileService
     @Inject(Http) private _http: Http,
     @Inject(SettingsService) private _settings: SettingsService )
   {
+    this.Content =
+      new Observable( observer => this._content = observer ).share();
     
+    this.Content.subscribe( data => {} );
   }
   
   //---------------------------------------------------------------------------
@@ -38,12 +41,12 @@ export class FileService
           .map( res => res.text() )
           .subscribe(
             data => this._content.next( data ),
-            err => console.error( 'ERR: ' + err ),
-            () => console.log( 'INF: Get complete.' ) );
+            err => console.error( 'File GET error(1): ' + err ),
+            () => console.log( 'File GET complete.' ) );
     }
     catch( error )
     {
-      console.error( error );
+      console.error( 'File GET error(2): ' + error );
     }
   }
   

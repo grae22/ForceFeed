@@ -11,7 +11,7 @@ export class ChangelistService
 {
   //---------------------------------------------------------------------------
   
-  public Changlists$: Observable<Array<ChangelistComponent>>;
+  public Changlists: Observable<Array<ChangelistComponent>>;
   
   private _changelistsObserver: Observer<ChangelistComponent[]>;
   
@@ -19,10 +19,10 @@ export class ChangelistService
   
   constructor( @Inject(SettingsService) private _settingsService: SettingsService )
   {
-    this.Changlists$ =
+    this.Changlists =
       new Observable( observer => this._changelistsObserver = observer ).share();
     
-    this.Changlists$.subscribe( data => {} );
+    this.Changlists.subscribe( data => {} );
   }
   
   //---------------------------------------------------------------------------
