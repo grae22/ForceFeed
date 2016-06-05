@@ -28,10 +28,10 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                     }
                     content = content.replace(new RegExp('<', 'g'), '&lt;');
                     content = content.replace(new RegExp('>', 'g'), '&gt;');
-                    content = content.replace(new RegExp(' ', 'g'), '&nbsp;');
+                    //content = content.replace( new RegExp( ' ', 'g' ), '&nbsp;' );
                     content = content.replace(new RegExp('\t', 'g'), '[TAB]');
-                    content = content.replace(new RegExp('\n', 'g'), '<br />');
-                    return content;
+                    //content = content.replace( new RegExp( '\n', 'g' ), '<br />' );
+                    return '<pre>' + content + '</pre>';
                 };
                 FileContentToHtmlPipe = __decorate([
                     core_1.Pipe({

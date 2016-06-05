@@ -26,13 +26,15 @@ export class SubmitterFilterComponent
   
   @Output() FilterChanged = new EventEmitter();
   
-  private _submitters: string = "";
+  private _submitters: string = '';
   
   //---------------------------------------------------------------------------
   
   constructor()
   {
-    this._submitters = Cookie.get( 'submitters' );
+    let submitters: string = Cookie.get( 'submitters' );
+     
+    this._submitters = ( submitters == null ? '' : submitters ); 
   }
   
   //---------------------------------------------------------------------------

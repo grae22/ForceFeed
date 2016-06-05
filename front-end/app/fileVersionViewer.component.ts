@@ -12,7 +12,7 @@ import {FileContentToHtmlPipe} from './fileContentToHtml.pipe';
     </div>
     <div
       class='container-fluid'
-      style='background-color: #e0e0e0'
+      style='background-color: "#e0e0e0"'
       *ngIf='_isContentVisible'
       [innerHTML]='_content | fileContentToHtml'>
     </div>

@@ -26,8 +26,9 @@ System.register(['@angular/core', 'ng2-cookies/ng2-cookies'], function(exports_1
                 function SubmitterFilterComponent() {
                     //---------------------------------------------------------------------------
                     this.FilterChanged = new core_1.EventEmitter();
-                    this._submitters = "";
-                    this._submitters = ng2_cookies_1.Cookie.get('submitters');
+                    this._submitters = '';
+                    var submitters = ng2_cookies_1.Cookie.get('submitters');
+                    this._submitters = (submitters == null ? '' : submitters);
                 }
                 //---------------------------------------------------------------------------
                 SubmitterFilterComponent.prototype.setSubmitters = function (submitters) {
