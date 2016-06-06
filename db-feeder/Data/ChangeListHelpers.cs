@@ -21,7 +21,7 @@ namespace ForceFeed.DbFeeder.Data
         Perforce.RunCommand(
           "changes -s submitted -t -l @" + fromDate.ToString( "yyyy/MM/dd:HH:mm:ss" ) + ",@" +
           toDate.ToString( "yyyy/MM/dd:HH:mm:ss" ) );
-        Console.WriteLine( output );
+
       string[] lines =
         output.Split( new string[] { Environment.NewLine }, StringSplitOptions.None );
 

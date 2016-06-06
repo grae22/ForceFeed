@@ -123,6 +123,7 @@ dispatcher.onGet( "/file", function( req, res )
 
   execFile(
     'c:/dev/tools/p4/p4.exe',
+    'p4.exe',
     [ 'print', '-q', req.params[ 'file' ] ],
     { env: { 'P4USER': 'graemeb' } },
     (error, stdout, stderr) =>

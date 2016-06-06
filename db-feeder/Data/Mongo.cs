@@ -97,6 +97,8 @@ namespace ForceFeed.DbFeeder.Data
 
       foreach( Changelist changelist in changelistCollection )
       {
+        Console.WriteLine( changelist.Id );
+
         // Build a new changelist bson doc.
         BsonDocument changelistDoc = new BsonDocument();
         changelistDoc.Add( "id", changelist.Id );
@@ -115,12 +117,22 @@ namespace ForceFeed.DbFeeder.Data
         BsonArray filesDoc = new BsonArray();
         changelistDoc.Add( "files", filesDoc );
 
-        foreach( string file in files )
+        if( files.Count < 50 )
         {
-          BsonDocument fileDoc = new BsonDocument();
-          fileDoc.Add( "filename", file );
-          filesDoc.Add( fileDoc ); 
-        } 
+          foreach( string file in files )
+          {
+            BsonDocument fileDoc = new BsonDocument();
+            fileDoc.Add( "filename", file );
+            filesDoc.Add( fileDoc ); 
+          }
+        }
+        else
+        {
+          Program.Log.AddEntry(
+            Utils.Log.EntryType.WARNING,
+            "Too many files to add in changelist " + changelist.Id + '.',
+            true );
+        }
 
         // Add the new doc to the db collection.
         var result =
