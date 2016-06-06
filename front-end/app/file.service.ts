@@ -36,7 +36,7 @@ export class FileService
     try
     {
       this._http.get(
-        this._settings.FileHttpGetUrl + '?file=' + filename,
+        this._settings.FileHttpGetUrl + '?file=' + filename + ',1,2',
         headers )
           .map( res => res.text() )
           .subscribe(

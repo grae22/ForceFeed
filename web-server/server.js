@@ -119,12 +119,21 @@ dispatcher.onGet( "/changelists", function( req, res )
 
 dispatcher.onGet( "/file", function( req, res )
 {
-  console.log( 'File *get* request received: ' + req.params[ 'file' ] );
+  var params = req.params[ 'file' ].split( ',' );
+  
+  console.log( 'File *get* request received: ' + params[ 0 ] );
+  console.log( 'File rev 1: ' + params[ 1 ] );
+  console.log( 'File rev 2: ' + params[ 2 ] );
 
   execFile(
-    'c:/dev/tools/p4/p4.exe',
     'p4.exe',
-    [ 'print', '-q', req.params[ 'file' ] ],
+    //[ 'print', '-q', req.params[ 'file' ] ],
+    [
+      'diff2',
+      '-dub',
+      params[ 0 ] + '#' + params[ 1 ],
+      params[ 0 ] + '#' + params[ 2 ]
+    ],
     { env: { 'P4USER': 'graemeb' } },
     (error, stdout, stderr) =>
       {
