@@ -11,7 +11,10 @@ import {SettingsService} from './settings.service';
   selector: 'my-app',
   template: `
     <!-- Entire page -->
-    <div class='row'>
+    <div
+      class='row'
+      style='padding: 5px 0px 0px 0px'>
+
       <!-- Left pane -->
       <div class='col-sm-2'>
         <i
@@ -22,34 +25,37 @@ import {SettingsService} from './settings.service';
       </div>
       <!-- Right pane -->
       <div
-        class='container col-sm-8'>
-          <!-- Submitter filter -->
-          <div>
-            <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
-          </div>
-          <!-- Changelists -->
-          <div>
-            <div
-              style='padding: 0px 0px 10px 0px'
-              class='container'>
+        class='container col-sm-8'
+        style='padding: 20px 0px 0px 0px'>
+
+        <!-- Submitter filter -->
+        <div>
+          <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
+        </div>
+        <!-- Changelists -->
+        <div>
+          <div
+            style='padding: 0px 0px 10px 0px'
+            class='container'>
+            <span
+              style='cursor: pointer;'
+              *ngIf='_isAnyChangelistComponentExpanded == true'
+              (click)='refresh()'>
+
+              <i class='glyphicon glyphicon-refresh'></i>
               <span
-                style='cursor: pointer;'
-                *ngIf='_isAnyChangelistComponentExpanded == true'
-                (click)='refresh()'>
-                  <i class='glyphicon glyphicon-refresh'></i>
-                  <span
-                    class='text-center'
-                    style='color: grey;'>
-                      Changelists will not be refreshed while any changelist is expanded.
-                  </span>
+                class='text-center'
+                style='color: grey;'>
+                  Changelists will not be refreshed while any changelist is expanded.
               </span>
-            </div>
-            <div
-              class='container'
-              *ngFor='let changelistData of _changelistDatas'>
-                <changelist [data]='changelistData'></changelist>
-            </div>
+            </span>
           </div>
+          <div
+            class='container'
+            *ngFor='let changelistData of _changelistDatas'>
+              <changelist [data]='changelistData'></changelist>
+          </div>
+        </div>
       </div>
     </div>
   `,

@@ -47,7 +47,7 @@ System.register(['@angular/core', 'ng2-cookies/ng2-cookies'], function(exports_1
                 SubmitterFilterComponent = __decorate([
                     core_1.Component({
                         selector: 'submitterFilter',
-                        template: "\n    <form class='form-horizontal'>\n      <div class='form-group form-group-sm'>\n        <label class='col-sm-1 control-label' for='submitters'>Submitters:</label>\n        <div class='col-sm-11'>\n          <input\n            #box\n            name='submitters'\n            class='form-control'\n            type='text'\n            (keyup.enter)='setSubmitters( box.value )'\n            value='{{ _submitters }}' />\n        </div>\n      </div>\n    </form>"
+                        template: "\n    <form class='form-horizontal'>\n      <div class='form-group form-group-sm'>\n        <label class='col-sm-1 control-label' for='submitters'><b>Submitters:</b></label>\n        <div class='col-sm-10'>\n          <input\n            #box\n            name='submitters'\n            class='form-control'\n            type='text'\n            (keyup.enter)='setSubmitters( box.value )'\n            value='{{ _submitters }}' />\n        </div>\n      </div>\n    </form>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], SubmitterFilterComponent);

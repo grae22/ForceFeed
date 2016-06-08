@@ -7,8 +7,8 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
   template: `
     <form class='form-horizontal'>
       <div class='form-group form-group-sm'>
-        <label class='col-sm-1 control-label' for='submitters'>Submitters:</label>
-        <div class='col-sm-11'>
+        <label class='col-sm-1 control-label' for='submitters'><b>Submitters:</b></label>
+        <div class='col-sm-10'>
           <input
             #box
             name='submitters'
