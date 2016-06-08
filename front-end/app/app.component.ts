@@ -10,25 +10,47 @@ import {SettingsService} from './settings.service';
 {
   selector: 'my-app',
   template: `
-    <div class='container'>
-      <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
-    </div>
-    <div
-      class='container'
-      *ngIf='_isAnyChangelistComponentExpanded == true'>
+    <!-- Entire page -->
+    <div class='row'>
+      <!-- Left pane -->
+      <div class='col-sm-2'>
         <i
-          class='glyphicon glyphicon-refresh'
-          style='padding: 0px 0px 10px 0px; cursor: pointer;'
-          (click)='refresh()'>
-            <span style='color: grey'>
-              Changelists will not be refreshed while any changelist is expanded.
-            </span>
+          class='glyphicon glyphicon-grain'
+          style='font-size: 40px;'>
         </i>
-    </div>
-    <div
-      class='container'
-      *ngFor='let changelistData of _changelistDatas'>
-        <changelist [data]='changelistData'></changelist>
+        <b style='font-size: 16px'>ForceFeed</b>
+      </div>
+      <!-- Right pane -->
+      <div
+        class='container col-sm-8'>
+          <!-- Submitter filter -->
+          <div>
+            <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
+          </div>
+          <!-- Changelists -->
+          <div>
+            <div
+              style='padding: 0px 0px 10px 0px'
+              class='container'>
+              <span
+                style='cursor: pointer;'
+                *ngIf='_isAnyChangelistComponentExpanded == true'
+                (click)='refresh()'>
+                  <i class='glyphicon glyphicon-refresh'></i>
+                  <span
+                    class='text-center'
+                    style='color: grey;'>
+                      Changelists will not be refreshed while any changelist is expanded.
+                  </span>
+              </span>
+            </div>
+            <div
+              class='container'
+              *ngFor='let changelistData of _changelistDatas'>
+                <changelist [data]='changelistData'></changelist>
+            </div>
+          </div>
+      </div>
     </div>
   `,
   directives: [ChangelistComponent, SubmitterFilterComponent],
