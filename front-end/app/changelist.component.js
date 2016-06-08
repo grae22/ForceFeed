@@ -25,7 +25,6 @@ System.register(['@angular/core', './autoEllipses.pipe', './fileVersionViewer.co
             }],
         execute: function() {
             ChangelistComponent = (function () {
-                //-------------------------------------------------------------------------
                 function ChangelistComponent() {
                     this._isExpanded = false;
                 }

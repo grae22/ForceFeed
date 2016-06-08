@@ -11,18 +11,18 @@ export class ChangelistService
 {
   //---------------------------------------------------------------------------
   
-  public Changlists: Observable<Array<ChangelistComponent>>;
+  public ChanglistDatas: Observable<Array<string>>;
   
-  private _changelistsObserver: Observer<ChangelistComponent[]>;
+  private _changelistDatasObserver: Observer<string[]>;
   
   //---------------------------------------------------------------------------
   
   constructor( @Inject(SettingsService) private _settingsService: SettingsService )
   {
-    this.Changlists =
-      new Observable( observer => this._changelistsObserver = observer ).share();
+    this.ChanglistDatas =
+      new Observable( observer => this._changelistDatasObserver = observer ).share();
     
-    this.Changlists.subscribe( data => {} );
+    this.ChanglistDatas.subscribe( data => {} );
   }
   
   //---------------------------------------------------------------------------
@@ -43,7 +43,7 @@ export class ChangelistService
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(
-            data => this._changelistsObserver.next( data ),
+            data => this._changelistDatasObserver.next( data ),
             err => console.error( 'ERR: ' + err ),
             () => console.log( 'INF: Get complete.' ) );
     }

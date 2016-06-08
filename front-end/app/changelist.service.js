@@ -36,9 +36,9 @@ System.register(['@angular/http', '@angular/core', 'rxjs/Rx', 'rxjs/Observable',
                 function ChangelistService(_settingsService) {
                     var _this = this;
                     this._settingsService = _settingsService;
-                    this.Changlists =
-                        new Observable_1.Observable(function (observer) { return _this._changelistsObserver = observer; }).share();
-                    this.Changlists.subscribe(function (data) { });
+                    this.ChanglistDatas =
+                        new Observable_1.Observable(function (observer) { return _this._changelistDatasObserver = observer; }).share();
+                    this.ChanglistDatas.subscribe(function (data) { });
                 }
                 //---------------------------------------------------------------------------
                 ChangelistService.prototype.getChangelists = function (http, submittters) {
@@ -49,7 +49,7 @@ System.register(['@angular/http', '@angular/core', 'rxjs/Rx', 'rxjs/Observable',
                     try {
                         http.get(this._settingsService.ChangelistsHttpGetUrl + '?submitters=\'' + submittters + '\'', headers)
                             .map(function (res) { return JSON.parse(res.text()); })
-                            .subscribe(function (data) { return _this._changelistsObserver.next(data); }, function (err) { return console.error('ERR: ' + err); }, function () { return console.log('INF: Get complete.'); });
+                            .subscribe(function (data) { return _this._changelistDatasObserver.next(data); }, function (err) { return console.error('ERR: ' + err); }, function () { return console.log('INF: Get complete.'); });
                     }
                     catch (error) {
                         console.error(error);

@@ -21,13 +21,6 @@ import {FileVersionViewerComponent} from './fileVersionViewer.component';
     
     //-------------------------------------------------------------------------
     
-    constructor()
-    {
-
-    }
-    
-    //-------------------------------------------------------------------------
-    
     private onClick()
     {
       this._isExpanded = !this._isExpanded;
