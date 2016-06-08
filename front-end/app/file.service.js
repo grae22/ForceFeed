@@ -48,12 +48,12 @@ System.register(['@angular/core', '@angular/http', './settings.service', 'rxjs/O
                     var revisionIndex = filename.indexOf('#');
                     var filenameWithoutRevision = filename.substr(0, revisionIndex);
                     var revision = parseInt(filename.substr(revisionIndex + 1, filename.length - revisionIndex - 1));
-                    var prevRevision = (revision > 0 ? revision - 1 : 0);
+                    var prevRevision = (revision > 1 ? revision - 1 : 1);
                     // Set up and perform the request.
                     var headers = new http_1.Headers({ 'Content-Type': 'text/plain; charset=utf-8' });
                     var options = new http_1.RequestOptions({ headers: headers });
                     try {
-                        this._http.get(this._settings.FileHttpGetUrl + '?file=' + filenameWithoutRevision + ',' + revision + ',' + prevRevision, headers)
+                        this._http.get(this._settings.FileHttpGetUrl + '?file=' + filenameWithoutRevision + ',' + prevRevision + ',' + revision, headers)
                             .map(function (res) { return res.text(); })
                             .subscribe(function (data) { return _this._content.next(data); }, function (err) { return console.error('File GET error(1): ' + err); }, function () { return console.log('File GET complete.'); });
                     }

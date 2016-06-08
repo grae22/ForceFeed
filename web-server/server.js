@@ -120,20 +120,39 @@ dispatcher.onGet( "/changelists", function( req, res )
 dispatcher.onGet( "/file", function( req, res )
 {
   var params = req.params[ 'file' ].split( ',' );
+  var filename = params[ 0 ];
+  var rev1 = params[ 1 ];
+  var rev2 = params[ 2 ];
   
-  console.log( 'File *get* request received: ' + params[ 0 ] );
-  console.log( 'File rev 1: ' + params[ 1 ] );
-  console.log( 'File rev 2: ' + params[ 2 ] );
+  console.log( 'File *get* request received: ' + filename );
+  console.log( 'File rev 1: ' + rev1 );
+  console.log( 'File rev 2: ' + rev2 );
+
+  var args;
+
+  if( rev1 === rev2 )  // Just get the file.
+  {
+    args =
+      [
+        'print',
+        '-q',
+        filename + '#' + rev1
+      ];
+  }
+  else  // Do a diff.
+  {
+    args =
+      [
+        'diff2',
+        '-du[15]',
+        filename + '#' + rev1,
+        filename + '#' + rev2
+      ];
+  }
 
   execFile(
     'p4.exe',
-    //[ 'print', '-q', req.params[ 'file' ] ],
-    [
-      'diff2',
-      '-dub',
-      params[ 0 ] + '#' + params[ 1 ],
-      params[ 0 ] + '#' + params[ 2 ]
-    ],
+    args,
     { env: { 'P4USER': 'graemeb' } },
     (error, stdout, stderr) =>
       {
