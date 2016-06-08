@@ -29,14 +29,21 @@ export class FileService
   public getFileContent( filename: string )
   {
     var responseData;
-    
+
+    // Extract the filename and revision.
+    let revisionIndex: number = filename.indexOf( '#' );
+    let filenameWithoutRevision: string = filename.substr( 0, revisionIndex );
+    let revision: number = parseInt( filename.substr( revisionIndex + 1, filename.length - revisionIndex - 1 ) );
+    let prevRevision: number = ( revision > 0 ? revision - 1 : 0 );
+
+    // Set up and perform the request.
     let headers = new Headers({ 'Content-Type': 'text/plain; charset=utf-8' });
     let options = new RequestOptions({ headers: headers });
 
     try
     {
       this._http.get(
-        this._settings.FileHttpGetUrl + '?file=' + filename + ',1,2',
+        this._settings.FileHttpGetUrl + '?file=' + filenameWithoutRevision + ',' + revision + ',' + prevRevision,
         headers )
           .map( res => res.text() )
           .subscribe(

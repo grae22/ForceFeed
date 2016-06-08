@@ -115,15 +115,30 @@ namespace ForceFeed.DbFeeder.Data
         // Skip the "... " prefixing the path.
         index += 4;
 
-        // Grab the path from between the ellipses and the revision.
+        // Grab the path.
         int revisionIndex = output.IndexOf( '#', index );
 
         if( revisionIndex < 0 )
         {
+          Program.Log.AddEntry(
+            Log.EntryType.ERROR,
+            "Failed to find revision index in file path.",
+            true );
           continue;
         }
 
-        string path = output.Substring( index, revisionIndex - index );
+        int revisionEndIndex = output.IndexOf( ' ', revisionIndex );
+
+        if( revisionIndex < 0 )
+        {
+          Program.Log.AddEntry(
+            Log.EntryType.ERROR,
+            "Failed to find revision END index in file path.",
+            true );
+          continue;
+        }
+
+        string path = output.Substring( index, revisionEndIndex - index );
 
         // Add file path to the ui list.
         files.Add( path );
