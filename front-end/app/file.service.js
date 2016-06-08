@@ -47,7 +47,7 @@ System.register(['@angular/core', '@angular/http', './settings.service', 'rxjs/O
                     var headers = new http_1.Headers({ 'Content-Type': 'text/plain; charset=utf-8' });
                     var options = new http_1.RequestOptions({ headers: headers });
                     try {
-                        this._http.get(this._settings.FileHttpGetUrl + '?file=' + filename, headers)
+                        this._http.get(this._settings.FileHttpGetUrl + '?file=' + filename + ',1,2', headers)
                             .map(function (res) { return res.text(); })
                             .subscribe(function (data) { return _this._content.next(data); }, function (err) { return console.error('File GET error(1): ' + err); }, function () { return console.log('File GET complete.'); });
                     }
