@@ -54,7 +54,7 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe', './fi
                 FileVersionViewerComponent = __decorate([
                     core_1.Component({
                         selector: 'fileVersionViewer',
-                        template: "\n    <div (click)='onClick()'>\n      <code>{{ Filename | autoEllipses: 100 : true }}</code>\n    </div>\n    <div\n      class='container-fluid'\n      style='background-color: \"#e0e0e0\"'\n      *ngIf='_isContentVisible'\n      [innerHTML]='_content | fileContentToHtml'>\n    </div>\n  ",
+                        template: "\n    <div\n      (click)='onClick()'\n      style='cursor: pointer;'>\n      \n      <code>{{ Filename | autoEllipses: 100 : true }}</code>\n    </div>\n    <div\n      class='container-fluid'\n      style='background-color: \"#e0e0e0\"'\n      *ngIf='_isContentVisible'\n      [innerHTML]='_content | fileContentToHtml'>\n    </div>\n  ",
                         providers: [file_service_1.FileService],
                         pipes: [autoEllipses_pipe_1.AutoEllipsesPipe, fileContentToHtml_pipe_1.FileContentToHtmlPipe]
                     }), 

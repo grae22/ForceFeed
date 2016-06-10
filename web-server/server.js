@@ -59,7 +59,31 @@ dispatcher.setStatic( 'resources' );
 dispatcher.onGet( "/changelists", function( req, res )
 {
   console.log( 'Changelists *get* request received.' );
-  
+
+  var query = '';
+  query = req.params[ 'submitters' ];
+
+  // Get the pagination start index and max count.
+  var paginationStartIndex = -1;
+  var paginationMaxCount = -1;
+
+  var startIndex = query.indexOf( '?startIndex=' ) + '?startIndex='.length;
+  var maxCountIndex = query.indexOf( '?maxCount=' ) + '?maxCount='.length;
+
+  paginationStartIndex =
+    parseInt(
+      query
+        .substr(
+          startIndex,
+          maxCountIndex - startIndex ) );
+
+  paginationMaxCount =
+    parseInt(
+      query
+        .substr(
+          maxCountIndex,
+          query.length - maxCountIndex ) );
+
   // Extract the submitters - if blank we select from all.
   var submitters = req.params[ 'submitters' ];
 
@@ -84,31 +108,34 @@ dispatcher.onGet( "/changelists", function( req, res )
       assert.equal( null, err );
       console.log( 'Connected to DB.' );
       
-      changelists = db.collection( 'Changelists' )
-      changelists.find( { submitter: { $in: submitters } } ).sort( { 'timestamp': -1 } ).toArray(
-        function( err, docs )
-        {
-          if( err != null )
+      changelists = db.collection( 'Changelists' );
+      changelists.find( { submitter: { $in: submitters } } )
+        .sort( { 'timestamp': -1 } )
+        .skip( paginationStartIndex )
+        .limit( paginationMaxCount ).toArray(
+          function( err, docs )
           {
-            console.log( 'ERR: ' + err );
-          }
-          else
-          {
-            console.log( 'Found ' + docs.length + ' changelist(s).' );
-          }
-
-          res.writeHead(
-            200,
+            if( err != null )
             {
-              'Content-Type': 'application/json; charset=utf-8',
-              'Access-Control-Allow-Origin': '*'
-            });
+              console.log( 'ERR: ' + err );
+            }
+            else
+            {
+              console.log( 'Found ' + docs.length + ' changelist(s).' );
+            }
+
+            res.writeHead(
+              200,
+              {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin': '*'
+              });
+              
+            res.end( JSON.stringify( docs ) );
             
-          res.end( JSON.stringify( docs ) );
-          
-          db.close();
-        }
-      );
+            db.close();
+          }
+        );
     }
   );
 });
@@ -125,8 +152,8 @@ dispatcher.onGet( "/file", function( req, res )
   var rev2 = params[ 2 ];
   
   console.log( 'File *get* request received: ' + filename );
-  console.log( 'File rev 1: ' + rev1 );
-  console.log( 'File rev 2: ' + rev2 );
+  //console.log( 'File rev 1: ' + rev1 );
+  //console.log( 'File rev 2: ' + rev2 );
 
   var args;
 

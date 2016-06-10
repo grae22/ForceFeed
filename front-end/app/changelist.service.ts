@@ -29,7 +29,9 @@ export class ChangelistService
   
   public getChangelists(
     http: Http,
-    submittters: string )
+    submittters: string,
+    startIndex: number,
+    maxCount: number  )
   {
     var responseData;
     
@@ -39,7 +41,9 @@ export class ChangelistService
     try
     {
       http.get(
-        this._settingsService.ChangelistsHttpGetUrl + '?submitters=\'' + submittters + '\'',
+        this._settingsService.ChangelistsHttpGetUrl +
+          '?submitters=\'' + submittters + '\'' +
+          '?startIndex=' + startIndex + '?maxCount=' + maxCount,
         headers )
           .map( res => JSON.parse( res.text() ) )
           .subscribe(

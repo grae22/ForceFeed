@@ -1,0 +1,78 @@
+<div
+  class='row'
+  style='padding: 5px 0px 0px 0px'>
+
+  <!-- Left pane -->
+  <div class='col-sm-2'>
+    <i
+      class='glyphicon glyphicon-grain'
+      style='font-size: 40px; color: white;'>
+    </i>
+    <b style='font-size: 14px'><font size="+1">F</font>orce<font size="+1">F</font>eed</b>
+  </div>
+  <!-- Right pane -->
+  <div
+    class='container col-sm-8'
+    style='padding: 20px 0px 0px 0px'>
+
+    <!-- Submitter filter -->
+    <div>
+      <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
+    </div>
+    <!-- Changelists -->
+    <div>
+      <!-- Warning msg - changelists don't refresh while expanded -->
+      <div
+        style='padding: 0px 0px 10px 0px'
+        class='container'>
+        <span>&nbsp;</span>
+        <span
+          style='cursor: pointer;'
+          *ngIf='_isAnyChangelistComponentExpanded == true'
+          (click)='refresh()'>
+
+          <i class='glyphicon glyphicon-refresh'></i>
+          <span
+            class='text-center'
+            style='color: #606060;'>
+              Changelists will not be refreshed while any changelist is expanded.
+          </span>
+        </span>
+      </div>
+      <!-- Changelists  -->
+      <div
+        class='container'
+        *ngFor='let changelistData of _changelistDatas'>
+          <changelist [data]='changelistData'></changelist>
+      </div>
+      <!-- Changelist pagination -->
+      <div
+        class='container'
+        style='text-align: center; line-height: 40px;'>
+
+        <span
+          style='cursor: pointer;'
+          (click)='paginationOnPreviousClick()'>
+          
+          <i
+            style='font-size: 20px;'
+            class='glyphicon glyphicon-step-backward'>
+          </i>
+        </span>
+        <span
+          style='font-size: 16px; align-text: center;'>
+          {{ _paginationText }}
+        </span>
+        <span
+          style='cursor: pointer;'
+          (click)='paginationOnNextClick()'>
+          
+          <i
+            style='font-size: 20px;'
+            class='glyphicon glyphicon-step-forward'>
+          </i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

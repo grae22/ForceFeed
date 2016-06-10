@@ -44,6 +44,9 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                     this._http = _http;
                     this._submitters = '';
                     this._isAnyChangelistComponentExpanded = false;
+                    this._paginationText = '0';
+                    this._paginationStartIndex = 0;
+                    this._paginationMaxCount = 30;
                     this._submitters = submitterFilter.getSubmitters();
                     this.refresh();
                     // Set up an periodic check if any changelist components are expanded.
@@ -60,8 +63,9 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.refresh = function () {
                     var _this = this;
-                    this._changelistService.getChangelists(this._http, this._submitters);
+                    this._changelistService.getChangelists(this._http, this._submitters, this._paginationStartIndex, this._paginationMaxCount);
                     this._changelistService.ChanglistDatas.subscribe(function (changelists) { return _this._changelistDatas = changelists; });
+                    this.updatePaginationText();
                 };
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.checkForExpandedChangelistComponents = function () {
@@ -81,6 +85,25 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                         this.refresh();
                     }
                 };
+                //---------------------------------------------------------------------------
+                AppComponent.prototype.paginationOnNextClick = function () {
+                    this._paginationStartIndex += this._paginationMaxCount;
+                    this.refresh();
+                };
+                //---------------------------------------------------------------------------
+                AppComponent.prototype.paginationOnPreviousClick = function () {
+                    this._paginationStartIndex -= this._paginationMaxCount;
+                    if (this._paginationStartIndex < 0) {
+                        this._paginationStartIndex = 0;
+                    }
+                    this.refresh();
+                };
+                //---------------------------------------------------------------------------
+                AppComponent.prototype.updatePaginationText = function () {
+                    this._paginationText =
+                        (this._paginationStartIndex + 1) + ' to ' +
+                            (this._paginationStartIndex + this._paginationMaxCount);
+                };
                 __decorate([
                     core_1.ViewChildren(changelist_component_1.ChangelistComponent), 
                     __metadata('design:type', core_1.QueryList)
@@ -88,7 +111,7 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "\n    <!-- Entire page -->\n    <div\n      class='row'\n      style='padding: 5px 0px 0px 0px'>\n\n      <!-- Left pane -->\n      <div class='col-sm-2'>\n        <i\n          class='glyphicon glyphicon-grain'\n          style='font-size: 40px; color: white;'>\n        </i>\n        <b style='font-size: 14px'><font size=\"+1\">F</font>orce<font size=\"+1\">F</font>eed</b>\n      </div>\n      <!-- Right pane -->\n      <div\n        class='container col-sm-8'\n        style='padding: 20px 0px 0px 0px'>\n\n        <!-- Submitter filter -->\n        <div>\n          <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>\n        </div>\n        <!-- Changelists -->\n        <div>\n          <div\n            style='padding: 0px 0px 10px 0px'\n            class='container'>\n            <span>&nbsp;</span>\n            <span\n              style='cursor: pointer;'\n              *ngIf='_isAnyChangelistComponentExpanded == true'\n              (click)='refresh()'>\n\n              <i class='glyphicon glyphicon-refresh'></i>\n              <span\n                class='text-center'\n                style='color: #606060;'>\n                  Changelists will not be refreshed while any changelist is expanded.\n              </span>\n            </span>\n          </div>\n          <div\n            class='container'\n            *ngFor='let changelistData of _changelistDatas'>\n              <changelist [data]='changelistData'></changelist>\n          </div>\n        </div>\n      </div>\n    </div>\n  ",
+                        templateUrl: './app/app.component.html',
                         directives: [changelist_component_1.ChangelistComponent, submitterFilter_component_1.SubmitterFilterComponent],
                         providers: [changelist_service_1.ChangelistService, http_1.ConnectionBackend, submitterFilter_component_1.SubmitterFilterComponent, settings_service_1.SettingsService]
                     }), 

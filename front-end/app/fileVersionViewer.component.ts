@@ -7,7 +7,10 @@ import {FileContentToHtmlPipe} from './fileContentToHtml.pipe';
 {
   selector: 'fileVersionViewer',
   template: `
-    <div (click)='onClick()'>
+    <div
+      (click)='onClick()'
+      style='cursor: pointer;'>
+      
       <code>{{ Filename | autoEllipses: 100 : true }}</code>
     </div>
     <div
