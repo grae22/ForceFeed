@@ -19,9 +19,9 @@ import {SettingsService} from './settings.service';
       <div class='col-sm-2'>
         <i
           class='glyphicon glyphicon-grain'
-          style='font-size: 40px;'>
+          style='font-size: 40px; color: white;'>
         </i>
-        <b style='font-size: 16px'>ForceFeed</b>
+        <b style='font-size: 14px'><font size="+1">F</font>orce<font size="+1">F</font>eed</b>
       </div>
       <!-- Right pane -->
       <div
@@ -37,6 +37,7 @@ import {SettingsService} from './settings.service';
           <div
             style='padding: 0px 0px 10px 0px'
             class='container'>
+            <span>&nbsp;</span>
             <span
               style='cursor: pointer;'
               *ngIf='_isAnyChangelistComponentExpanded == true'
@@ -45,7 +46,7 @@ import {SettingsService} from './settings.service';
               <i class='glyphicon glyphicon-refresh'></i>
               <span
                 class='text-center'
-                style='color: grey;'>
+                style='color: #606060;'>
                   Changelists will not be refreshed while any changelist is expanded.
               </span>
             </span>
