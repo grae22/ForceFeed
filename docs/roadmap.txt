@@ -23,4 +23,5 @@ x Front-end
   x Expand changelists to show files. [Status: Done, could look better.]
   x Expand files to show diff content. [Status: WIP.]
     x Allow configuration for linting per file extension.
+    x Linting should be moved to a separate pipe, or done server side.
   x Most styling should be moved to a global css.
