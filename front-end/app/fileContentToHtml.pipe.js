@@ -54,7 +54,8 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                             continue;
                         }
                         // Skip lines that begin with @, p4 inserted stuff.
-                        if (line[0] == '@') {
+                        if (line[0] == '@' ||
+                            line[0] == '\\') {
                             continue;
                         }
                         // Process the line.

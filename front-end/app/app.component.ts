@@ -126,6 +126,14 @@ export class AppComponent
 
   //---------------------------------------------------------------------------
 
+  private paginationOnFirstClick()
+  {
+    this._paginationStartIndex = 0;
+    this.refresh();
+  }
+  
+  //---------------------------------------------------------------------------
+
   private updatePaginationText()
   {
     this._paginationText =

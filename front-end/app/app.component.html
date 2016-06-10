@@ -50,6 +50,17 @@
         class='container'
         style='text-align: center; line-height: 40px;'>
 
+        <!-- First -->
+        <span
+          style='cursor: pointer;'
+          (click)='paginationOnFirstClick()'>
+          
+          <i
+            style='font-size: 20px;'
+            class='glyphicon glyphicon-fast-backward'>
+          </i>
+        </span>
+        <!-- Previous -->
         <span
           style='cursor: pointer;'
           (click)='paginationOnPreviousClick()'>
@@ -59,10 +70,12 @@
             class='glyphicon glyphicon-step-backward'>
           </i>
         </span>
+        <!-- Text ( e.g. 1 to 30 ) -->
         <span
           style='font-size: 16px; align-text: center;'>
           {{ _paginationText }}
         </span>
+        <!-- Next -->
         <span
           style='cursor: pointer;'
           (click)='paginationOnNextClick()'>

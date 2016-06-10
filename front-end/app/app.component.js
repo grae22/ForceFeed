@@ -102,6 +102,11 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                     this.refresh();
                 };
                 //---------------------------------------------------------------------------
+                AppComponent.prototype.paginationOnFirstClick = function () {
+                    this._paginationStartIndex = 0;
+                    this.refresh();
+                };
+                //---------------------------------------------------------------------------
                 AppComponent.prototype.updatePaginationText = function () {
                     this._paginationText =
                         (this._paginationStartIndex + 1) + ' to ' +

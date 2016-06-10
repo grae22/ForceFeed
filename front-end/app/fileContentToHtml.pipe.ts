@@ -53,7 +53,8 @@ export class FileContentToHtmlPipe
       }
 
       // Skip lines that begin with @, p4 inserted stuff.
-      if( line[ 0 ] == '@' )
+      if( line[ 0 ] == '@' ||
+          line[ 0 ] == '\\' )
       {
         continue;
       }
