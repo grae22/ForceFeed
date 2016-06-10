@@ -12,12 +12,15 @@ x Db Feeder
       
 x Web-server
   x Web server to provide front-end with data from the db. [Status: Done.]
-  x Requires extension to serve file content as requested from front-end.
+  x Requires extension to serve file content as requested from front-end. [Status: Done.]
   
 x Front-end
   x List changelists. [Status: Done, could look better.]
-  x Allow sorting by data or user. [Status: None]
-  x Allow filtering by users. [Status: Done.]
+  x Allow sorting by data or user. [Status: None.]
+  x Allow filtering by users. [Status: WIP.]
+    x Would be better with checkboxes or something.
+    x Groups would be nice to make easy to switch between user groups/teams.
   x Expand changelists to show files. [Status: Done, could look better.]
-  x Expand files to show diff content. [Status: WIP]
-    x Front-end still to request file and web-server to serve it.
+  x Expand files to show diff content. [Status: WIP.]
+    x Allow configuration for linting per file extension.
+  x Most styling should be moved to a global css.
