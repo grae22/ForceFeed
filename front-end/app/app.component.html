@@ -47,6 +47,23 @@
           <div class="col-lg-1">Submitter</div>
           <div class="col-lg-6">Description</div>
           <div class="col-lg-2" style="text-align: right;">
+            <!--<div class="dropdown">
+              <button
+                class="btn btn-primary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown">
+                
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" role="menuitem">20</a></li>
+                <li><a href="#" role="menuitem">30</a></li>
+                <li><a href="#" role="menuitem">40</a></li>
+                <li><a href="#" role="menuitem">50</a></li>
+                <li><a href="#" role="menuitem">75</a></li>
+                <li><a href="#" role="menuitem">100</a></li>
+              </ul>
+            </div>-->
             <!-- Changelist pagination -->
             <span
               style='text-align: center;'>
@@ -76,6 +93,20 @@
                 (click)='paginationOnNextClick()'>
                 
                 <i class='glyphicon glyphicon-step-forward'></i>
+              </span>
+              <!-- View less -->
+              <span
+                style='cursor: pointer; font-size: 110%;'
+                (click)='paginationOnLessClick()'>
+                
+                <i class='glyphicon glyphicon-minus-sign'></i>
+              </span>
+              <!-- View more -->
+              <span
+                style='cursor: pointer; font-size: 110%;'
+                (click)='paginationOnMoreClick()'>
+                
+                <i class='glyphicon glyphicon-plus-sign'></i>
               </span>
             </span>
           </div>

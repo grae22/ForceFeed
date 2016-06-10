@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', './changelist.service', './changelist.component', './submitterFilter.component', 'rxjs/Rx', './settings.service'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', './changelist.service', './changelist.component', './submitterFilter.component', 'rxjs/Rx', './settings.service', 'ng2-cookies/ng2-cookies'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, changelist_service_1, changelist_component_1, submitterFilter_component_1, Rx_1, settings_service_1;
+    var core_1, http_1, changelist_service_1, changelist_component_1, submitterFilter_component_1, Rx_1, settings_service_1, ng2_cookies_1;
     var AppComponent;
     return {
         setters:[
@@ -34,6 +34,9 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
             },
             function (settings_service_1_1) {
                 settings_service_1 = settings_service_1_1;
+            },
+            function (ng2_cookies_1_1) {
+                ng2_cookies_1 = ng2_cookies_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -47,6 +50,16 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                     this._paginationText = '0';
                     this._paginationStartIndex = 0;
                     this._paginationMaxCount = 30;
+                    this._paginationCounts = [20, 30, 40, 75, 100];
+                    this._paginationCountIndex = 1;
+                    // Get the pagination count if there's one.
+                    var countIndex = parseInt(ng2_cookies_1.Cookie.get('paginationCountIndex'));
+                    if (countIndex != null &&
+                        countIndex > -1 &&
+                        countIndex < this._paginationCounts.length) {
+                        this._paginationCountIndex = countIndex;
+                    }
+                    // Refresh the changelists.
                     this._submitters = submitterFilter.getSubmitters();
                     this.refresh();
                     // Set up an periodic check if any changelist components are expanded.
@@ -104,6 +117,26 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.paginationOnFirstClick = function () {
                     this._paginationStartIndex = 0;
+                    this.refresh();
+                };
+                //---------------------------------------------------------------------------
+                AppComponent.prototype.paginationOnLessClick = function () {
+                    this._paginationCountIndex--;
+                    if (this._paginationCountIndex < 0) {
+                        this._paginationCountIndex = 0;
+                    }
+                    this._paginationMaxCount = this._paginationCounts[this._paginationCountIndex];
+                    ng2_cookies_1.Cookie.set('paginationCountIndex', this._paginationCountIndex.toString(), 100);
+                    this.refresh();
+                };
+                //---------------------------------------------------------------------------
+                AppComponent.prototype.paginationOnMoreClick = function () {
+                    this._paginationCountIndex++;
+                    if (this._paginationCountIndex > this._paginationCounts.length - 1) {
+                        this._paginationCountIndex = this._paginationCountIndex - 1;
+                    }
+                    this._paginationMaxCount = this._paginationCounts[this._paginationCountIndex];
+                    ng2_cookies_1.Cookie.set('paginationCountIndex', this._paginationCountIndex.toString(), 100);
                     this.refresh();
                 };
                 //---------------------------------------------------------------------------

@@ -5,6 +5,7 @@ import {ChangelistComponent} from './changelist.component';
 import {SubmitterFilterComponent} from './submitterFilter.component';
 import {Observable} from 'rxjs/Rx';
 import {SettingsService} from './settings.service';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
 
 @Component(
 {
@@ -25,6 +26,8 @@ export class AppComponent
   private _paginationText = '0';
   private _paginationStartIndex = 0;
   private _paginationMaxCount = 30;
+  private _paginationCounts = [ 20, 30, 40, 75, 100 ];
+  private _paginationCountIndex = 1;
   
   //---------------------------------------------------------------------------
   
@@ -34,8 +37,18 @@ export class AppComponent
     submitterFilter: SubmitterFilterComponent,
     settings: SettingsService )
   {
-    this._submitters = submitterFilter.getSubmitters();
-   
+    // Get the pagination count if there's one.
+    var countIndex = parseInt( Cookie.get( 'paginationCountIndex' ) );
+
+    if( countIndex != null &&
+        countIndex > -1 &&
+        countIndex < this._paginationCounts.length )
+    {
+      this._paginationCountIndex = countIndex;
+    }
+    
+    // Refresh the changelists.
+    this._submitters = submitterFilter.getSubmitters();   
     this.refresh();
 
     // Set up an periodic check if any changelist components are expanded.
@@ -129,6 +142,48 @@ export class AppComponent
   private paginationOnFirstClick()
   {
     this._paginationStartIndex = 0;
+    this.refresh();
+  }
+  
+  //---------------------------------------------------------------------------
+
+  private paginationOnLessClick()
+  {
+    this._paginationCountIndex--;
+
+    if( this._paginationCountIndex < 0 )
+    {
+      this._paginationCountIndex = 0;
+    }
+    
+    this._paginationMaxCount = this._paginationCounts[ this._paginationCountIndex ];
+
+    Cookie.set(
+      'paginationCountIndex',
+      this._paginationCountIndex.toString(),
+      100 );
+
+    this.refresh();
+  }
+  
+  //---------------------------------------------------------------------------
+
+  private paginationOnMoreClick()
+  {
+    this._paginationCountIndex++;
+
+    if( this._paginationCountIndex > this._paginationCounts.length - 1 )
+    {
+      this._paginationCountIndex = this._paginationCountIndex - 1;
+    }
+    
+    this._paginationMaxCount = this._paginationCounts[ this._paginationCountIndex ];
+
+    Cookie.set(
+      'paginationCountIndex',
+      this._paginationCountIndex.toString(),
+      100 );
+
     this.refresh();
   }
   
