@@ -14,6 +14,7 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
             name='submitters'
             class='form-control'
             type='text'
+            placeholder='BobD JimiH JanisJ KurtC'
             (keyup.enter)='setSubmitters( box.value )'
             value='{{ _submitters }}' />
         </div>

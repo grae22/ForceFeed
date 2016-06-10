@@ -87,6 +87,9 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 };
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.paginationOnNextClick = function () {
+                    if (this._changelistDatas.length < this._paginationMaxCount) {
+                        return;
+                    }
                     this._paginationStartIndex += this._paginationMaxCount;
                     this.refresh();
                 };

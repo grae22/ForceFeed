@@ -67,7 +67,8 @@ dispatcher.onGet( "/changelists", function( req, res )
   var paginationStartIndex = -1;
   var paginationMaxCount = -1;
 
-  var startIndex = query.indexOf( '?startIndex=' ) + '?startIndex='.length;
+  var submittersEndIndex = query.indexOf( '?startIndex=' ); 
+  var startIndex = submittersEndIndex + '?startIndex='.length;
   var maxCountIndex = query.indexOf( '?maxCount=' ) + '?maxCount='.length;
 
   paginationStartIndex =
@@ -85,7 +86,7 @@ dispatcher.onGet( "/changelists", function( req, res )
           query.length - maxCountIndex ) );
 
   // Extract the submitters - if blank we select from all.
-  var submitters = req.params[ 'submitters' ];
+  var submitters = query.substr( 0, submittersEndIndex ).toLowerCase();
 
   if( submitters == '\'\'' )
   {

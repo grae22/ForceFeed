@@ -101,6 +101,11 @@ export class AppComponent
 
   private paginationOnNextClick()
   {
+    if( this._changelistDatas.length < this._paginationMaxCount )
+    {
+      return;
+    }
+
     this._paginationStartIndex += this._paginationMaxCount;
     this.refresh();
   }
