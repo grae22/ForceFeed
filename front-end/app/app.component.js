@@ -54,10 +54,10 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                     this._paginationCountIndex = 1;
                     // Get the pagination count if there's one.
                     var countIndex = parseInt(ng2_cookies_1.Cookie.get('paginationCountIndex'));
-                    if (countIndex != null &&
+                    if (countIndex != NaN &&
                         countIndex > -1 &&
                         countIndex < this._paginationCounts.length) {
-                        this._paginationCountIndex = countIndex;
+                        this.setPaginationMaxCount(countIndex);
                     }
                     // Refresh the changelists.
                     this._submitters = submitterFilter.getSubmitters();
@@ -121,23 +121,21 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 };
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.paginationOnLessClick = function () {
-                    this._paginationCountIndex--;
-                    if (this._paginationCountIndex < 0) {
-                        this._paginationCountIndex = 0;
-                    }
-                    this._paginationMaxCount = this._paginationCounts[this._paginationCountIndex];
-                    ng2_cookies_1.Cookie.set('paginationCountIndex', this._paginationCountIndex.toString(), 100);
+                    this.setPaginationMaxCount(this._paginationCountIndex - 1);
                     this.refresh();
                 };
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.paginationOnMoreClick = function () {
-                    this._paginationCountIndex++;
-                    if (this._paginationCountIndex > this._paginationCounts.length - 1) {
-                        this._paginationCountIndex = this._paginationCountIndex - 1;
-                    }
-                    this._paginationMaxCount = this._paginationCounts[this._paginationCountIndex];
-                    ng2_cookies_1.Cookie.set('paginationCountIndex', this._paginationCountIndex.toString(), 100);
+                    this.setPaginationMaxCount(this._paginationCountIndex + 1);
                     this.refresh();
+                };
+                //---------------------------------------------------------------------------
+                AppComponent.prototype.setPaginationMaxCount = function (index) {
+                    if (index > -1 && index < this._paginationCounts.length) {
+                        this._paginationCountIndex = index;
+                        this._paginationMaxCount = this._paginationCounts[index];
+                        ng2_cookies_1.Cookie.set('paginationCountIndex', this._paginationCountIndex.toString(), 100);
+                    }
                 };
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.updatePaginationText = function () {

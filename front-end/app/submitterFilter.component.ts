@@ -34,7 +34,7 @@ export class SubmitterFilterComponent
   constructor()
   {
     let submitters: string = Cookie.get( 'submitters' );
-     
+    
     this._submitters = ( submitters == null ? '' : submitters ); 
   }
   
@@ -44,7 +44,7 @@ export class SubmitterFilterComponent
   {
     this._submitters = submitters;
     
-    Cookie.set( 'submitters', submitters );
+    Cookie.set( 'submitters', submitters, 100 );
     
     this.FilterChanged.emit( { submitters: submitters } );
   }

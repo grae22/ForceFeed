@@ -40,11 +40,11 @@ export class AppComponent
     // Get the pagination count if there's one.
     var countIndex = parseInt( Cookie.get( 'paginationCountIndex' ) );
 
-    if( countIndex != null &&
+    if( countIndex != NaN &&
         countIndex > -1 &&
         countIndex < this._paginationCounts.length )
     {
-      this._paginationCountIndex = countIndex;
+      this.setPaginationMaxCount( countIndex );
     }
     
     // Refresh the changelists.
@@ -149,19 +149,7 @@ export class AppComponent
 
   private paginationOnLessClick()
   {
-    this._paginationCountIndex--;
-
-    if( this._paginationCountIndex < 0 )
-    {
-      this._paginationCountIndex = 0;
-    }
-    
-    this._paginationMaxCount = this._paginationCounts[ this._paginationCountIndex ];
-
-    Cookie.set(
-      'paginationCountIndex',
-      this._paginationCountIndex.toString(),
-      100 );
+    this.setPaginationMaxCount( this._paginationCountIndex - 1 );
 
     this.refresh();
   }
@@ -170,21 +158,25 @@ export class AppComponent
 
   private paginationOnMoreClick()
   {
-    this._paginationCountIndex++;
-
-    if( this._paginationCountIndex > this._paginationCounts.length - 1 )
-    {
-      this._paginationCountIndex = this._paginationCountIndex - 1;
-    }
-    
-    this._paginationMaxCount = this._paginationCounts[ this._paginationCountIndex ];
-
-    Cookie.set(
-      'paginationCountIndex',
-      this._paginationCountIndex.toString(),
-      100 );
+    this.setPaginationMaxCount( this._paginationCountIndex + 1 );
 
     this.refresh();
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  private setPaginationMaxCount( index: number )
+  {
+    if( index > -1 && index < this._paginationCounts.length )
+    {
+      this._paginationCountIndex = index;
+      this._paginationMaxCount = this._paginationCounts[ index ];
+
+      Cookie.set(
+        'paginationCountIndex',
+        this._paginationCountIndex.toString(),
+        100 );
+    }
   }
   
   //---------------------------------------------------------------------------
