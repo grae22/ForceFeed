@@ -208,6 +208,50 @@ dispatcher.onGet( "/file", function( req, res )
   
 //-----------------------------------------------------------------------------
 
+// Submitter-list GET requests.
+
+dispatcher.onGet( "/get-submitters", function( req, res )
+{
+  // Get the submitters from the Mongo DB.
+  console.log( "Finding submitters..." );
+
+  mongoClient.connect(
+    mongoUrl,
+    function( err, db )
+    {
+      assert.equal( null, err );
+      console.log( 'Connected to DB.' );
+      
+      var changelists = db.collection( 'Changelists' );
+      changelists.distinct( 'submitter',
+          function( err, docs )
+          {
+            if( err != null )
+            {
+              console.log( 'ERR: ' + err );
+            }
+            else
+            {
+              console.log( 'Found ' + docs.length + ' submitter(s).' );
+            }
+
+            res.writeHead(
+              200,
+              {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin': '*'
+              });
+
+            res.end( JSON.stringify( docs ) );
+            db.close();
+          }
+        );
+    }
+  );
+});
+
+//-----------------------------------------------------------------------------
+
 // POST requests
 /*
 dispatcher.onPost( "/doc-generator", function( req, res )

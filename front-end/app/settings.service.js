@@ -24,9 +24,11 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                     //-- Names & addresses.
                     //public WebServerName: string = 'graeme';
                     this.WebServerName = 'graemepc';
+                    //public WebServerName: string = '192.168.1.102';
                     this.WebServerPort = '3010';
                     this.ChangelistsHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/changelists';
                     this.FileHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/file';
+                    this.SubmittersHttpGetUrl = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/get-submitters';
                     //-- Behaviour.
                     this.RefreshChangelistsRateInSecs = 120;
                 }

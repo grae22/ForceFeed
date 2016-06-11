@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', './changelist.service', './changelist.component', './submitterFilter.component', 'rxjs/Rx', './settings.service', 'ng2-cookies/ng2-cookies'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', './changelist.service', './changelist.component', './submitterFilter.component', 'rxjs/Rx', './settings.service', 'ng2-cookies/ng2-cookies', './submitterList.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, changelist_service_1, changelist_component_1, submitterFilter_component_1, Rx_1, settings_service_1, ng2_cookies_1;
+    var core_1, http_1, changelist_service_1, changelist_component_1, submitterFilter_component_1, Rx_1, settings_service_1, ng2_cookies_1, submitterList_component_1;
     var AppComponent;
     return {
         setters:[
@@ -37,6 +37,9 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
             },
             function (ng2_cookies_1_1) {
                 ng2_cookies_1 = ng2_cookies_1_1;
+            },
+            function (submitterList_component_1_1) {
+                submitterList_component_1 = submitterList_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -151,8 +154,13 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                     core_1.Component({
                         selector: 'my-app',
                         templateUrl: './app/app.component.html',
-                        directives: [changelist_component_1.ChangelistComponent, submitterFilter_component_1.SubmitterFilterComponent],
-                        providers: [changelist_service_1.ChangelistService, http_1.ConnectionBackend, submitterFilter_component_1.SubmitterFilterComponent, settings_service_1.SettingsService]
+                        directives: [changelist_component_1.ChangelistComponent, submitterFilter_component_1.SubmitterFilterComponent, submitterList_component_1.SubmitterListComponent],
+                        providers: [
+                            changelist_service_1.ChangelistService,
+                            http_1.ConnectionBackend,
+                            submitterFilter_component_1.SubmitterFilterComponent,
+                            settings_service_1.SettingsService
+                        ]
                     }), 
                     __metadata('design:paramtypes', [changelist_service_1.ChangelistService, http_1.Http, submitterFilter_component_1.SubmitterFilterComponent, settings_service_1.SettingsService])
                 ], AppComponent);

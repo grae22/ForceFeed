@@ -6,13 +6,19 @@ import {SubmitterFilterComponent} from './submitterFilter.component';
 import {Observable} from 'rxjs/Rx';
 import {SettingsService} from './settings.service';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {SubmitterListComponent} from './submitterList.component';
 
 @Component(
 {
   selector: 'my-app',
   templateUrl: './app/app.component.html',
-  directives: [ChangelistComponent, SubmitterFilterComponent],
-  providers: [ChangelistService, ConnectionBackend, SubmitterFilterComponent, SettingsService]
+  directives: [ChangelistComponent, SubmitterFilterComponent, SubmitterListComponent],
+  providers: [
+    ChangelistService,
+    ConnectionBackend,
+    SubmitterFilterComponent,
+    SettingsService
+  ]
 })
 export class AppComponent
 {
