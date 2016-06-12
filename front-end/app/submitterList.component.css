@@ -1,8 +1,4 @@
-.row
+.container
 {
-  color: #202020;
-  background-color: #a0f0ff;
-  border-color: #40c0f0;
-  border-width: 1px;
-  border-style: solid;
+  padding-left: 15px;
 }

@@ -1,8 +1,7 @@
-import {Component, ViewChildren, QueryList} from '@angular/core';
+import {Component, ViewChildren, QueryList, ViewChild} from '@angular/core';
 import {Http, ConnectionBackend} from '@angular/http';
 import {ChangelistService} from './changelist.service';
 import {ChangelistComponent} from './changelist.component';
-import {SubmitterFilterComponent} from './submitterFilter.component';
 import {Observable} from 'rxjs/Rx';
 import {SettingsService} from './settings.service';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
@@ -12,11 +11,10 @@ import {SubmitterListComponent} from './submitterList.component';
 {
   selector: 'my-app',
   templateUrl: './app/app.component.html',
-  directives: [ChangelistComponent, SubmitterFilterComponent, SubmitterListComponent],
+  directives: [ChangelistComponent, SubmitterListComponent],
   providers: [
     ChangelistService,
     ConnectionBackend,
-    SubmitterFilterComponent,
     SettingsService
   ]
 })
@@ -25,9 +23,10 @@ export class AppComponent
   //---------------------------------------------------------------------------
 
   @ViewChildren( ChangelistComponent ) Changelists: QueryList<ChangelistComponent>;
+  @ViewChild( SubmitterListComponent ) SubmitterList: SubmitterListComponent;
   
   private _changelistDatas: string[];
-  private _submitters = '';
+  private _submitters = [];
   private _isAnyChangelistComponentExpanded = false;
   private _paginationText = '0';
   private _paginationStartIndex = 0;
@@ -40,7 +39,6 @@ export class AppComponent
   constructor(
     private _changelistService: ChangelistService,
     private _http: Http,
-    submitterFilter: SubmitterFilterComponent,
     settings: SettingsService )
   {
     // Get the pagination count if there's one.
@@ -54,7 +52,7 @@ export class AppComponent
     }
     
     // Refresh the changelists.
-    this._submitters = submitterFilter.getSubmitters();   
+    //this._submitters = submitterFilter.getSubmitters();   
     this.refresh();
 
     // Set up an periodic check if any changelist components are expanded.
@@ -87,6 +85,15 @@ export class AppComponent
       changelists => this._changelistDatas = changelists );
 
     this.updatePaginationText();
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  private onSubmitterSelectionChanged( event: Event )
+  {
+    this._submitters = event.submitters;
+    console.log('subs: ' + this._submitters);
+    this.refresh();
   }
   
   //---------------------------------------------------------------------------

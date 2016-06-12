@@ -1,26 +1,35 @@
-import {Component} from '@angular/core';
+import {Component, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
 import {SubmitterService} from './submitter.service';
+import {CheckboxComponent} from './checkbox.component';
 
 @Component(
 {
   selector: 'submitterList',
   template: `
-    <div class='container'>
-      Submitters
+    <div class='container'>      
+      <u>Submitters</u>
       <div
-        class='row'
+        class='checkbox'
         *ngFor='let submitter of _submitters'>
         
-        {{ submitter }}
+        <checkbox
+          [Id]='submitter'
+          [Text]='submitter'
+          (Changed)='onChange( $event )'>
+        </checkbox>        
       </div>
     </div>
   `,
-  styles: ['./app/submitterList.component.css'],
+  styleUrls: ['./app/submitterList.component.css'],
+  directives: [CheckboxComponent],
   providers: [SubmitterService]
 })
 export class SubmitterListComponent
 {
   //---------------------------------------------------------------------------
+  
+  @Output() SelectionChanged = new EventEmitter();
+  @ViewChildren( CheckboxComponent ) Checkboxes = new QueryList();
   
   private _submitters: string[];
   
@@ -32,6 +41,35 @@ export class SubmitterListComponent
       submitters => this._submitters = submitters ); 
     
     _submitterService.getSubmitters();
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  private onChange( event: Event )
+  {
+    var submitters = [];
+
+    this.Checkboxes.forEach(
+      box =>
+        {
+          if( box.IsChecked )
+          {
+            submitters.push( box.Id );
+          }
+        });
+
+    this.SelectionChanged.emit( { submitters: submitters } );
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  public getSelected() : string[]
+  {
+    let selected: string[];
+    
+    
+    
+    return selected;
   }
   
   //---------------------------------------------------------------------------

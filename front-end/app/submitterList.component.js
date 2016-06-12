@@ -1,4 +1,4 @@
-System.register(['@angular/core', './submitter.service'], function(exports_1, context_1) {
+System.register(['@angular/core', './submitter.service', './checkbox.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', './submitter.service'], function(exports_1, co
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, submitter_service_1;
+    var core_1, submitter_service_1, checkbox_component_1;
     var SubmitterListComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', './submitter.service'], function(exports_1, co
             },
             function (submitter_service_1_1) {
                 submitter_service_1 = submitter_service_1_1;
+            },
+            function (checkbox_component_1_1) {
+                checkbox_component_1 = checkbox_component_1_1;
             }],
         execute: function() {
             SubmitterListComponent = (function () {
@@ -26,14 +29,41 @@ System.register(['@angular/core', './submitter.service'], function(exports_1, co
                 function SubmitterListComponent(_submitterService) {
                     var _this = this;
                     this._submitterService = _submitterService;
+                    //---------------------------------------------------------------------------
+                    this.SelectionChanged = new core_1.EventEmitter();
+                    this.Checkboxes = new core_1.QueryList();
                     _submitterService.Submitters$.subscribe(function (submitters) { return _this._submitters = submitters; });
                     _submitterService.getSubmitters();
                 }
+                //---------------------------------------------------------------------------
+                SubmitterListComponent.prototype.onChange = function (event) {
+                    var submitters = [];
+                    this.Checkboxes.forEach(function (box) {
+                        if (box.IsChecked) {
+                            submitters.push(box.Id);
+                        }
+                    });
+                    this.SelectionChanged.emit({ submitters: submitters });
+                };
+                //---------------------------------------------------------------------------
+                SubmitterListComponent.prototype.getSelected = function () {
+                    var selected;
+                    return selected;
+                };
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], SubmitterListComponent.prototype, "SelectionChanged", void 0);
+                __decorate([
+                    core_1.ViewChildren(checkbox_component_1.CheckboxComponent), 
+                    __metadata('design:type', Object)
+                ], SubmitterListComponent.prototype, "Checkboxes", void 0);
                 SubmitterListComponent = __decorate([
                     core_1.Component({
                         selector: 'submitterList',
-                        template: "\n    <div class='container'>\n      Submitters\n      <div\n        class='row'\n        *ngFor='let submitter of _submitters'>\n        \n        {{ submitter }}\n      </div>\n    </div>\n  ",
-                        styles: ['./app/submitterList.component.css'],
+                        template: "\n    <div class='container'>      \n      <u>Submitters</u>\n      <div\n        class='checkbox'\n        *ngFor='let submitter of _submitters'>\n        \n        <checkbox\n          [Id]='submitter'\n          [Text]='submitter'\n          (Changed)='onChange( $event )'>\n        </checkbox>        \n      </div>\n    </div>\n  ",
+                        styleUrls: ['./app/submitterList.component.css'],
+                        directives: [checkbox_component_1.CheckboxComponent],
                         providers: [submitter_service_1.SubmitterService]
                     }), 
                     __metadata('design:paramtypes', [submitter_service_1.SubmitterService])

@@ -1,130 +1,111 @@
+<!-- Left pane -->
 <div
-  class='row'
-  style='padding: 5px 0px 0px 0px'>
-
-  <!-- Left pane -->
-  <div class='col-sm-2'>
-    <!-- Logo -->
-    <div style='padding: 0px 0px 10px 5px'>
-      <i
-        class='glyphicon glyphicon-grain'
-        style='font-size: 40px; color: white;'>
-      </i>
-      <b style='font-size: 12px;'><font size="+1">F</font>orce<font size="+1">F</font>eed</b>
-    </div>
-    <!-- Submitters list -->
-    <div>
-      <submitterList></submitterList>
-    </div>
-  </div>
-  <!-- Right pane -->
+  class='col-lg-1'
+  style='background-color: #a0a0a0; padding: 0px 0px 0px 0px;'>
+  
+  <!-- Logo -->
   <div
-    class='container col-sm-8'
-    style='padding: 20px 0px 0px 0px'>
+    class='container'
+    style='padding: 10px 0px 10px 0px'>
+    
+    <i
+      class='glyphicon glyphicon-grain'
+      style='font-size: 40px; color: white;'>
+    </i>
+    <b style='font-size: 12px;'>
+      <font size="+1">F</font>orce<font size="+1">F</font>eed
+    </b>
+  </div>
+  <!-- Submitters list -->
+  <!--<div>-->
+    <submitterList (SelectionChanged)='onSubmitterSelectionChanged( $event )'></submitterList>
+  <!--</div>-->
+</div>
+<!-- Right pane -->
+<div
+  class='container col-lg-offset-0 col-lg-11'
+  style='padding: 20px 0px 0px 0px'>
 
-    <!-- Submitter filter -->
-    <div>
-      <submitterFilter (FilterChanged)='setSubmitters( $event )'></submitterFilter>
-    </div>
-    <!-- Changelists -->
-    <div>
-      <!-- Warning msg - changelists don't refresh while expanded -->
-      <div
-        style='padding: 0px 0px 10px 0px; text-align: right;'
-        class='container'>
-        <span>&nbsp;</span>
-        <span
-          style='cursor: pointer;'
-          *ngIf='_isAnyChangelistComponentExpanded == true'
-          (click)='refresh()'>
+  <!-- Changelists -->
+  <div
+    style='padding: 0px 0px 0px 0px;'
+    class='container'>
 
-          <i class='glyphicon glyphicon-refresh'></i>
+    <!-- Changelists header -->
+    <div
+      class="container"
+      style='padding: 0px 0px 5px 0px;'>
+      
+      <div class="row" style="text-align: left;">
+        <!-- Warning - changelists will not be refreshed... -->
+        <div class="col-lg-10">
           <span
-            class='text-center'
-            style='color: #606060;'>
-              Changelists will not be refreshed while any changelist is expanded.
-          </span>
-        </span>
-      </div>
-      <!-- Changelists header -->
-      <div class="container">
-        <div class="row" style="text-align: left;">
-          <div class="col-lg-1">Id</div>
-          <div class="col-lg-2">Timestamp</div>
-          <div class="col-lg-1">Submitter</div>
-          <div class="col-lg-6">Description</div>
-          <div class="col-lg-2" style="text-align: right;">
-            <!--<div class="dropdown">
-              <button
-                class="btn btn-primary dropdown-toggle"
-                type="button"
-                data-toggle="dropdown">
-                
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#" role="menuitem">20</a></li>
-                <li><a href="#" role="menuitem">30</a></li>
-                <li><a href="#" role="menuitem">40</a></li>
-                <li><a href="#" role="menuitem">50</a></li>
-                <li><a href="#" role="menuitem">75</a></li>
-                <li><a href="#" role="menuitem">100</a></li>
-              </ul>
-            </div>-->
-            <!-- Changelist pagination -->
-            <span
-              style='text-align: center;'>
+            style='cursor: pointer;'
+            (click)='refresh()'>
 
-              <!-- First -->
-              <span
-                style='cursor: pointer; font-size: 110%;'
-                (click)='paginationOnFirstClick()'>
-                
-                <i class='glyphicon glyphicon-fast-backward'></i>
-              </span>
-              <!-- Previous -->
-              <span
-                style='cursor: pointer; font-size: 110%;'
-                (click)='paginationOnPreviousClick()'>
-                
-                <i class='glyphicon glyphicon-step-backward'></i>
-              </span>
-              <!-- Text ( e.g. 1 to 30 ) -->
-              <span
-                style='align-text: center; font-size: 110%;'>
-                {{ _paginationText }}
-              </span>
-              <!-- Next -->
-              <span
-                style='cursor: pointer; font-size: 110%;'
-                (click)='paginationOnNextClick()'>
-                
-                <i class='glyphicon glyphicon-step-forward'></i>
-              </span>
-              <!-- View less -->
-              <span
-                style='cursor: pointer; font-size: 110%;'
-                (click)='paginationOnLessClick()'>
-                
-                <i class='glyphicon glyphicon-minus-sign'></i>
-              </span>
-              <!-- View more -->
-              <span
-                style='cursor: pointer; font-size: 110%;'
-                (click)='paginationOnMoreClick()'>
-                
-                <i class='glyphicon glyphicon-plus-sign'></i>
-              </span>
+            <i class='glyphicon glyphicon-refresh'></i>
+            <span
+              class='text-center'
+              style='color: #606060;'
+              *ngIf='_isAnyChangelistComponentExpanded == true'>
+                Changelists will not be automatically refreshed while any changelist is expanded.
             </span>
-          </div>
+          </span>
+        </div>
+        <!-- Changelist pagination -->
+        <div class="col-lg-2" style="text-align: right;">
+          <span
+            style='text-align: center;'>
+
+            <!-- First -->
+            <span
+              style='cursor: pointer; font-size: 110%;'
+              (click)='paginationOnFirstClick()'>
+              
+              <i class='glyphicon glyphicon-fast-backward'></i>
+            </span>
+            <!-- Previous -->
+            <span
+              style='cursor: pointer; font-size: 110%;'
+              (click)='paginationOnPreviousClick()'>
+              
+              <i class='glyphicon glyphicon-step-backward'></i>
+            </span>
+            <!-- Text ( e.g. 1 to 30 ) -->
+            <span
+              style='align-text: center; font-size: 110%;'>
+              {{ _paginationText }}
+            </span>
+            <!-- Next -->
+            <span
+              style='cursor: pointer; font-size: 110%;'
+              (click)='paginationOnNextClick()'>
+              
+              <i class='glyphicon glyphicon-step-forward'></i>
+            </span>
+            <!-- View less -->
+            <span
+              style='cursor: pointer; font-size: 110%;'
+              (click)='paginationOnLessClick()'>
+              
+              <i class='glyphicon glyphicon-minus-sign'></i>
+            </span>
+            <!-- View more -->
+            <span
+              style='cursor: pointer; font-size: 110%;'
+              (click)='paginationOnMoreClick()'>
+              
+              <i class='glyphicon glyphicon-plus-sign'></i>
+            </span>
+          </span>
         </div>
       </div>
-      <!-- Changelists -->
-      <div
-        class='container'
-        *ngFor='let changelistData of _changelistDatas'>
-          <changelist [data]='changelistData'></changelist>
-      </div>
+    </div>
+    <!-- Changelists -->
+    <div
+      class='container'
+      *ngFor='let changelistData of _changelistDatas'>
+        <changelist [data]='changelistData'></changelist>
     </div>
   </div>
 </div>

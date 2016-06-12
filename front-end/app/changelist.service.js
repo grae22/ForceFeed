@@ -47,8 +47,10 @@ System.register(['@angular/http', '@angular/core', 'rxjs/Rx', 'rxjs/Observable',
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json; charset=utf-8' });
                     var options = new http_1.RequestOptions({ headers: headers });
                     try {
+                        var whitespaceSeparatedSubmitters = '';
+                        submittters.forEach(function (s) { return whitespaceSeparatedSubmitters += s + ' '; });
                         http.get(this._settingsService.ChangelistsHttpGetUrl +
-                            '?submitters=\'' + submittters + '\'' +
+                            '?submitters=\'' + whitespaceSeparatedSubmitters + '\'' +
                             '?startIndex=' + startIndex + '?maxCount=' + maxCount, headers)
                             .map(function (res) { return JSON.parse(res.text()); })
                             .subscribe(function (data) { return _this._changelistDatasObserver.next(data); }, function (err) { return console.error('ERR: ' + err); }, function () { return console.log('INF: Get complete.'); });

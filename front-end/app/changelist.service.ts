@@ -5,7 +5,6 @@ import {Observer} from 'rxjs/Observer';
 import {Observable} from 'rxjs/Observable';
 import {ChangelistComponent} from './changelist.component';
 import {SettingsService} from './settings.service';
-import {SubmitterFilterComponent} from './submitterFilter.component';
 
 export class ChangelistService
 {
@@ -29,7 +28,7 @@ export class ChangelistService
   
   public getChangelists(
     http: Http,
-    submittters: string,
+    submittters: string[],
     startIndex: number,
     maxCount: number  )
   {
@@ -40,9 +39,12 @@ export class ChangelistService
 
     try
     {
+      var whitespaceSeparatedSubmitters = '';
+      submittters.forEach( s => whitespaceSeparatedSubmitters += s + ' ' );
+      
       http.get(
         this._settingsService.ChangelistsHttpGetUrl +
-          '?submitters=\'' + submittters + '\'' +
+          '?submitters=\'' + whitespaceSeparatedSubmitters + '\'' +
           '?startIndex=' + startIndex + '?maxCount=' + maxCount,
         headers )
           .map( res => JSON.parse( res.text() ) )
