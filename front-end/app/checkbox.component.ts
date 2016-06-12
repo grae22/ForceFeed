@@ -9,6 +9,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
         <input
           #submitterCheckbox
           type='checkbox'
+          [checked]=IsChecked
           (change)='onChange( $event )' />
           
           {{ Text }}
@@ -37,6 +38,13 @@ export class CheckboxComponent
       id: this.Id,
       checked: event.target.checked
     });
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  public setChecked( state: boolean )
+  {
+    this.IsChecked = state;
   }
   
   //---------------------------------------------------------------------------

@@ -31,6 +31,10 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                         checked: event.target.checked
                     });
                 };
+                //---------------------------------------------------------------------------
+                CheckboxComponent.prototype.setChecked = function (state) {
+                    this.IsChecked = state;
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String)
@@ -46,7 +50,7 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                 CheckboxComponent = __decorate([
                     core_1.Component({
                         selector: 'checkbox',
-                        template: "\n    <div class='checkbox'>\n      <label> \n        <input\n          #submitterCheckbox\n          type='checkbox'\n          (change)='onChange( $event )' />\n          \n          {{ Text }}\n      </label>\n    </div>\n  "
+                        template: "\n    <div class='checkbox'>\n      <label> \n        <input\n          #submitterCheckbox\n          type='checkbox'\n          [checked]=IsChecked\n          (change)='onChange( $event )' />\n          \n          {{ Text }}\n      </label>\n    </div>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], CheckboxComponent);

@@ -83,7 +83,6 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                 //---------------------------------------------------------------------------
                 AppComponent.prototype.onSubmitterSelectionChanged = function (event) {
                     this._submitters = event.submitters;
-                    console.log('subs: ' + this._submitters);
                     this.refresh();
                 };
                 //---------------------------------------------------------------------------

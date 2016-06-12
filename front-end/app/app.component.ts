@@ -92,7 +92,6 @@ export class AppComponent
   private onSubmitterSelectionChanged( event: Event )
   {
     this._submitters = event.submitters;
-    console.log('subs: ' + this._submitters);
     this.refresh();
   }
   

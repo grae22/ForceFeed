@@ -1,6 +1,7 @@
 import {Component, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
 import {SubmitterService} from './submitter.service';
 import {CheckboxComponent} from './checkbox.component';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
 
 @Component(
 {
@@ -15,7 +16,7 @@ import {CheckboxComponent} from './checkbox.component';
         <checkbox
           [Id]='submitter'
           [Text]='submitter'
-          (Changed)='onChange( $event )'>
+          (Changed)='onChange()'>
         </checkbox>        
       </div>
     </div>
@@ -37,16 +38,65 @@ export class SubmitterListComponent
   
   constructor( private _submitterService: SubmitterService )
   {
+    // We want the submitters so we can populate the checkboxes, the
+    // _submitters array is bound to the template to do this.
     _submitterService.Submitters$.subscribe(
-      submitters => this._submitters = submitters ); 
+      submitters => this._submitters = submitters.sort() ); 
     
+    // Make the call that will result in us receiving submitters from the
+    // service which we subscribe to.
     _submitterService.getSubmitters();
   }
   
   //---------------------------------------------------------------------------
   
-  private onChange( event: Event )
+  ngAfterViewInit()
   {
+    // We want to know when the checkboxes have actually been created so
+    // that we can set their states from the cookie.
+    this.Checkboxes.changes.subscribe( () => this.afterCheckboxesCreated() );
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  // Should be called after the checkboxes have been created so we can set
+  // their values from what was previously stored in the cookie.
+
+  private afterCheckboxesCreated()
+  {
+    var selectedSubmitters = JSON.parse( Cookie.get( 'selectedSubmitters' ) );
+
+    if( selectedSubmitters != null &&
+        this.Checkboxes != null )
+    {
+      // Check each checkbox - if it belongs to a submitter that was
+      // previously check, set it as checked it now.
+      this.Checkboxes.forEach(
+        box =>
+          {
+            // Is the current box for a previsouly selected submitter?
+            selectedSubmitters.forEach(
+              id => 
+                {
+                  if( box.Id == id )
+                  {
+                    box.setChecked( true );
+                  }
+                });
+          });
+          
+      // Raise the event to indicate the selected items have changed.
+      this.onChange();
+    }
+  }
+  
+  //---------------------------------------------------------------------------
+  
+  // Should be called when a checkbox changes state.
+  
+  private onChange()
+  {
+    // Create an array of selected checkboxes.
     var submitters = [];
 
     this.Checkboxes.forEach(
@@ -57,19 +107,15 @@ export class SubmitterListComponent
             submitters.push( box.Id );
           }
         });
+    
+    // Store the selected submitters in the cookie.
+    Cookie.set(
+      'selectedSubmitters',
+      JSON.stringify( submitters ),
+      100 );
 
+    // Raise an event with the currently selected submitters.
     this.SelectionChanged.emit( { submitters: submitters } );
-  }
-  
-  //---------------------------------------------------------------------------
-  
-  public getSelected() : string[]
-  {
-    let selected: string[];
-    
-    
-    
-    return selected;
   }
   
   //---------------------------------------------------------------------------
