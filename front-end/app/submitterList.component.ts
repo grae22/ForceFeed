@@ -8,7 +8,7 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
   selector: 'submitterList',
   template: `
     <div class='container'>      
-      <u>Submitters</u>
+      <h1>Submitters:</h1>
       <div
         class='checkbox'
         *ngFor='let submitter of _submitters'>
