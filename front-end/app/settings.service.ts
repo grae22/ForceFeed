@@ -8,8 +8,8 @@ export class SettingsService
   //-- Names & addresses.
   
   //public WebServerName: string = 'graeme';
-  public WebServerName: string = 'graemepc';
-  //public WebServerName: string = '192.168.1.102';
+  //public WebServerName: string = 'graemepc';
+  public WebServerName: string = '192.168.1.102';
   public WebServerPort: string = '3010';
   public ChangelistsHttpGetUrl: string = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/changelists';
   public FileHttpGetUrl: string = 'http://' + this.WebServerName + ':' + this.WebServerPort + '/file';
