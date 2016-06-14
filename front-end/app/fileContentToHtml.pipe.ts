@@ -27,7 +27,12 @@ export class FileContentToHtmlPipe
     content = content.replace( new RegExp( '\r', 'g' ), '' );
     content = content.replace( new RegExp( '<', 'g' ), '&lt;' );
     content = content.replace( new RegExp( '>', 'g' ), '&gt;' );
+
+    // LINT: Tab chars.
     content = content.replace( new RegExp( '\t', 'g' ), '<b><font color="#00ffff" style="background-color: #ff0000;">~tab~</font></b>' );
+
+    // LINT: Whitespace before semi-colon.
+    content = content.replace( new RegExp( ' ;', 'g' ), '<b><font color="#00ffff" style="background-color: #ff0000;">~</font></b>;' );
 
     // Split up the content into lines.
     var lines = content.split( '\n' );
@@ -56,6 +61,11 @@ export class FileContentToHtmlPipe
       if( line[ 0 ] == '@' ||
           line[ 0 ] == '\\' )
       {
+        // Reset the prev-line blank flag since the @ char usually indicates
+        // that this is a new section of modified code, i.e. what follows is
+        // not contiguous with what preceeded.
+        isPrevLineBlank = false;
+        newContent += '\n...\n\n';
         continue;
       }
 
@@ -73,7 +83,7 @@ export class FileContentToHtmlPipe
         linePostfix += '</span>';
       }
 
-      // Trailing whitespace.
+      // LINT: Trailing whitespace.
       var trailingWhitespaceStartIndex = -1;
       var trailingWhitespaceCount = 0;
 
@@ -104,7 +114,7 @@ export class FileContentToHtmlPipe
         line += '</b></font>';
       }
 
-      // Consecutive blank lines.
+      // LINT: Consecutive blank lines.
       var isLineBlank = ( line.trim().length == 0 );
 
       if( isLineBlank &&

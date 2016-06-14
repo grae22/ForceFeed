@@ -35,7 +35,10 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                     content = content.replace(new RegExp('\r', 'g'), '');
                     content = content.replace(new RegExp('<', 'g'), '&lt;');
                     content = content.replace(new RegExp('>', 'g'), '&gt;');
+                    // LINT: Tab chars.
                     content = content.replace(new RegExp('\t', 'g'), '<b><font color="#00ffff" style="background-color: #ff0000;">~tab~</font></b>');
+                    // LINT: Whitespace before semi-colon.
+                    content = content.replace(new RegExp(' ;', 'g'), '<b><font color="#00ffff" style="background-color: #ff0000;">~</font></b>;');
                     // Split up the content into lines.
                     var lines = content.split('\n');
                     // Exclude the last line - it's always blank.
@@ -56,6 +59,11 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                         // Skip lines that begin with @, p4 inserted stuff.
                         if (line[0] == '@' ||
                             line[0] == '\\') {
+                            // Reset the prev-line blank flag since the @ char usually indicates
+                            // that this is a new section of modified code, i.e. what follows is
+                            // not contiguous with what preceeded.
+                            isPrevLineBlank = false;
+                            newContent += '\n...\n\n';
                             continue;
                         }
                         // Process the line.
@@ -68,7 +76,7 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                             newContent += '<span style="background-color: #a0f0a0;">';
                             linePostfix += '</span>';
                         }
-                        // Trailing whitespace.
+                        // LINT: Trailing whitespace.
                         var trailingWhitespaceStartIndex = -1;
                         var trailingWhitespaceCount = 0;
                         for (var i = line.length - 1; i > -1; i--) {
@@ -89,7 +97,7 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                             }
                             line += '</b></font>';
                         }
-                        // Consecutive blank lines.
+                        // LINT: Consecutive blank lines.
                         var isLineBlank = (line.trim().length == 0);
                         if (isLineBlank &&
                             isPrevLineBlank) {
