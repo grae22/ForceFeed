@@ -5,9 +5,18 @@
     (click)='onClick()'>
     
     <div class="col-lg-1 col-sm-1"><b>{{ data.id }}</b></div>
-    <div class="col-lg-2 col-sm-2">{{ data.timestamp }}</div>
+    <div class="col-lg-2 col-sm-2">
+      <font size="-1">{{ data.timestamp }}</font>
+    </div>
     <div class="col-lg-1 col-sm-1"><b>{{ data.submitter }}</b></div>
-    <div class="col-lg-7 col-sm-7">{{ data.description  | autoEllipses: _isExpanded ? -1 : 80 : false }}</div>
+    <div class="col-lg-6 col-sm-6">{{ data.description  | autoEllipses: _isExpanded ? -1 : 70 : false }}</div>
+    <div class="col-lg-1 col-sm-1">
+      <font size="-2">
+        <span style="color: #00a000;">+{{ data.totalAdditions }}</span>
+        <span style="color: #ff0000;">-{{ data.totalDeletions }}</span>
+        <span style="color: #aa00ff;">~{{ data.totalChanges }}</span>
+      </font>
+    </div>
     <div class="col-lg-1 col-sm-1">
       <i
         class="pull-right glyphicon"

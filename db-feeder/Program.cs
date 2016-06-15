@@ -16,7 +16,7 @@ namespace ForceFeed.DbFeeder
     public static string Username { get; set; } = "graemeb";
     public static string PerforceServerName { get; private set; } = "Perforce";
     public static string PerforcePort { get; private set; } = "1666";
-    public static Mongo Database { get; set; } = new Mongo();
+    public static Mongo Database { get; set; }
 
     //-------------------------------------------------------------------------
 
@@ -82,6 +82,9 @@ namespace ForceFeed.DbFeeder
         Log.EntryType.INFO,
         "Perforce server: " + PerforceServerName + ':' + PerforcePort + Environment.NewLine,
         true );
+
+      // MongoDB.
+      Database = new Mongo();
 
       // Main loop.
       updateRateSecs = Settings.GetSetting< int >( "UpdateRateSecs", 60, true );

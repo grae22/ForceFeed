@@ -12,12 +12,19 @@ namespace ForceFeed.DbFeeder.Data
 
     private IMongoClient Client { get; set; } = new MongoClient();
     private IMongoDatabase Database { get; set; }
+    private int MaxFilesToIncludeFromChangelist { get; set; }
 
     //-------------------------------------------------------------------------
 
     public Mongo()
     {
       Database = Client.GetDatabase( "ForceFeed" );
+
+      MaxFilesToIncludeFromChangelist =
+        Program.Settings.GetSetting<int>(
+          "MaxFilesToIncludeFromChangelist",
+          20,
+          true );
     }
 
     //-------------------------------------------------------------------------
@@ -97,8 +104,6 @@ namespace ForceFeed.DbFeeder.Data
 
       foreach( Changelist changelist in changelistCollection )
       {
-        Console.WriteLine( changelist.Id );
-
         // Build a new changelist bson doc.
         BsonDocument changelistDoc = new BsonDocument();
         changelistDoc.Add( "id", changelist.Id );
@@ -107,31 +112,50 @@ namespace ForceFeed.DbFeeder.Data
         changelistDoc.Add( "submitter", changelist.Submitter.ToLower() );
 
         // Get the changelist's files from perforce.
-        List<string> files;
+        List<ChangelistFile> files;
 
         ChangelistHelpers.GetChangelistFilesFromP4(
           changelist.Id,
           out files );
 
+        // Total up all the changes.
+        int totAdditions = 0;
+        int totDeletions = 0;
+        int totChanges = 0;
+
+        foreach( ChangelistFile file in files )
+        {
+          totAdditions += file.AdditionsCount;
+          totDeletions += file.DeletionsCount;
+          totChanges += file.ChangesCount;
+        }
+
+        changelistDoc.Add( "totalAdditions", totAdditions );
+        changelistDoc.Add( "totalDeletions", totDeletions );
+        changelistDoc.Add( "totalChanges", totChanges );
+
         // Add the files to the doc.
         BsonArray filesDoc = new BsonArray();
         changelistDoc.Add( "files", filesDoc );
 
-        if( files.Count < 50 )
+        int fileCount = 0;
+        foreach( ChangelistFile file in files )
         {
-          foreach( string file in files )
+          BsonDocument fileDoc = new BsonDocument();
+          fileDoc.Add( "filename", file.Filename );
+          fileDoc.Add( "additionsCount", file.AdditionsCount );
+          fileDoc.Add( "deletionsCount", file.DeletionsCount );
+          fileDoc.Add( "changesCount", file.ChangesCount );
+
+          filesDoc.Add( fileDoc ); 
+
+          fileCount++;
+
+          if( fileCount > MaxFilesToIncludeFromChangelist - 1 )
           {
-            BsonDocument fileDoc = new BsonDocument();
-            fileDoc.Add( "filename", file );
-            filesDoc.Add( fileDoc ); 
+            //fileDoc.Add( "More files...", "Changelist truncated." );
+            break;
           }
-        }
-        else
-        {
-          Program.Log.AddEntry(
-            Utils.Log.EntryType.WARNING,
-            "Too many files to add in changelist " + changelist.Id + '.',
-            true );
         }
 
         // Add the new doc to the db collection.

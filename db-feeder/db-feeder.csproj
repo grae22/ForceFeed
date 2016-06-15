@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Changelist.cs" />
+    <Compile Include="Data\ChangelistFile.cs" />
     <Compile Include="Data\ChangeListHelpers.cs" />
     <Compile Include="Data\Mongo.cs" />
     <Compile Include="Program.cs" />

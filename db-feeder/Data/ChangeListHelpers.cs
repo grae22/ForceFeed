@@ -100,48 +100,131 @@ namespace ForceFeed.DbFeeder.Data
 
     public static void GetChangelistFilesFromP4(
       int changelistId,
-      out List<string> files )
+      out List<ChangelistFile> files )
     {
-      files = new List<string>();
+      files = new List<ChangelistFile>();
 
       //-- Get changelist's files from P4.
-      string output = Perforce.RunCommand( "describe -s " + changelistId );
+      string output = Perforce.RunCommand( "describe -ds " + changelistId );
 
       // Exract files from output.
       int index = output.IndexOf( "Affected files ..." );
 
-      while( ( index = output.IndexOf( "... ", index + 1 ) ) > -1 )
+      if( index > -1 )
       {
-        // Skip the "... " prefixing the path.
-        index += 4;
-
-        // Grab the path.
-        int revisionIndex = output.IndexOf( '#', index );
-
-        if( revisionIndex < 0 )
+        while( ( index = output.IndexOf( "... ", index + 1 ) ) > -1 )
         {
-          Program.Log.AddEntry(
-            Log.EntryType.ERROR,
-            "Failed to find revision index in file path.",
-            true );
-          continue;
+          // Skip the "... " prefixing the path.
+          index += 4;
+
+          // Grab the path.
+          int revisionIndex = output.IndexOf( '#', index );
+
+          if( revisionIndex < 0 )
+          {
+            Program.Log.AddEntry(
+              Log.EntryType.ERROR,
+              "Failed to find revision index in file path.",
+              true );
+            continue;
+          }
+
+          int revisionEndIndex = output.IndexOf( ' ', revisionIndex );
+
+          if( revisionIndex < 0 )
+          {
+            Program.Log.AddEntry(
+              Log.EntryType.ERROR,
+              "Failed to find revision END index in file path.",
+              true );
+            continue;
+          }
+
+          string path = output.Substring( index, revisionEndIndex - index );
+
+          // Add file path to the ui list.
+          files.Add( new ChangelistFile( path ) );
         }
+      }
 
-        int revisionEndIndex = output.IndexOf( ' ', revisionIndex );
+      // Go through the differences section and extract the various counts.
+      index = output.IndexOf( "Differences ..." );
 
-        if( revisionIndex < 0 )
+      if( index > -1 )
+      {
+        string filename = "";
+        int endIndex = -1;
+        int addCount = 0;
+        int deletedCount = 0;
+        int changedCount = 0;
+
+        while( ( index = output.IndexOf( "==== ", index ) ) > -1 )
         {
-          Program.Log.AddEntry(
-            Log.EntryType.ERROR,
-            "Failed to find revision END index in file path.",
-            true );
-          continue;
+          // Extract the filename.
+          index += "==== ".Length;
+          endIndex = output.IndexOf( " ", index );
+
+          filename = output.Substring( index, endIndex - index );
+
+          // 'Add' count.
+          index = output.IndexOf( "add ", index );
+
+          if( index < 0 )
+          {
+            break;
+          }
+
+          index += "add ".Length;
+          endIndex = output.IndexOf( "chunks", index );
+
+          if( int.TryParse(
+                output.Substring(
+                  index,
+                  endIndex - index ),
+                out addCount ) == false )
+          {
+            continue;
+          }
+
+          // 'Deleted' count.
+          index = output.IndexOf( "deleted ", index );
+          index += "deleted ".Length;
+          endIndex = output.IndexOf( "chunks", index );
+
+          if( int.TryParse(
+                output.Substring(
+                  index,
+                  endIndex - index ),
+                out deletedCount ) == false )
+          {
+            continue;
+          }
+
+          // 'Changed' count.
+          index = output.IndexOf( "changed ", index );
+          index += "changed ".Length;
+          endIndex = output.IndexOf( "chunks", index );
+
+          if( int.TryParse(
+                output.Substring(
+                  index,
+                  endIndex - index ),
+                out changedCount ) == false )
+          {
+            continue;
+          }
+
+          // Update the file with its stats.
+          foreach( ChangelistFile file in files )
+          {
+            if( file.Filename.Equals( filename, StringComparison.OrdinalIgnoreCase ) )
+            {
+              file.AdditionsCount = addCount;
+              file.DeletionsCount = deletedCount;
+              file.ChangesCount = changedCount;
+            }
+          }
         }
-
-        string path = output.Substring( index, revisionEndIndex - index );
-
-        // Add file path to the ui list.
-        files.Add( path );
       }
     }
 

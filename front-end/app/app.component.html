@@ -107,5 +107,50 @@
       *ngFor='let changelistData of _changelistDatas'>
         <changelist [data]='changelistData'></changelist>
     </div>
+    <!-- Changelist pagination -->
+    <div style="text-align: right; text-align: right; padding: 5px 0px 0px 0px;">
+      <span style='text-align: center;'>
+        <!-- First -->
+        <span
+          style='cursor: pointer; font-size: 110%;'
+          (click)='paginationOnFirstClick()'>
+          
+          <i class='glyphicon glyphicon-fast-backward'></i>
+        </span>
+        <!-- Previous -->
+        <span
+          style='cursor: pointer; font-size: 110%;'
+          (click)='paginationOnPreviousClick()'>
+          
+          <i class='glyphicon glyphicon-step-backward'></i>
+        </span>
+        <!-- Text ( e.g. 1 to 30 ) -->
+        <span
+          style='align-text: center; font-size: 110%;'>
+          {{ _paginationText }}
+        </span>
+        <!-- Next -->
+        <span
+          style='cursor: pointer; font-size: 110%;'
+          (click)='paginationOnNextClick()'>
+          
+          <i class='glyphicon glyphicon-step-forward'></i>
+        </span>
+        <!-- View less -->
+        <span
+          style='cursor: pointer; font-size: 110%;'
+          (click)='paginationOnLessClick()'>
+          
+          <i class='glyphicon glyphicon-minus-sign'></i>
+        </span>
+        <!-- View more -->
+        <span
+          style='cursor: pointer; font-size: 110%;'
+          (click)='paginationOnMoreClick()'>
+          
+          <i class='glyphicon glyphicon-plus-sign'></i>
+        </span>
+      </span>
+    </div>
   </div>
 </div>
