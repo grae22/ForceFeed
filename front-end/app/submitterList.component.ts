@@ -9,6 +9,10 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
   template: `
     <div class='container'>      
       <h1>Submitters:</h1>
+      <button
+        style='font-size: 10px;'
+        (click)='clearSelection()'>Clear
+      </button>
       <div
         class='checkbox'
         *ngFor='let submitter of _submitters'>
@@ -118,5 +122,13 @@ export class SubmitterListComponent
     this.SelectionChanged.emit( { submitters: submitters } );
   }
   
+  //---------------------------------------------------------------------------
+
+  private clearSelection()
+  {
+    this.Checkboxes.forEach( box => box.setChecked( false ) );
+    this.onChange();  
+  }
+
   //---------------------------------------------------------------------------
 }

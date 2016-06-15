@@ -85,6 +85,11 @@ System.register(['@angular/core', './submitter.service', './checkbox.component',
                     // Raise an event with the currently selected submitters.
                     this.SelectionChanged.emit({ submitters: submitters });
                 };
+                //---------------------------------------------------------------------------
+                SubmitterListComponent.prototype.clearSelection = function () {
+                    this.Checkboxes.forEach(function (box) { return box.setChecked(false); });
+                    this.onChange();
+                };
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)
@@ -96,7 +101,7 @@ System.register(['@angular/core', './submitter.service', './checkbox.component',
                 SubmitterListComponent = __decorate([
                     core_1.Component({
                         selector: 'submitterList',
-                        template: "\n    <div class='container'>      \n      <h1>Submitters:</h1>\n      <div\n        class='checkbox'\n        *ngFor='let submitter of _submitters'>\n        \n        <checkbox\n          [Id]='submitter'\n          [Text]='submitter'\n          (Changed)='onChange()'>\n        </checkbox>        \n      </div>\n    </div>\n  ",
+                        template: "\n    <div class='container'>      \n      <h1>Submitters:</h1>\n      <button\n        style='font-size: 10px;'\n        (click)='clearSelection()'>Clear\n      </button>\n      <div\n        class='checkbox'\n        *ngFor='let submitter of _submitters'>\n        \n        <checkbox\n          [Id]='submitter'\n          [Text]='submitter'\n          (Changed)='onChange()'>\n        </checkbox>        \n      </div>\n    </div>\n  ",
                         styleUrls: ['./app/submitterList.component.css'],
                         directives: [checkbox_component_1.CheckboxComponent],
                         providers: [submitter_service_1.SubmitterService]
