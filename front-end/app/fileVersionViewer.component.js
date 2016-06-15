@@ -33,6 +33,9 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe', './fi
                     this._fileService = _fileService;
                     //---------------------------------------------------------------------------
                     this.Filename = '';
+                    this.AdditionsCount = 0;
+                    this.DeletionsCount = 0;
+                    this.ChangesCount = 0;
                     this._content = null;
                     this._isContentVisible = false;
                 }
@@ -51,10 +54,22 @@ System.register(['@angular/core', './file.service', './autoEllipses.pipe', './fi
                     core_1.Input(), 
                     __metadata('design:type', String)
                 ], FileVersionViewerComponent.prototype, "Filename", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Number)
+                ], FileVersionViewerComponent.prototype, "AdditionsCount", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Number)
+                ], FileVersionViewerComponent.prototype, "DeletionsCount", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Number)
+                ], FileVersionViewerComponent.prototype, "ChangesCount", void 0);
                 FileVersionViewerComponent = __decorate([
                     core_1.Component({
                         selector: 'fileVersionViewer',
-                        template: "\n    <div\n      (click)='onClick()'\n      style='cursor: pointer;'>\n      \n      <code>{{ Filename | autoEllipses: 100 : true }}</code>\n    </div>\n    <div\n      class='container-fluid'\n      style='background-color: \"#e0e0e0\"'\n      *ngIf='_isContentVisible'\n      [innerHTML]='_content | fileContentToHtml'>\n    </div>\n  ",
+                        template: "\n    <div\n      (click)='onClick()'\n      style='cursor: pointer;'>\n      \n      <code>\n        {{ Filename | autoEllipses: 100 : true }}\n        <span style='color: #000000;'>\n          (<span style='color: #00a000;'>+{{ AdditionsCount }}</span>\n          <span style='color: #ff0000;'>-{{ DeletionsCount }}</span>\n          <span style='color: #a000ff;'>~{{ ChangesCount }}</span>)\n        </span>\n      </code>\n    </div>\n    <div\n      class='container-fluid'\n      style='background-color: \"#e0e0e0\"'\n      *ngIf='_isContentVisible'\n      [innerHTML]='_content | fileContentToHtml'>\n    </div>\n  ",
                         providers: [file_service_1.FileService],
                         pipes: [autoEllipses_pipe_1.AutoEllipsesPipe, fileContentToHtml_pipe_1.FileContentToHtmlPipe]
                     }), 

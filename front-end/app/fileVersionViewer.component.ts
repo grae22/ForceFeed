@@ -11,7 +11,14 @@ import {FileContentToHtmlPipe} from './fileContentToHtml.pipe';
       (click)='onClick()'
       style='cursor: pointer;'>
       
-      <code>{{ Filename | autoEllipses: 100 : true }}</code>
+      <code>
+        {{ Filename | autoEllipses: 100 : true }}
+        <span style='color: #000000;'>
+          (<span style='color: #00a000;'>+{{ AdditionsCount }}</span>
+          <span style='color: #ff0000;'>-{{ DeletionsCount }}</span>
+          <span style='color: #a000ff;'>~{{ ChangesCount }}</span>)
+        </span>
+      </code>
     </div>
     <div
       class='container-fluid'
@@ -28,6 +35,9 @@ export class FileVersionViewerComponent
   //---------------------------------------------------------------------------
   
   @Input() Filename: string = '';
+  @Input() AdditionsCount: number = 0;
+  @Input() DeletionsCount: number = 0;
+  @Input() ChangesCount: number = 0;
   
   private _content: string = null;
   private _isContentVisible: boolean = false;
