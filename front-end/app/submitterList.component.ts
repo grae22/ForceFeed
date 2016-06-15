@@ -11,7 +11,11 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
       <h1>Submitters:</h1>
       <button
         style='font-size: 10px;'
-        (click)='clearSelection()'>Clear
+        (click)='selectAll()'>All
+      </button>
+      <button
+        style='font-size: 10px;'
+        (click)='selectNone()'>None
       </button>
       <div
         class='checkbox'
@@ -124,7 +128,15 @@ export class SubmitterListComponent
   
   //---------------------------------------------------------------------------
 
-  private clearSelection()
+  private selectAll()
+  {
+    this.Checkboxes.forEach( box => box.setChecked( true ) );
+    this.onChange();  
+  }
+
+  //---------------------------------------------------------------------------
+
+  private selectNone()
   {
     this.Checkboxes.forEach( box => box.setChecked( false ) );
     this.onChange();  
