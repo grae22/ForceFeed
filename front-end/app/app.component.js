@@ -60,7 +60,6 @@ System.register(['@angular/core', '@angular/http', './changelist.service', './ch
                         this.setPaginationMaxCount(countIndex);
                     }
                     // Refresh the changelists.
-                    //this._submitters = submitterFilter.getSubmitters();   
                     this.refresh();
                     // Set up an periodic check if any changelist components are expanded.
                     Rx_1.Observable.interval(500).subscribe(function () { return _this.checkForExpandedChangelistComponents(); });

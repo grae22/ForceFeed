@@ -7,16 +7,22 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
 {
   selector: 'submitterList',
   template: `
-    <div class='container'>      
-      <h1>Submitters:</h1>
-      <button
-        style='font-size: 10px;'
-        (click)='selectAll()'>All
-      </button>
-      <button
-        style='font-size: 10px;'
-        (click)='selectNone()'>None
-      </button>
+    <div class='container'>
+      <div>      
+        <h1>Submitters:</h1>
+      </div>
+      <div>
+        <button
+          class='btn btn-default btn-xs'
+          style='font-size: 10px;'
+          (click)='selectAll()'>All
+        </button>
+        <button
+          class='btn btn-default btn-xs'
+          style='font-size: 10px;'
+          (click)='selectNone()'>None
+        </button>
+      </div>
       <div
         class='checkbox'
         *ngFor='let submitter of _submitters'>
